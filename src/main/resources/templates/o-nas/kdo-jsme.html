@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Kdo jsme</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Kdo jsme</h1>
+        </div>
+
+
+    </div>
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col">
+
+                <p>
+                    Spolek vznikl na základě iniciativy laryngektomovaných pacientů a klinické logopedky, kteří vnímali
+                    nedostatek informací a sociální izolaci po ztrátě komunikace. Mnozí neznali žádného jiného člověka s
+                    tracheostomií (lidově řečeno se "slavíkem"). Zajímalo je, jak situaci po ztrátě hrtanu zvládli jiní
+                    lidé, ale nebyla žádná platforma, kde by se jich mohli zeptat.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <p>První setkávání pacientů začalo na logopedii a osvědčila se zde zkušenost odborníků, že nejlepším
+                    učitelem komunikace je právě jiný úspěšný pacient. Vyvstaly nové otázky, ohledně běžných denních
+                    starostí s tracheostomií, ohledně pomůcek a jejich předpisu, sociálního zabezpečení, novinek v léčbě
+                    a mnoho dalších.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h2>Členové</h2>
+                <p>Členy spolku jsou lidé po operacích hrtanu - po laryngektomii a jejich rodinní příslušníci, lékaři, logopedi a ostatní příznivci.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <h3>Osudy a příběhy našich členů:</h3>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-6" th:each="user : ${users}" >
+                <h3 th:text="${user.firstName}"></h3>
+                <div th:if="${user.image != null}" class="square">
+                    <img class="image-about-us"
+                         th:src="|data:image/jpeg;base64,${user.image.getEncodeBase64()}|">
+                </div>
+                <p th:text="${user.aboutMe}"></p>
+            </div>
+        </div>
+
+
+        <div class="row text-center">
+            <div class="col-md-4 offset-md-4 rounded">
+                <a th:href="@{~/o-nas/clenstvi}" class="btn btn-primary"
+                   role="button" aria-pressed="true">Chci se stát členem</a>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

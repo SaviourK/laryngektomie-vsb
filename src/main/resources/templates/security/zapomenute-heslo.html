@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Zapomenuté heslo</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Zapomenuté heslo</h1>
+        </div>
+
+
+    </div>
+    <div class="row justify-content-center align-items-center mt-3 text-center">
+        <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-3 offset-md-1 rounded mx-3 p-5 border-custom">
+            <form method="POST" action="#" th:method="POST" th:action="@{zapomenute-heslo}">
+
+
+
+                <div class="form-group">
+                    <label for="email">Zadejte email</label>
+                    <input type="email" class="form-control" id="email" name="email"
+                           placeholder="Email" required>
+
+                </div>
+
+                <!-- Send button -->
+                <button class="btn btn-primary mt-2" type="submit">Obnovit</button>
+
+            </form>
+        </div>
+
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

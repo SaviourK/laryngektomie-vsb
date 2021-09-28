@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Jícnový hlas</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Komunikace</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row mt-3 text-center">
+        <div class="col-lg p-4 mx-3">
+            <h3>Jícnový hlas</h3>
+            <img th:src="@{~/images/komunikace/jicnovy-hlas.jpg}" class="w-75 p-3">
+            <p>Jícnový hlas je nejpřirozenější náhradní hlasový mechanismus po odstranění hrtanu. Je tvořen kmitáním
+                slizniční řasy při horním jícnovém ústí. Nasávání a vytlačení vzduchu z jícnu pacient aktivně ovládá
+                naučenými pohyby hltanu, kořene jazyka, dolní čelisti. </p>
+            <h3>Výhody</h3>
+            <p class="p-5 rounded-pill advantages">Zásadní výhodou jícnového hlasu je fakt, že pacient k
+                jeho tvorbě
+                nepotřebuje žádné pomůcky ani vlastní ruce a je mu kdykoli k dispozici. Pacient také není závislý na
+                lékaři jako u hlasové protézy, kterou musí lékař vždy po několika měsících měnit. U jícnového hlasu
+                na rozdíl od hlasové protézy nehrozí komplikace jako je aspirace slin a potravy, protože dýchací a
+                polykací cesty jsou odděleny. Oproti elekrolarynxu působí jícnový hlas přirozenějším dojmem.</p>
+            <h3>Nevýhody</h3>
+            <p class="p-5 rounded-pill disadvantages">Nevýhodou je náročný nácvik. <br/>Efektivita učení
+                významně
+                záleží na motivaci pacienta, na vynaloženém úsilí a na jeho trpělivosti.</p>
+            <div class="offset-md-3 col-md-6 rounded">
+                <a th:href="@{~/komunikace/jicnovy-hlas}" class="btn btn-primary"
+                   role="button" aria-pressed="true">Ukázky</a>
+            </div>
+        </div>
+        <div class="col-lg p-4 mx-3">
+            <h3>Hlasová protéza</h3>
+            <img th:src="@{~/images/komunikace/hlasova-proteza.jpg}" class="w-75 p-3">
+            <p>Hlasová protéza je jednocestný ventil zavedený mezi průdušnící a jícnem. Pacient vytváří hlas tak, že
+                uzavře ústí tracheostomické kanyly, vydechne vzduch z plic, který se skrz ventil dostane do jícnu a
+                rozvibruje náhradní štěrbinu jícnového svěrače.</p>
+            <h3>Výhody</h3>
+            <p class="advantages p-5 rounded-pill">Nácvik hlasu je jednoduchý, rehabilitace spočívá
+                především v
+                koordinaci nových pohybů - ruky uzavírající stoma, dýchání a artikulace.<br/> Zdrojem proudu vzduchu
+                jsou plíce jako při normální fonaci a pacient je schopen velmi brzy po zákroku mluvit.</p>
+            <h3>Nevýhody</h3>
+            <p class="disadvantages p-5 rounded-pill">Nevýhodou je nutnost ucpání stomatu při mluvení,
+                čímž je trvale
+                blokována jedna ruka. <br/>
+                Protézu je nutné měnit zhruba každé 3 až 6 měsíce z důvodu její biodegradace. Nutná je také
+                pravidelná péče o protézu - měla by se čistit speciálním kartáčkem alespoň dvakrát denně.<br/>
+                Další nevýhodou jsou možné zdravotní komplikace s fonační protézou spojené.</p>
+            <div class="offset-md-3 col-md-6 rounded">
+                <a th:href="@{~/komunikace/hlasova-proteza}" class="btn btn-primary"
+                   role="button" aria-pressed="true">Ukázky</a>
+            </div>
+        </div>
+        <div class="col-lg p-4 mx-3">
+            <h3>Elektrolarynx</h3>
+            <img th:src="@{~/images/komunikace/elektrolarynx.jpg}" class="w-75 p-3">
+            <p>Elektrolarynx je generátor zvuku, který převádí zvukové vibrace přes krční stěnu do hypofaryngu. Zvuk
+                je modulován artikulačními orgány do výsledného hlasu. Pacient pevně přikládá horní část
+                elektrolarynxu nejčastěji do podčelistní oblasti nebo na měkké části krku.</p>
+
+            <h3>Výhody</h3>
+            <p class="advantages p-5 rounded-pill">Poměrně snadná manipulace a relativně rychlý zácvik
+                pacienta.
+                Uživatelé, kteří plně využijí potenciál elektrolarynxu, produkují srozumitelnou a plynulou
+                mluvu.</p>
+            <h3>Nevýhody</h3>
+            <p class="disadvantages p-5 rounded-pill">Elektronický neosobní hlas, který působí monotónně a
+                může být
+                hůře srozumitelný. <br/>
+                Nutnost neustálého nošení s sebou (evnt.i náhradních baterií), a pokud pacient elektrolarynx u sebe
+                nemá, přijde o možnost domluvit se. <br/>
+                Jedna ruka je při mluvení neustále zaměstnána a pacient tím pádem nemůže mluvit při mnoha jiných
+                činnostech.</p>
+            <div class="offset-md-3 col-md-6 rounded">
+                <a th:href="@{~/komunikace/elektrolarynx}" class="btn btn-primary"
+                   role="button" aria-pressed="true">Ukázky</a>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+
+</div>
+</body>
+</html>

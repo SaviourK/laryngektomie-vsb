@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Kontakt</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Kontakt</h1>
+        </div>
+
+
+    </div>
+
+    <div class="container mt-3">
+        <div class="row border-custom">
+            <div class="col-md p-4 text-center my-auto">
+                <h2>LOGOmedic</h2>
+                <p>Veverkova 1631/5, 500 02 Hradec Králové</p>
+
+            </div>
+            <div class="col-md p-4 text-center">
+                <p>+420 608 325 335<br/>
+                    +420 602 434 500
+                </p>
+                <p>eva.kocabkova@seznam.cz<br/>
+                    laryngektomie@gmail.com
+                </p>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center align-items-center mt-3">
+        <div class="col-md-5rounded mt-3">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2553.929822640279!2d15.870676915722347!3d50.19984267944154!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x470dd4ee58849b65%3A0x1dabb276587952a9!2zTmEgSHLDoXpjZSAxNzUvNTMsIE1hbMWhb3ZhIExob3RhLCA1MDAgMDkgSHJhZGVjIEtyw6Fsb3bDqQ!5e0!3m2!1scs!2scz!4v1555580315507!5m2!1scs!2scz"
+                    width="600" height="450" frameborder="0" style="border:0" allowfullscreen></iframe>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center align-items-center mt-3">
+        <div class="col-md-6 rounded mt-3 form-feedback">
+            <form method="POST" action="#" th:action="@{kontakt}" th:object="${feedback}"
+                  class="text-center p-md-5 p-1">
+
+
+                <p class="h4 mb-4">Zaujaly Vás naše stránky, máte dotaz nebo připomínku?<br /> Napište nám!</p>
+
+                <div class="form-group">
+                    <label for="name">Jméno a příjmení</label>
+                    <label class="label-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                    <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
+                           placeholder="Jméno a příjmení" required pattern=".{3,50}" title="Délka 3-50 znaků."/>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="name">E-mail</label>
+                    <label class="label-error" th:if="${#fields.hasErrors('email')}"
+                           th:errors="*{email}"></label>
+                    <input type="email" th:field="*{email}" id="email" name="email" class="form-control mb-4"
+                           placeholder="E-mail" required/>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback">Zpráva</label>
+                    <label class="label-error" th:if="${#fields.hasErrors('feedback')}"
+                           th:errors="*{feedback}"></label>
+                    <textarea th:field="*{feedback}" id="feedback" class="form-control" name="feedback"
+                              rows="3"
+                              placeholder="Zpráva" required minlength="10" maxlength="500" title="Délka 10 - 500 znaků."></textarea>
+
+                </div>
+
+
+                <!-- Send button -->
+                <button class="btn btn-primary btn-block" type="submit">Odeslat</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

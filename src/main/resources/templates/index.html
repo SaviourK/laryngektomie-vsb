@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Laryngektomie - Úvod</title>
+
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid">
+
+
+    <div class="carousel-container" th:object="${news}">
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="5000" data-pause="hover">
+            <ol class="carousel-indicators">
+                <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+                <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+            </ol>
+            <div class="carousel-inner">
+                <div class="carousel-item active">
+
+                    <picture>
+                        <source media="(min-width: 1600px)" srcset="/images/ptak1.jpg">
+
+                        <source media="(min-width: 1300px)" srcset="/images/ptak1a.jpg">
+                        <source media="(min-width: 1150px)" srcset="/images/ptak1b.jpg">
+                        <source media="(min-width: 922px)" srcset="/images/ptak1c.jpg">
+                        <source media="(min-width: 730px)" srcset="/images/ptak1d.jpg">
+                        <source media="(min-width: 600px)" srcset="/images/ptak1e.jpg">
+                        <source media="(min-width: 400px)" srcset="/images/ptak1f.jpg">
+                        <source media="(min-width: 200px)" srcset="/images/ptak1g.jpg">
+                        <img class="d-block" style="margin: 0 auto;" src="/images/ptak1.jpg" alt="First slide">
+                    </picture>
+                    <div class="centered text-center rounded">
+                        <span th:if="${#lists.size(news) < 1}" th:remove="tag">
+                            <h2>Vítame vás na stránkach o laryngektomii</h2>
+                        </span>
+                        <!-- ELSE -->
+                        <span th:unless="${#lists.size(news) < 1}" th:remove="tag">
+                            <h2 th:text="*{get(0).name}">Název novinky</h2>
+                            <a th:href="@{~/novinky/{url}(url=*{get(0).url})}"
+                               class="btn btn-primary text-center"
+                               role="button" aria-pressed="true">Více info</a>
+                        </span>
+
+
+                    </div>
+
+                </div>
+                <div class="carousel-item">
+                    <picture>
+                        <source media="(min-width: 1300px)" srcset="/images/ptak2.jpg">
+                        <source media="(min-width: 922px)" srcset="/images/ptak2b.jpg">
+                        <source media="(min-width: 600px)" srcset="/images/ptak2d.jpg">
+                        <source media="(min-width: 400px)" srcset="/images/ptak2f.jpg">
+                        <source media="(min-width: 200px)" srcset="/images/ptak2g.jpg">
+                        <img class="d-block" style="margin: 0 auto;" src="/images/ptak2.jpg" alt="Second slide">
+
+                    </picture>
+
+                    <div class="centered text-center rounded">
+                        <span th:if="${#lists.size(news) < 2}" th:remove="tag">
+                            <h2>Vítame vás na stránkach o laryngektomii</h2>
+                        </span>
+                        <!-- ELSE -->
+                        <span th:unless="${#lists.size(news) < 2}" th:remove="tag">
+                            <h2 th:text="*{get(1).name}">Název novinky</h2>
+                            <a th:href="@{~/novinky/{url}(url=*{get(1).url})}"
+                               class="btn btn-primary text-center"
+                               role="button" aria-pressed="true">Více info</a>
+                        </span>
+
+
+                    </div>
+
+                </div>
+                <div class="carousel-item">
+
+
+                    <picture>
+                        <source media="(min-width: 1600px)" srcset="/images/ptak3.jpg">
+
+                        <source media="(min-width: 1300px)" srcset="/images/ptak3a.jpg">
+                        <source media="(min-width: 1150px)" srcset="/images/ptak3b.jpg">
+                        <source media="(min-width: 922px)" srcset="/images/ptak3c.jpg">
+                        <source media="(min-width: 730px)" srcset="/images/ptak3d.jpg">
+                        <source media="(min-width: 600px)" srcset="/images/ptak3e.jpg">
+                        <source media="(min-width: 400px)" srcset="/images/ptak3f.jpg">
+                        <source media="(min-width: 200px)" srcset="/images/ptak3g.jpg">
+                        <img class="d-block" style="margin: 0 auto;" src="/images/ptak3.jpg" alt="Third slide">
+                    </picture>
+
+                    <div class="centered text-center rounded">
+                        <span th:if="${#lists.size(news) < 3}" th:remove="tag">
+                            <h2>Vítame vás na stránkach o laryngektomii</h2>
+                        </span>
+                        <!-- ELSE -->
+                        <span th:unless="${#lists.size(news) < 3}" th:remove="tag">
+                            <h2 th:text="*{get(2).name}">Název novinky</h2>
+                            <a th:href="@{~/novinky/{url}(url=*{get(2).url})}"
+                               class="btn btn-primary text-center"
+                               role="button" aria-pressed="true">Více info</a>
+                        </span>
+
+
+                    </div>
+                </div>
+            </div>
+            <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="sr-only">Previous</span>
+            </a>
+            <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="sr-only">Next</span>
+            </a>
+        </div>
+    </div>
+
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md p-4 rounded">
+                <h1 class="text-center">S-LET</h1>
+                <p>
+                    Spolek S-LET vznikl 10. 8. 2018 s cílem podporovat osoby po laryngektomii. Členy spolku jsou lidé po
+                    operacích hrtanu - po laryngektomii, jejich rodinní příslušníci, lékaři, logopedi a ostatní
+                    příznivci.
+                </p>
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-lg mx-3 p-3 rounded">
+                <h2 class="text-center mt-2">Co je cílem našeho spolku?</h2>
+
+                <ul>
+                    <li>umožňovat sdružování osob po operacích hrtanu a vzájemnou výměnu zkušeností</li>
+                    <li>poskytovat osobám po laryngektomii možnost konzultace, pomoci a asistence</li>
+                    <li>zvýšit povědomí laické i odborné veřejnosti o problematice laryngektomie a náhradní hlasové
+                        komunikace
+                    </li>
+                    <li>shromažďovat a následně poskytovat věcně příslušným orgánům podněty k legislativním změnám
+                        směřujícím ke zlepšení podmínek pacientů po laryngektomii
+                    </li>
+                </ul>
+            </div>
+            <div class="col-lg mx-3 p-3 rounded">
+
+                <h2 class="text-center mt-2">Co členství přináší?</h2>
+
+
+                <ul>
+                    <li> možnost zúčastňovat se na akcích spolku</li>
+                    <li>možnost spolupodílet se na spolkové činnosti</li>
+                    <li>předkládat návrhy, připomínky a náměty k činnosti spolku</li>
+                    <li> pravidelný výtisk Zpravodaje spolku</li>
+                    <li>pozvánky na akce spolku</li>
+                </ul>
+
+
+            </div>
+            <div class="col-lg mx-3 p-3 rounded">
+
+                <h2 class="text-center mt-2">Jak se stát členem?</h2>
+
+                <p>Členem spolku se může stát každý občan ČR, který souhlasí s jeho posláním a chtěl by se podílet na
+                    jeho činnosti. </p>
+                <p>Stačí poslat vyplněné údaje v přihlášce a zaplatit roční příspěvek - tím se stanete členem spolku a
+                    můžete očekávat informace a pozvánky na společné akce. </p>
+                <p class="text-center">Roční příspěvek činí 200 Kč.</p>
+
+                <div class="text-center">
+                    <a href="/ke-stazeni" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Přihláška</a>
+                </div>
+            </div>
+        </div>
+
+
+
+
+
+        <div class="row mt-3">
+            <div class="col-md p-0 p-lg-4 rounded">
+                <h1 class="text-center">Novinky</h1>
+                <p class="text-center" sec:authorize="hasRole('ADMIN')">
+                    <a href="/admin/novinky/vytvorit" class="btn btn-primary">Přidat
+                        novinku</a>
+                </p>
+            </div>
+        </div>
+
+
+        <div class="mt-3">
+            <p th:if="${news.isEmpty()}">
+                Zatím žádné novinky
+            </p>
+            <div class="row" th:each="n : ${news}">
+
+                <div class="col-lg mx-3 p-3 rounded">
+                    <h3 class="text-center mt-2" th:text="${n.name}"></h3>
+
+                    <p th:utext="${n.getText()}"></p>
+                    <div class="row">
+                        <div class="col-lg-5">
+                            <p th:text="|Přidáno ${n.getCreateDateTimeString()}|"></p>
+                            <p th:text="|${n.getUser().getFirstName()}  ${n.getUser().getLastName()}|"></p>
+                        </div>
+                        <div class="offset-lg-4 col-lg-3 offset-md-4 col-md-4 offset-1 col-10">
+                            <div class="hashtag text-center mb-lg-0 mb-3">
+                                #<span th:remove="tag" th:text="${n.getNewsType().getName()}"></span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div th:if="${n.images!=null and !n.images.empty}">
+                        <div th:if="${#lists.size(n.images) eq 1}">
+
+                            <div th:remove="tag" th:each="img,iter : *{n.images}">
+
+                                <img class="img-fluid mx-auto d-block" th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
+
+                            </div>
+                        </div>
+                        <div th:unless="${#lists.size(n.images) eq 1}" th:id="'news-carousel-'+${n.id}" class="carousel slide" data-ride="carousel"  data-interval="5000" data-pause="hover">
+                            <!--indicators-->
+                            <ul class="carousel-indicators">
+                                <div th:remove="tag" th:each="img,iter : ${n.images}">
+                                    <li th:data-target="'#news-carousel-'+${n.id}" th:data-slide-to="|${iter.index}-${img.id}|" th:classappend="${iter.first} ? 'active' : ''"></li>
+                                </div>
+                            </ul>
+
+                            <!--slideshow-->
+                            <div class="carousel-inner">
+                                <div th:remove="tag" th:each="img,iter : ${n.images}">
+                                    <div th:classappend="${iter.first} ? 'active' : ''" class="carousel-item">
+                                        <img class="carousel-image"  th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
+                                    </div>
+                                </div>
+
+
+                            </div>
+                            <!--left and right controls-->
+                            <a class="carousel-control-prev" th:href="@{'#news-carousel-'+${n.id}}" data-slide="prev">
+                                <span class="carousel-control-prev-icon"></span>
+                            </a>
+                            <a class="carousel-control-next" th:href="@{'#news-carousel-'+${n.id}}" data-slide="next">
+                                <span class="carousel-control-next-icon"></span>
+                            </a>
+                        </div>
+
+                    </div>
+
+
+
+                    <hr/>
+                </div>
+
+
+            </div>
+
+
+
+
+            <div th:if="${news.size() == 3}" class="row text-center" >
+                <div class="col-md-4 offset-md-4 rounded">
+                    <a th:href="@{~/novinky}" class="btn btn-primary"
+                       role="button" aria-pressed="true">Všechny novinky</a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+
+
+</div>
+</body>
+</html>

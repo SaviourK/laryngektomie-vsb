@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Téma - vytvořit</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Vytvořit téma</h1>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center align-items-center mt-3 text-center">
+        <div class="col-md-6 rounded mt-3 p-5">
+            <form method="post" action="#" th:method="post" th:action="|@{/poradna/tema-nove/}${categoryId}|"
+                  th:object="${topic}">
+
+
+                <div class="form-group">
+
+                    <label for="name">Název tématu</label>
+                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                    <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
+                           placeholder="Název tématu" required pattern=".{3,50}" title="Délka 3-50 znaků."/>
+
+                </div>
+
+                <div class="form-group">
+                    <label for="text">Text tématu</label>
+                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
+                    <textarea type="text" th:field="*{text}" id="text" name="text"
+                              class="form-control mb-4"
+                              placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                    <label id="count">Zbývá 1000 znaků.</label>
+                </div>
+
+                <!-- Send button -->
+                <button class="btn btn-primary" type="submit">Vytvořit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

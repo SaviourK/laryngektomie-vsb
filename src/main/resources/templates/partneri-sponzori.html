@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Partneři a sponzoři</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+       <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Partneři a sponzoři</h1>
+            <h2 class="text-center">Všem našim dárcům děkujeme za přízeň a za podporu naší činnosti.</h2>
+
+        </div>
+
+
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around">
+        <img src="/images/partneri-sponzori/kralovehradecky-kraj.jpg" th:src="@{~/images/partneri-sponzori/kralovehradecky-kraj.jpg}" alt="Logo Královehradcký kraj">
+        <img src="/images/partneri-sponzori/rana.png" th:src="@{~/images/partneri-sponzori/rana.png}" alt="Logo Rana HK s.r.o">
+        <img src="/images/partneri-sponzori/thhk.png" th:src="@{~/images/partneri-sponzori/thhk.png}" alt="Logo Tepelné Hospodářství HK a.s.">
+        <img src="/images/partneri-sponzori/matrix.jpg" th:src="@{~/images/partneri-sponzori/matrix.jpg}" alt="Logo Matrix a.s.">
+        <img src="/images/partneri-sponzori/gastromedic.png" th:src="@{~/images/partneri-sponzori/gastromedic.png}" alt="Logo Gastromedic s.r.o.">
+        <img src="/images/partneri-sponzori/konica-minolta.png" th:src="@{~/images/partneri-sponzori/konica-minolta.png}" alt="Logo Konica Minolta" >
+    </div>
+    <div class="d-flex flex-wrap justify-content-around">
+        <img src="/images/partneri-sponzori/g-climtech.png" th:src="@{~/images/partneri-sponzori/g-climtech.png}" alt="Logo ClimTech HK">
+        <img src="/images/partneri-sponzori/zemlicka.jpg" th:src="@{~/images/partneri-sponzori/zemlicka.jpg}" alt="Logo Žemlička">
+        <img src="/images/partneri-sponzori/lindcare.png" th:src="@{~/images/partneri-sponzori/lindcare.png}" alt="Logo LindCare">
+        <img src="/images/partneri-sponzori/uniprint.jpg" th:src="@{~/images/partneri-sponzori/uniprint.jpg}" alt="Logo Uniprint">
+        <img src="/images/partneri-sponzori/medial.gif" th:src="@{~/images/partneri-sponzori/medial.gif}" alt="Logo Medial">
+    </div>
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h2 class="text-center">Odborná spolupráce</h2>
+        </div>
+    </div>
+
+    <div class="d-flex flex-wrap justify-content-around">
+        <img src="/images/partneri-sponzori/logo-medic.jpg" th:src="@{~/images/partneri-sponzori/logo-medic.jpg}" alt="Logo LogoMedic">
+        <img src="/images/partneri-sponzori/csoachhak.jpg" th:src="@{~/images/partneri-sponzori/csoachhak.jpg}" alt="Logo Česká společnost OaCh Hlavy a krku">
+        <img src="/images/partneri-sponzori/orl-fhk.jpg" th:src="@{~/images/partneri-sponzori/orl-fhk.jpg}" alt="ORL Fakultní nemocnice HK">
+    </div>
+
+
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

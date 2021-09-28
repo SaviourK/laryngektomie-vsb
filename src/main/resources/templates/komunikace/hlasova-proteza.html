@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Ukázky Hlasová protéza</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Hlasová protéza</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p>Principem <strong>hlasové protézy</strong> je vytvoření jednocestného ventilu mezi průdušnicí a jícnem, který umožňuje proudění vzduchu z plic do jícnu a úst, a který zároveň zabraňuje zatékání slin a potravy do průdušnice.</p>
+            <p>Hlas vzniká tak, že pacient uzavře ústí tracheostomické kanyly, vydechne vzduch z plic, který se skrz ventil dostane do jícnu a rozvibruje štěrbinu jícnového svěrače a tento zvuk je dále modulován artikulačními orgány.</p>
+            <p>Výhodou je, že zdrojem proudu vzduchu tvořícího hlas jsou plíce, jako při normální tvorbě hlasu.</p>
+        </div>
+
+    </div>
+
+    <div class="row mb-2 justify-content-around">
+
+        <div class="col-lg-6 my-2">
+            <div class="embed-responsive embed-responsive-16by9">
+                <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/K9sN10MU9RU?rel=0" allowfullscreen></iframe>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="row">
+        <div class="col">
+            <p><b>Nácvik hlasu</b> je jednoduchý, rehabilitace spočívá především v koordinaci nových pohybů: ruka uzavírající stoma + správné dýchání + artikulace. Pacient při výdechu uzavře rukou ústí tracheostomatu a skrz hlasovou protézu realizuje řeč.</p>
+            <p>Velmi brzy po operaci, zpravidla za 7-10 dní, je schopen kvalitně mluvit.</p>
+            <p>Důležité je o protézu pečovat! Měla by se čistit pravidelně, alespoň dvakrát denně a zhruba za 3 až 6 měsíců je nutná její výměna.</p>
+        </div>
+
+    </div>
+
+
+</div>
+
+
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

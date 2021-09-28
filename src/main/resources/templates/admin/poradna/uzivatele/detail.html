@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Detail uživatele</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container container-small" th:object="${user}">
+
+    <div class="row bgcolor1 m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center colorWhite" th:text="|${user.firstName} ${user.lastName}|"></h1>
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-10">
+            <h3 th:text="*{username}">Přezdívka</h3>
+            <p>Role:  <span th:remove="tag" th:text="*{rolesString()}">Role</span></p>
+            <p>Datum registrace: <span th:remove="tag" th:text="*{createDateTimeString}">Datum registrace:</span></p>
+            <p>Počet témat:  <span th:remove="tag" th:text="*{topics.size()}"> Počet témat</span></p>
+            <p>Počet přispěvků: <span th:remove="tag" th:text="*{posts.size()}"> Počet přispěvků</p></p>
+            <p th:text="${user.aboutMe}"></p>
+
+        </div>
+        <div th:if="${user.image != null}" class="square col-md-2 m-md-0 m-3">
+            <img class="image-about-us"
+                 th:src="|data:image/jpeg;base64,${user.image.getEncodeBase64()}|">
+        </div>
+    </div>
+
+    </div>
+
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

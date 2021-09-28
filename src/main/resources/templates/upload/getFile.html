@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>getFile</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">getFile</h1>
+        </div>
+
+
+    </div>
+    <div class="row mt-3">
+        <div class="col-md p-4" th:object="image">
+            <p>
+                <span th:text="*{name}"></span>
+            </p>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

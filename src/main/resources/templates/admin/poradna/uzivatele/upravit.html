@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Uživatel - upravit</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Upravit uživatele</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row justify-content-center align-items-center mt-3 text-center">
+        <div class="col-md-6 rounded mt-3 p-5">
+            <form method="post" action="#" th:method="post" th:action="@{/admin/poradna/uzivatele/upravit}"
+                  th:object="${user}" enctype="multipart/form-data">
+
+
+                <input type="hidden" th:field="*{id}" id="id" name="id"
+                       class="form-control mb-4"
+                       required/>
+
+                <input type="hidden" th:field="*{password}" id="password" name="password"
+                       class="form-control mb-4"
+                       required/>
+
+                <input type="hidden" th:field="*{createDateTime}" id="createDateTime" name="createDateTime"
+                       class="form-control mb-4"
+                       required/>
+
+                <input type="hidden" th:field="*{image}" id="image" name="image"
+                       class="form-control mb-4"
+                       required/>
+
+                <div class="form-group">
+
+                    <label for="username">Uživatelské jméno</label>
+                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></label>
+                    <input type="text" th:field="*{username}" id="username" name="username" class="form-control mb-4"
+                           placeholder="Uživatelské jméno" readonly="readonly"/>
+
+                </div>
+
+
+
+                <div class="form-group">
+
+                    <label for="email">Email</label>
+                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+                    <input type="email" th:field="*{email}" id="email" name="email" class="form-control mb-4"
+                           placeholder="Email" readonly="readonly"/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="firstName">Jméno</label>
+                    <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></label>
+                    <input type="text" th:field="*{firstName}" id="firstName" name="firstName" class="form-control mb-4"
+                           placeholder="Jméno" required pattern=".{2,50}" title="Délka 2-50 znaků."/>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="lastName">Příjmení</label>
+                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
+                    <input type="text" th:field="*{lastName}" id="lastName" name="lastName" class="form-control mb-4"
+                           placeholder="Příjmení" required pattern=".{2,50}" title="Délka 2-50 znaků."/>
+
+                </div>
+
+
+                <div class="form-group">
+                    <label for="aboutMe">O mně (nepovinné)</label>
+                    <label th:if="${#fields.hasErrors('aboutMe')}" th:errors="*{aboutMe}"></label>
+                    <textarea id="aboutMe" type="text" th:field="*{aboutMe}" name="aboutMe" class="form-control mb-4"
+                              placeholder="O mně (nepovinné)" pattern=".{,1500}" title="Max 1500 znaků." rows="4"
+                              cols="50"></textarea>
+                </div>
+
+
+                <div class="form-group">
+                    <label for="roles">Role</label>
+                    <label th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></label>
+                    <select class="form-control" id="roles" th:field="*{roles}">
+                        <option value="" selected="selected">Vyberte prosím roli</option>
+                        <option th:each="role : ${roles}"
+                                th:value="${role.id}"
+                                th:text="${role.nameCZ}"></option>
+                    </select>
+                </div>
+
+
+                <div th:if="*{image != null}">
+
+                    <img class="img-fluid mx-auto d-block" th:src="|data:image/jpeg;base64,*{image.getEncodeBase64()}|">
+
+                </div>
+
+                <div class="input-group mb-2">
+                    <div class="custom-file">
+                        <input type="file" name="file" class="custom-file-input" id="customFile">
+                        <label class="custom-file-label" for="customFile">Nový obrázek (nepovinné)</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="form-check">
+                        <input type="checkbox" name="aboutUs" th:checked="*{aboutUs}" id="aboutUs"/>
+                        <label class="form-check-label" for="aboutUs">V sekci o nás?</label>
+                    </div>
+                </div>
+                <!-- Send button -->
+                <button class="btn btn-primary" type="submit">Upravit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

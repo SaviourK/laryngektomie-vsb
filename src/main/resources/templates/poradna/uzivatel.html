@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title th:text="${user.username}"></title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container container-small">
+
+    <div class="row bgcolor1 m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center colorWhite">Profil uživatele: <span th:remove="tag" th:text="${user.username}"></span></h1>
+        </div>
+    </div>
+
+
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md bgcolor2 p-4 text-center">
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th> Id</th>
+                        <th> Uživatelské jméno</th>
+                        <th> Jméno</th>
+                        <th> Přijmení</th>
+                        <th> O mně</th>
+                        <th> Temat</th>
+
+
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:object="${user}">
+                        <td><a th:href="@{/poradna/uzivatel/{id}(id=*{id})}">Id <span
+                                th:text="*{id}"> Id </span></a></td>
+                        <td><span th:text="*{username}"> Uživatelské jméno </span></td>
+                        <td><span th:text="*{firstName}"> Jméno </span></td>
+                        <td><span th:text="*{lastName}"> Přijmení </span></td>
+                        <td><span th:text="*{aboutMe}"> O mně </span></td>
+                        <td><span th:text="*{topics.size()}"> Temat </span></td>
+
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

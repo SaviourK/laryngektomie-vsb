@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Témata</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid container-small">
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Témata</h1>
+        </div>
+
+
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: admin-navigation"></div>
+    <div class="row mt-3 rounded">
+        <div class="col-md-12 p-4 text-center">
+            <a class="btn btn-secondary m-2" href="/admin/poradna/kategorie/vytvorit"
+               th:href="@{~/admin/poradna/temata/vytvorit}">Vytvořit</a>
+            <br>
+            <table class="table table-striped table-responsive-sm">
+                <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Nadpis</th>
+                    <th> Počet přispěvků</th>
+                    <th> Kategorie</th>
+                    <th> Datum vytvoření</th>
+                    <th> Datum poslední úpravy</th>
+                    <th> Autor</th>
+                    <th> Akce</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:if="${topics.empty}">
+                    <td colspan="8"> Žádná vytvořená témata</td>
+                </tr>
+                <tr th:each="topic : ${topics}">
+                    <td><a th:href="@{/poradna/tema/{id}(id=${topic.id})}">Detail: <span
+                            th:text="${topic.id}"> Id </span></a></td>
+                    <td th:text="${topic.name}"> Nadpis</td>
+                    <td th:text="${topic.posts.size()}"> Počet přispěvků</td>
+                    <td th:text="${topic.category.name}"> Kategorie</td>
+                    <td th:text="${topic.createDateTimeString}"> Datum vytvoření</td>
+                    <td th:text="${topic.updateDateTimeString}"> Datum poslední úpravy</td>
+                    <td th:text="${topic.user.username}"> Autor</td>
+
+                    <td>
+                        <a th:href="@{'/admin/poradna/temata/upravit/' + ${topic.id}}">Upravit</a>
+                        <br/>
+                        <a th:href="@{'/admin/poradna/temata/smazat/' + ${topic.id}}">Smazat</a>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="offset-md-1"></div>
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: searchBar"></div>
+
+    <div th:replace="'./fragments/fragments.html' :: pagination"></div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

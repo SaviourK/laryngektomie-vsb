@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Vytvořit kategorii</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Vytvořit kategorii</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row justify-content-center align-items-center my-5 text-center">
+        <div class="col-md-6 rounded mt-3 p-5">
+            <form method="post" action="#" th:method="post" th:action="@{/admin/poradna/kategorie/vytvorit}"
+                  th:object="${category}">
+
+
+                <div class="form-group">
+                    <label for="name">Název kategorie</label>
+                    <label class="alert alert-danger" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                    <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
+                           placeholder="Název kategorie" required pattern=".{3,50}" title="Délka 3-50 znaků."/>
+
+                </div>
+                <!-- Send button -->
+                <button class="btn btn-primary" type="submit">Vytvořit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

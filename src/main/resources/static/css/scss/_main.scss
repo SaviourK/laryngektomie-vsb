@@ -1,0 +1,267 @@
+@import 'helpers';
+
+.random {
+  border-color: darkblue;
+}
+
+hr {
+  width: 100%;
+  color: #f7f7f7;
+  height: 1px;
+  background-color: #f7f7f7;
+}
+
+
+body {
+  background-color: $color-background;
+}
+
+textarea {
+  resize: none;
+  -webkit-border-radius: 5px !important;
+  -moz-border-radius: 5px !important;
+  border-radius: 5px !important;
+
+}
+
+a {
+  color: $color-primary;
+
+  &:hover {
+    color: $color-secondary;
+  }
+}
+
+.flexContainer {
+  display: flex;
+  display: -webkit-flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  @media screen and (max-width: $break-md) {
+    width: 95%;
+    margin: auto;
+  }
+}
+
+.galeryBox {
+  margin-right: 100px;
+  margin-left: 100px;
+  @media screen and (max-width: $break-md) {
+    margin-left: 10px;
+    margin-right: 10px;
+  }
+}
+
+
+.galery {
+  text-align: center;
+  max-width: 320px;
+  margin: 2em;
+  padding: 0;
+  justify-content: space-around;
+}
+
+
+.form-control:focus {
+  box-shadow: 0 0 0 0.2rem rgb(212, 219, 178);
+}
+
+.btn-primary.focus, .btn-primary:focus {
+  box-shadow: 0 0 0 0.2rem rgb(212, 219, 178);
+}
+
+
+button:focus {
+  outline: 5px auto $color-quaternary;
+}
+
+
+.btn-primary {
+  background-color: $color-primary;
+  border-color: $color-secondary;
+
+
+  &:hover {
+    color: $color-tertiary;
+    border-color: $color-primary;
+    background-color: $color-quaternary;
+    cursor: pointer;
+  }
+
+
+}
+
+.btn-primary:not(:disabled):not(.disabled).active, .btn-primary:not(:disabled):not(.disabled):active, .show > .btn-primary.dropdown-toggle {
+  color: $color-tertiary;
+  border-color: $color-primary;
+  background-color: $color-quinary;
+
+}
+
+.btn-secondary {
+  background-color: #577f398f;
+  border-color: $color-secondary;
+  border-width: 2px;
+  color: #fff;
+
+
+  &:hover {
+    color: $color-tertiary;
+    border-color: $color-primary;
+    background-color: $color-quaternary;
+    border-width: 2px;
+    cursor: pointer;
+  }
+
+
+}
+
+.btn-secondary:not(:disabled):not(.disabled).active, .btn-secondary:not(:disabled):not(.disabled):active, .show > .btn-secondary.dropdown-toggle {
+  color: $color-tertiary;
+  border-color: $color-primary;
+  background-color: $color-quaternary;
+  border-width: 2px;
+}
+
+.page-link {
+  position: relative;
+  display: block;
+  padding: .5rem .75rem;
+  margin-left: -1px;
+  line-height: 1.25;
+  color: $color-tertiary;
+  background-color: $color-quinary;
+  border: 1px solid $color-tertiary;
+
+  &:hover {
+    z-index: 2;
+    color: $color-tertiary;
+    text-decoration: none;
+    background-color: $color-quaternary;
+    border-color: $color-tertiary;
+  }
+}
+
+.page-item.active .page-link {
+  z-index: 1;
+  color: $color-tertiary;
+  background-color: $color-quaternary;
+  border-color: $color-tertiary;
+}
+
+.centered {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: rgba(152, 184, 128, 0.7);
+  padding: 25px;
+  color: black;
+
+
+}
+
+
+.advantages, .disadvantages {
+  background-color: rgb(250, 241, 207);
+  border: 2px solid $color-primary;
+}
+
+.form-feedback {
+  background-color: $color-quinary;
+}
+
+.header-span-color {
+  color: #3f9aca;
+}
+
+.border-custom {
+  border: 3px solid $color-quinary;
+}
+
+.carousel-image {
+  max-width: 100%;
+  display: block;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.container-small {
+  display: flex;
+  flex-direction: column;
+  min-height: 85vh;
+}
+
+.square {
+  position: relative;
+  float: right;
+  width: 180px;
+  height: 180px;
+  overflow: hidden;
+}
+.image-about-us {
+  position: absolute;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  top: 50%;
+  left: 50%;
+  transform: translate( -50%, -50%);
+}
+
+
+@media screen and (max-width: 435px) {
+  .square{
+    float: none;
+    display: block;
+    margin-left: 0;
+    margin-right: auto;
+    max-width: 300px;
+    padding: 0 0 10px 0;
+
+  }
+}
+
+.hashtag{
+  padding: 15px;
+  background-color: #98b880;
+  border: solid 2px #3f6844;
+  color: #fff;
+  font-weight: 600;
+
+}
+
+.forum{
+  background-color: #fff;
+}
+
+.d-flex.flex-wrap.justify-content-around img{
+  width:200px;
+  height:200px;
+
+  /*Scale down will take the necessary specified space that is 100px x 100px without stretching the image*/
+  object-fit:scale-down;
+
+}
+
+@media screen and (max-width: 550px) {
+  .column-hide-first {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 435px) {
+  .column-hide-second {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .column-hide-third {
+    display: none;
+  }
+}
+
+

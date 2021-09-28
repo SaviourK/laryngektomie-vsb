@@ -1,0 +1,19 @@
+@import 'helpers';
+
+nav {
+  background-color: $color-primary;
+
+}
+
+a.nav-link {
+  color: $color-tertiary;
+}
+
+
+.navbar-nav .dropdown-menu {
+  background-color: $color-quaternary;
+}
+
+.dropdown-item:focus, .dropdown-item:hover {
+  background-color: $color-quinary;
+}

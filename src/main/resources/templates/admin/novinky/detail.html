@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title th:text="${news.name}">Detail novinky</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container container-small" th:object="${news}">
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-md">
+            <h2 class="text-center" th:text="*{name}"></h2>
+        </div>
+
+
+    </div>
+    <div class="row m-3 rounded">
+        <div class="col m-auto text-center">
+            <a class="btn btn-secondary" th:href="@{~/novinky}">Zpět</a>
+        </div>
+
+    </div>
+
+
+
+    <div class="row">
+        <div class="col-lg-3 text-lg-left text-center order-lg-0">
+            <h5><span th:text="*{user.firstName}" th:remove="tag"></span> <span
+                    th:text="*{user.lastName}" th:remove="tag"></span></h5>
+        </div>
+        <div class="offset-lg-1 col-lg-4 offset-1 col-10 order-lg-1 order-last mb-2 mb-lg-0">
+            <div class="hashtag text-center mt-3">
+                #<span th:remove="tag" th:text="*{newsType.name}"></span>
+            </div>
+        </div>
+        <div class="offset-lg-1 col-lg-3 text-lg-right text-center order-lg-2">
+            <h5><span th:text="*{getCreateDateTimeString()}" th:remove="tag"></span></h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <p th:utext="*{text}"></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg">
+            <div th:if="*{images!=null and !images.empty}">
+                <div th:if="${#lists.size(news.images) eq 1}">
+
+                    <div th:remove="tag" th:each="img,iter : *{images}">
+
+                        <img class="img-fluid mx-auto d-block" th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
+
+                    </div>
+                </div>
+
+
+                <div th:unless="${#lists.size(news.images) eq 1}" id="news-carousel" class="carousel slide" data-ride="carousel"  data-interval="5000" data-pause="hover">
+                    <!--indicators-->
+                    <ul class="carousel-indicators">
+                        <div th:remove="tag" th:each="img,iter : *{images}">
+                            <li data-target="#news-carousel" th:data-slide-to="|${iter.index}-${img.id}|" th:classappend="${iter.first} ? 'active' : ''"></li>
+                        </div>
+                    </ul>
+
+                    <!--slideshow-->
+                    <div class="carousel-inner">
+                        <div th:remove="tag" th:each="img,iter : *{images}">
+                            <div th:classappend="${iter.first} ? 'active' : ''" class="carousel-item">
+                                <img class="carousel-image" th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
+                            </div>
+                        </div>
+                    </div>
+                    <!--left and right controls-->
+                    <a class="carousel-control-prev" href="#news-carousel" data-slide="prev">
+                        <span class="carousel-control-prev-icon"></span>
+                    </a>
+                    <a class="carousel-control-next" href="#news-carousel" data-slide="next">
+                        <span class="carousel-control-next-icon"></span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</body>
+</html>

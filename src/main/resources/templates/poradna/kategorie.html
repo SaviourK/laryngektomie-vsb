@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Témata kategorie</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid container-small">
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Kategorie: <span th:text="${category.name}" th:remove="tag"></span></h1>
+        </div>
+
+
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: admin-navigation"></div>
+
+    <div class="row mt-3 rounded">
+
+
+        <div class="offset-xl-0 col-xl-2 offset-sm-2 col-sm-8 offset-0 col-12 text-center">
+            <a class="btn btn-primary btn-block" th:href="@{/poradna}"> Poradna</a>
+            <h2>Kategorie</h2>
+            <div th:each="c : ${categories}">
+                <p><a class="btn btn-primary btn-block" th:classappend="${c.id == category.id} ? 'active' : ''"
+                      th:href="@{~/poradna/{url}(url=${c.url})}"
+                      th:text="${c.name}"></a></p>
+
+            </div>
+
+        </div>
+
+        <div class="col-xl-10 col-12 p-4 text-center">
+
+            <a class="btn btn-secondary my-3" href="/poradna/kategorie/vytvorit"
+               th:href="@{~/poradna/tema-nove/{id}(id=${category.id})}">Přidat téma</a>
+            <br>
+            <table class="table table-striped table-responsive-sm">
+                <thead>
+                <tr>
+                    <th class="text-left"> Název tématu</th>
+                    <th class="column-hide-third"> Přispěvky</th>
+                    <th> Autor</th>
+                    <th  class="column-hide-second"> Vytvořeno</th>
+
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:if="${topics.empty}">
+                    <td colspan="7"> Kategorie <span th:text="${category.name}" th:remove="tag"></span> zatím nemá
+                        žádná témata.
+                    </td>
+                </tr>
+                <tr th:each="topic : ${topics}">
+                    <td class="text-left"><a th:href="@{/poradna/tema/{id}(id=${topic.id})}"><span
+                            th:text="${topic.name}"> Nadpis </span></a><br> <small
+                            th:text="${topic.getDescription()}"> Text</small>
+                    </td>
+                    <td th:text="${topic.posts.size()}" class="column-hide-third"> Přispěvky</td>
+                    <td th:text="${topic.user.username}"> Autor</td>
+                    <td th:text="${topic.getTimePassedString()}" class="column-hide-second"> Vytvořeno</td>
+
+
+
+
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+
+    </div>
+   
+
+    <div th:replace="'./fragments/fragments.html' :: pagination"></div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

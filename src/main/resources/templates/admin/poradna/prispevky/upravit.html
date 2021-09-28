@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Příspěvek - upravit</title>
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Upravit příspěvek</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row justify-content-center align-items-center mt-3">
+        <div class="col-md-6 rounded p-2 text-center">
+            <form method="POST" action="#" th:method="POST" th:object="${post}"
+                  th:action="@{/admin/poradna/prispevky/upravit}">
+
+
+                <div class="form-group">
+
+                    <label for="id">Id příspěvku</label>
+                    <input class="form-control" type="text" id="id" name="id" th:field="*{id}" readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="user">Uživatel </label>
+                    <input class="form-control" type="text" id="user" name="user" th:field="*{user.username}"
+                           readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="createDateTime">Datum vytvoření </label>
+                    <input class="form-control" type="text" id="createDateTime" name="createDateTime"
+                           th:field="*{createDateTime}"
+                           readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="updateDateTime">Datum poslední úpravy</label>
+                    <br/>
+                    <input class="form-control" type="text" id="updateDateTime" name="updateDateTime"
+                           th:field="*{updateDateTime}"
+                           readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="category">Kategorie </label>
+                    <input class="form-control" type="text" id="category" name="category"
+                           th:field="*{topic.category.name}"
+                           readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="topic">Téma </label>
+                    <input class="form-control" type="text" id="topic" name="topic"
+                           th:field="*{topic.name}"
+                           readonly="readonly"/>
+                </div>
+
+
+                <div class="form-group">
+
+
+                    <label for="text">Text komentáře</label>
+                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
+                    <textarea type="text" th:field="*{text}" id="text" name="text"
+                              class="form-control mb-4"
+                              placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                    <label id="count"></label>
+
+                </div>
+
+
+                <!-- Send button -->
+                <button class="btn btn-primary" type="submit">Upravit</button>
+
+            </form>
+        </div>
+    </div>
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

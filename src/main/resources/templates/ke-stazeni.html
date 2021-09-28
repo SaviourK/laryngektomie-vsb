@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{::link})">
+    <title>Ke stažení</title>
+    <link th:href="@{~/css/smoothbox.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Přihláška ke stažení</h1>
+        </div>
+
+    </div>
+
+
+    <div class="flexContainer galeryBox mt-3">
+
+        <div class="galery">
+
+            <a class="sb" href="/images/prihlaska.jpg" th:href="@{/images/prihlaska.jpg}"
+               title="Příhláška">
+                <img src="/images/prihlaska_nahled.jpg" th:src="@{/images/prihlaska_nahled.jpg}"
+                     alt="Přihláška">
+            </a>
+
+
+        </div>
+
+
+    </div>
+    <div class="row m-3 p-3 rounded text-center">
+        <div class="col-lg">
+            <a class="btn btn-primary" href="/documents/prihlaska.docx" th:href="@{/documents/prihlaska.docx}"
+               title="Příhláška" download>
+                Stáhnout přihlášku
+            </a>
+        </div>
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+    <script th:src="@{~/js/smoothbox.jquery2.js}"></script>
+
+</div>
+
+</body>
+</html>

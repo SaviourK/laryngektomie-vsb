@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Starší přispěvky</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Novinky</h1>
+        </div>
+
+
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: searchBar"></div>
+
+    <div class="container mt-3">
+        <p th:if="${news.isEmpty()}">
+            Žádné novinky
+        </p>
+        <div class="row" th:each="n,iter : ${news}">
+
+
+            <div class="col-lg mx-3 p-3 rounded">
+
+
+                <h3 class="text-center mt-2" th:text="${n.name}"></h3>
+                <div class="offset-md-4 col-md-4 offset-1 col-10">
+                    <div class="hashtag text-center mt-3">
+                        #<span th:remove="tag" th:text="${n.getNewsType().getName()}"></span>
+                    </div>
+                </div>
+
+                        <p class="mt-2" th:utext="${n.getDescriptionText()}"></p>
+                        <p th:text="${n.getCreateDateTimeString()}"></p>
+
+                <div class="text-center">
+                    <a th:href="@{~/novinky/{url}(url=${n.url})}" class="btn btn-primary text-center"
+                       role="button" aria-pressed="true">Více info</a>
+                </div>
+                <hr/>
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+</div>
+
+<div th:replace="'./fragments/fragments.html' :: pagination"></div>
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

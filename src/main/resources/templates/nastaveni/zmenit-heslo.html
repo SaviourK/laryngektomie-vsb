@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Změnit heslo</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Změnit heslo</h1>
+        </div>
+
+
+    </div>
+
+    <div class="row justify-content-center align-items-center mt-3 text-center">
+        <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-3 offset-md-1 rounded mx-3 p-5 border-custom">
+            <form method="POST" action="#" th:method="POST" th:action="@{/nastaveni/zmenit-heslo}" onsubmit="return checkForm(this)" autocomplete="off">
+
+
+                <div class="form-group">
+                    <label for="oldPassword">Staré heslo</label>
+                    <input type="password" class="form-control" id="oldPassword" name="oldPassword"
+                           placeholder="Staré heslo" required>
+
+                </div>
+
+                <div class="form-group">
+
+                    <label for="password">Heslo</label>
+                    <input type="password" id="password" name="password"
+                           class="form-control mb-4"
+                           placeholder="Heslo" required pattern=".{5,}" title="Minimální délka je 5 znaků."/>
+
+                </div>
+
+                <div class="form-group">
+                    <input id="matchingPass" type="password" name="matchingPassword" class="form-control mb-4"
+                           placeholder="Zopakujte heslo" required pattern=".{5,}" title="Minimální délka je 5 znaků."/>
+                </div>
+
+                <!-- Send button -->
+                <button class="btn btn-primary mt-2" type="submit">Resetovat heslo</button>
+
+            </form>
+        </div>
+
+    </div>
+
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+    <script>
+        // Function to check Whether both passwords
+        // is same or not.
+        function checkForm(form)
+        {
+
+            if(form.password.value !== "" && form.password.value === form.matchingPassword.value) {
+                return true
+            } else {
+                alert("Chyba: Hesla se neschodují");
+                form.password.focus();
+                return false;
+            }
+
+        }
+
+    </script>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Novinky</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+
+<div class="container-fluid container-small">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Novinky</h1>
+        </div>
+
+
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: admin-navigation"></div>
+    <div class="row mt-3 rounded">
+        <div class="col-md-12 bgcolor2 p-4 text-center">
+            <a class="btn btn-secondary m-2" href="/admin/poradna/prispevky/vytvorit"
+               th:href="@{~/admin/novinky/vytvorit}">Vytvořit</a>
+            <br>
+
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th> Id</th>
+                    <th> Název novinky</th>
+                    <th> Typ novinky</th>
+                    <th> Datum vytvoření</th>
+                    <th> Poslední úprava</th>
+                    <th> Vytvořil</th>
+                    <th> Akce</th>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                <tr th:if="${news.empty}">
+                    <td colspan="6"> Žádné dostupné novinky</td>
+                </tr>
+                <tr th:each="n : ${news}">
+                    <td><a th:href="@{/admin/novinky/{url}(url=${n.url})}">Detail: <span
+                            th:text="${n.id}"> Id </span></a></td>
+                    <td th:text="${n.name}"> Název novinky</td>
+                    <td th:text="${n.newsType.name}"> Typ novinky</td>
+                    <td th:text="${n.getCreateDateTimeString()}"> Datum vytvoření</td>
+                    <td th:text="${n.getUpdateDateTimeString()}"> Datum úpravy</td>
+                    <td th:text="${n.user.username}"> Vytvoril</td>
+                    <td>
+                        <a th:href="@{'/admin/novinky/upravit/' + ${n.id}}">Upravit</a>
+                        <br/>
+                        <a th:href="@{'/admin/novinky/smazat/' + ${n.id}}">Smazat</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+</div>
+<div th:replace="'./fragments/fragments.html' :: searchBar"></div>
+
+<div th:replace="'./fragments/fragments.html' :: pagination"></div>
+
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+</div>
+</body>
+</html>

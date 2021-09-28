@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
+    <title>Pomůcky | Naše činnost</title>
+
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container">
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Pomůcky</h1>
+        </div>
+
+
+    </div>
+
+
+    <div class="row">
+        <div class="col-md p-4">
+            <p>Vážení přátelé,<br />
+                jistě jste zaznamenali změny v předepisování a úhradě pomůcek pro laryngektomované.</p>
+            <p><b>Od 1. 12. 2019</b> platí nová pravidla - změnily se především <b>kódy</b> pod kterými Vám lékaři pomůcky předepisovali.</p>
+            <p>Přinášíme Vám přehled pomůcek, hrazených zdravotními pojišťovnami od firmy MEDIAL.</p>
+
+            <img class="img-fluid my-2" th:src="@{~/images/pomucky/pomucky1.jpg}">
+            <img class="img-fluid" th:src="@{~/images/pomucky/pomucky2.jpg}">
+            <img class="img-fluid my-2" th:src="@{~/images/pomucky/pomucky3.jpg}">
+
+
+        </div>
+    </div>
+
+
+
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+</div>
+</body>
+</html>

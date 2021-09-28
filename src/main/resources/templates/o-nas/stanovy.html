@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<head th:replace="'./fragments/fragments.html' :: head(~{::title},~{::link})">
+    <title>Stanovy | O nás</title>
+    <link th:href="@{~/css/smoothbox.css}" rel="stylesheet">
+</head>
+
+<body>
+
+<div th:replace="'./fragments/fragments.html' :: header">
+</div>
+<div th:replace="'./fragments/fragments.html' :: nav">
+</div>
+<div class="container-fluid">
+
+
+    <div class="row m-3 p-3 rounded">
+        <div class="col-lg">
+            <h1 class="text-center">Stanovy</h1>
+        </div>
+
+    </div>
+
+
+    <div class="flexContainer galeryBox mt-3">
+
+        <div class="galery">
+
+            <a class="sb" href="/images/stanovy/stanovy1.jpg" th:href="@{/images/stanovy/stanovy1.jpg}"
+               title="Stanovy 1/9">
+                <img src="/images/stanovy/nahled/nahled01.jpg" th:src="@{/images/stanovy/nahled/nahled01.jpg}"
+                     alt="Stanovy 1/9">
+            </a>
+        </div>
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy2.jpg" th:href="@{/images/stanovy/stanovy2.jpg}"
+               title="Stanovy 2/9">
+                <img src="/images/stanovy/nahled/nahled02.jpg" th:src="@{/images/stanovy/nahled/nahled02.jpg}"
+                     alt="Stanovy 2/9">
+            </a>
+        </div>
+
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy3.jpg" th:href="@{/images/stanovy/stanovy3.jpg}"
+               title="Stanovy 3/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled03.jpg" th:src="@{/images/stanovy/nahled/nahled03.jpg}"
+                     alt="Stanovy 3/9">
+            </a>
+        </div>
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy4.jpg" th:href="@{/images/stanovy/stanovy4.jpg}"
+               title="Stanovy 4/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled04.jpg" th:src="@{/images/stanovy/nahled/nahled04.jpg}"
+                     alt="Stanovy 4/9">
+            </a>
+        </div>
+
+
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy5.jpg" th:href="@{/images/stanovy/stanovy5.jpg}"
+               title="Stanovy 5/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled05.jpg" th:src="@{/images/stanovy/nahled/nahled05.jpg}"
+                     alt="Stanovy 5/9">
+            </a>
+        </div>
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy6.jpg" th:href="@{/images/stanovy/stanovy6.jpg}"
+               title="Stanovy 6/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled06.jpg" th:src="@{/images/stanovy/nahled/nahled06.jpg}"
+                     alt="Stanovy 6/9">
+            </a>
+        </div>
+
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy7.jpg" th:href="@{/images/stanovy/stanovy7.jpg}"
+               title="Stanovy 7/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled07.jpg" th:src="@{/images/stanovy/nahled/nahled07.jpg}"
+                     alt="Stanovy 7/9">
+            </a>
+        </div>
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy8.jpg" th:href="@{/images/stanovy/stanovy8.jpg}"
+               title="Stanovy 8/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled08.jpg" th:src="@{/images/stanovy/nahled/nahled08.jpg}"
+                     alt="Stanovy 8/9">
+            </a>
+
+
+        </div>
+
+
+        <div class="galery">
+            <a class="sb" href="/images/stanovy/stanovy9.jpg" th:href="@{/images/stanovy/stanovy9.jpg}"
+               title="Stanovy 9/9"
+               rel="lightbox[Galerie]">
+                <img src="/images/stanovy/nahled/nahled09.jpg" th:src="@{/images/stanovy/nahled/nahled09.jpg}"
+                     alt="Stanovy 9/9">
+            </a>
+        </div>
+
+
+    </div>
+
+    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+
+    <script th:src="@{~/js/smoothbox.jquery2.js}"></script>
+
+</div>
+
+</body>
+</html>
