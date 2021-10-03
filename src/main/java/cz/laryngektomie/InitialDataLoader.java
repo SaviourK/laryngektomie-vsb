@@ -1,7 +1,9 @@
 package cz.laryngektomie;
 
+import com.github.javafaker.Faker;
 import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.model.forum.Category;
+import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.news.News;
 import cz.laryngektomie.model.news.NewsType;
@@ -9,12 +11,16 @@ import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.repository.news.NewsTypeRepository;
 import cz.laryngektomie.repository.security.UserRepository;
 import cz.laryngektomie.service.forum.CategoryService;
+import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
 import cz.laryngektomie.service.news.NewsService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
+import java.util.Random;
 
 @Component
 public class InitialDataLoader implements ApplicationRunner {
@@ -26,13 +32,15 @@ public class InitialDataLoader implements ApplicationRunner {
     private final NewsService newsService;
     private final TopicService topicService;
     private final NewsTypeRepository newsTypeRepository;
+    private final PostService postService;
 
-    public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository) {
+    public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository, PostService postService) {
         this.userRepository = userRepository;
         this.categoryService = categoryService;
         this.newsService = newsService;
         this.topicService = topicService;
         this.newsTypeRepository = newsTypeRepository;
+        this.postService = postService;
     }
 
     @Override
@@ -327,7 +335,24 @@ public class InitialDataLoader implements ApplicationRunner {
             newsService.saveOrUpdate(news);
         }
 
-
+        fakeData();
         alreadySetup = true;
+    }
+
+    private void fakeData() {
+        Faker faker = new Faker();
+        List<Category> categories = categoryService.findAll();
+        int catSize = categories.size();
+        List<User> userList = userRepository.findAll();
+        int userSize = userList.size();
+        Random random = new Random();
+        for (int i = 0; i < 100; i++) {
+            topicService.saveOrUpdate(new Topic(faker.commerce().productName(), faker.commerce().productName(), userList.get(random.nextInt(userSize)), categories.get(random.nextInt(catSize))));
+        }
+        List<Topic> topicList = topicService.findAll();
+        int topicSize = topicList.size();
+        for (int i = 0; i < 1000; i++) {
+            postService.saveOrUpdate(new Post(faker.book().title(), userList.get(random.nextInt(userSize)), topicList.get(random.nextInt(topicSize))));
+        }
     }
 }

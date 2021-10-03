@@ -66,10 +66,16 @@ public class User extends EntityBase {
     @JoinColumn(name = "users_id")
     private Collection<Post> posts;
 
+    private int postCount;
+
+    private int newsCount;
+
     public User() {
         super();
         this.enabled = true;
         this.tokenExpired = false;
+        this.postCount = 0;
+        this.newsCount = 0;
     }
 
     public String getUsername() {
@@ -190,6 +196,22 @@ public class User extends EntityBase {
 
     public void setPosts(Collection<Post> posts) {
         this.posts = posts;
+    }
+
+    public int getPostCount() {
+        return postCount;
+    }
+
+    public void setPostCount(int postCount) {
+        this.postCount = postCount;
+    }
+
+    public int getNewsCount() {
+        return newsCount;
+    }
+
+    public void setNewsCount(int newsCount) {
+        this.newsCount = newsCount;
     }
 
     @Override

@@ -24,7 +24,7 @@
     <div class="row">
         <div class="col-md-10">
             <h3 th:text="*{username}">Přezdívka</h3>
-            <p>Role:  <span th:remove="tag" th:text="*{rolesString()}">Role</span></p>
+            <p>Role:  <span th:remove="tag" th:text="*{role}">Role</span></p>
             <p>Datum registrace: <span th:remove="tag" th:text="*{createDateTimeString}">Datum registrace:</span></p>
             <p>Počet témat:  <span th:remove="tag" th:text="*{topics.size()}"> Počet témat</span></p>
             <p>Počet přispěvků: <span th:remove="tag" th:text="*{posts.size()}"> Počet přispěvků</p></p>

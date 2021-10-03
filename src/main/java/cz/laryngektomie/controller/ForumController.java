@@ -4,6 +4,7 @@ import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
+import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
@@ -201,5 +202,17 @@ public class ForumController {
 
         mv.setViewName("redirect:/poradna/tema/" + topicId + "?page=" + postService.getLastPageOfTopic(topicOptional.get().getId()));
         return mv;
+    }
+
+    @GetMapping("/sledovat/{topicId}")
+    public String sledovatTema(@PathVariable("topicId") Long topicId, Principal principal) {
+        Optional<Topic> optionalTopic = topicService.findById(topicId);
+        if (optionalTopic.isPresent()) {
+            Topic topic = optionalTopic.get();
+            User user = userService.findByUsername(principal.getName());
+            topic.addWatchingUser(user);
+            topicService.saveOrUpdate(topic);
+        }
+        return "redirect:/poradna/tema/" + topicId;
     }
 }

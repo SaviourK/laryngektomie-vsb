@@ -29,6 +29,16 @@ public class Category extends EntityBase {
     @JsonIgnore
     private User user;
 
+    @ManyToMany
+    @JoinTable(
+            name = "category_admin",
+            joinColumns = @JoinColumn(
+                    name = "category_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"))
+    private Collection<User> categoryAdmins;
+
+
     public Category() {
         super();
     }
@@ -63,5 +73,13 @@ public class Category extends EntityBase {
 
     public void setTopics(Collection<Topic> topics) {
         this.topics = topics;
+    }
+
+    public Collection<User> getCategoryAdmins() {
+        return categoryAdmins;
+    }
+
+    public void setCategoryAdmins(Collection<User> categoryAdmins) {
+        this.categoryAdmins = categoryAdmins;
     }
 }

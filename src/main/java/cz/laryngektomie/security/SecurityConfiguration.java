@@ -1,5 +1,6 @@
 package cz.laryngektomie.security;
 
+import cz.laryngektomie.helper.Const;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -35,9 +36,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers("/").permitAll()
                 .antMatchers("/poradna/**").authenticated()
                 .antMatchers("/nastaveni/**").authenticated()
-                .antMatchers("/admin/**").hasRole("ADMIN")
-                .antMatchers("/admin/poradna/prispevky/**").hasRole("SPECIALIST")
-                .antMatchers("/admin/poradna/temata/**").hasRole("SPECIALIST")
+                .antMatchers("/admin/**").hasRole(Const.ROLE_ADMIN)
+                //.antMatchers("/admin/poradna/prispevky/**").hasRole("SPECIALIST")
+                //.antMatchers("/admin/poradna/temata/**").hasRole("SPECIALIST")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()

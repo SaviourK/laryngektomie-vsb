@@ -10,6 +10,7 @@ import org.hibernate.annotations.OnDeleteAction;
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -32,6 +33,15 @@ public class Topic extends EntityBase {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
+
+    @ManyToMany
+    @JoinTable(
+            name = "watching_users",
+            joinColumns = @JoinColumn(
+                    name = "topic_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(
+                    name = "user_id", referencedColumnName = "id"))
+    private Collection<User> watchingUsers;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private Collection<Post> posts;
@@ -86,6 +96,21 @@ public class Topic extends EntityBase {
 
     public void setPosts(Collection<Post> posts) {
         this.posts = posts;
+    }
+
+    public Collection<User> getWatchingUsers() {
+        return watchingUsers;
+    }
+
+    public void setWatchingUsers(Collection<User> watchingUsers) {
+        this.watchingUsers = watchingUsers;
+    }
+
+    public void addWatchingUser(User user) {
+        if(watchingUsers == null) {
+            watchingUsers = new ArrayList<>();
+        }
+        watchingUsers.add(user);
     }
 
     public String getDescription() {
