@@ -1,6 +1,5 @@
 package cz.laryngektomie.security;
 
-import cz.laryngektomie.model.security.Role;
 import cz.laryngektomie.model.security.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,10 +20,7 @@ public class UserPrincipal implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
-
-        for (Role r : user.getRoles()) {
-            grantedAuthorities.add(new SimpleGrantedAuthority(r.getName()));
-        }
+        grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));
         return grantedAuthorities;
     }
 

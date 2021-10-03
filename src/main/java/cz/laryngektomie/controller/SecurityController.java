@@ -3,7 +3,6 @@ package cz.laryngektomie.controller;
 import cz.laryngektomie.model.news.Image;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.news.ImageService;
-import cz.laryngektomie.service.security.RoleService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
@@ -26,16 +25,14 @@ import java.util.*;
 public class SecurityController {
 
     private final UserService userService;
-    private final RoleService roleService;
     private final ImageService imageService;
     //private final EmailService emailService;
 
     /*@Autowired
     private ApplicationEventPublisher eventPublisher;*/
 
-    public SecurityController(UserService userService, RoleService roleService, ImageService imageService) {
+    public SecurityController(UserService userService, ImageService imageService) {
         this.userService = userService;
-        this.roleService = roleService;
         this.imageService = imageService;
         //this.emailService = emailService;
 
@@ -110,7 +107,7 @@ public class SecurityController {
 
         user.setPassword(userService.encode(user.getPassword()));
         user.setMatchingPassword(userService.encode(user.getMatchingPassword()));
-        user.setRoles(Collections.singleton(roleService.findByName("ROLE_USER")));
+        user.setRole("USER");
         user.setAboutUs(false);
         userService.saveOrUpdate(user);
         mv.addObject("messageSuccess", "Uživatel " + user.getUsername() + " byl vytvořen.");

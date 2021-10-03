@@ -1,15 +1,12 @@
 package cz.laryngektomie;
 
+import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.news.News;
 import cz.laryngektomie.model.news.NewsType;
-import cz.laryngektomie.model.security.Privilege;
-import cz.laryngektomie.model.security.Role;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.repository.news.NewsTypeRepository;
-import cz.laryngektomie.repository.security.PrivilegeRepository;
-import cz.laryngektomie.repository.security.RoleRepository;
 import cz.laryngektomie.repository.security.UserRepository;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.TopicService;
@@ -19,28 +16,19 @@ import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import javax.transaction.Transactional;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-
 @Component
 public class InitialDataLoader implements ApplicationRunner {
 
     boolean alreadySetup = false;
 
     private final UserRepository userRepository;
-    private final RoleRepository roleRepository;
-    private final PrivilegeRepository privilegeRepository;
     private final CategoryService categoryService;
     private final NewsService newsService;
     private final TopicService topicService;
     private final NewsTypeRepository newsTypeRepository;
 
-    public InitialDataLoader(UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository) {
+    public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository) {
         this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
-        this.privilegeRepository = privilegeRepository;
         this.categoryService = categoryService;
         this.newsService = newsService;
         this.topicService = topicService;
@@ -52,29 +40,16 @@ public class InitialDataLoader implements ApplicationRunner {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (alreadySetup)
             return;
-        Privilege readPrivilege
-                = createPrivilegeIfNotFound("READ_PRIVILEGE");
-        Privilege writePrivilege
-                = createPrivilegeIfNotFound("WRITE_PRIVILEGE");
-
-        List<Privilege> adminPrivileges = Arrays.asList(
-                readPrivilege, writePrivilege);
-        createRoleIfNotFound("ROLE_ADMIN", "Administrátor", adminPrivileges);
-        createRoleIfNotFound("ROLE_SPECIALIST", "Odborník", Arrays.asList(readPrivilege));
-        createRoleIfNotFound("ROLE_USER", "Uživatel", Arrays.asList(readPrivilege));
-        createRoleIfNotFound("ROLE_ANONYMOUS", "Anonym", null);
-
 
         //Přidání admina
         if (userRepository.findByUsername("admin") == null) {
-            Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
             User admin = new User();
             admin.setUsername("admin");
             admin.setFirstName("Vitezslav");
             admin.setLastName("Kanok");
             admin.setPassword(bCryptPasswordEncoder.encode("admin"));
             admin.setEmail("vitezslav.kanok@email.cz");
-            admin.setRoles(Arrays.asList(roleAdmin));
+            admin.setRole(Const.ROLE_ADMIN);
             admin.setEnabled(true);
             admin.setAboutMe("Jmenuji se Hana a jsem dva roky po operaci, kdy mi byl odebrán hrtan a hlasivky. Myslela jsem, že už nebudu nikdy mluvit, jen psát. Cítila jsem beznaděj, ale když jsem se dozvěděla o možnosti jícnového hlasu, okamžitě jsem se rozhodla. Řekla jsem si, že jsem se v životě naučila hodně věcí, a proto se naučím i toto. Dnes mluvím i telefonuji.");
             admin.setAboutUs(false);
@@ -104,14 +79,13 @@ public class InitialDataLoader implements ApplicationRunner {
 
         if (userRepository.findByUsername("doktor") == null) {
             //Pridani specialisty/doktora
-            Role roleSpecialist = roleRepository.findByName("ROLE_SPECIALIST");
             User specialist = new User();
             specialist.setUsername("doktor");
             specialist.setFirstName("doktor");
             specialist.setLastName("doktor");
             specialist.setPassword(bCryptPasswordEncoder.encode("doktor"));
             specialist.setEmail("doktor@test.com");
-            specialist.setRoles(Arrays.asList(roleSpecialist));
+            specialist.setRole(Const.ROLE_SPECIALISTS);
             specialist.setEnabled(true);
             specialist.setAboutUs(false);
 
@@ -120,14 +94,13 @@ public class InitialDataLoader implements ApplicationRunner {
         }
         //Pridani uživatele
         if (userRepository.findByUsername("user") == null) {
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             User user = new User();
             user.setUsername("user");
             user.setFirstName("user");
             user.setLastName("user");
             user.setPassword(bCryptPasswordEncoder.encode("user"));
             user.setEmail("user@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(false);
             user.setAboutMe("Jmenuji se Roman a jsem čtyři roky po tracheostomické operaci. Rozhodl jsem se pro jícnový hlas, po necelém roce jsem začal znovu komunikovat. Vrátil jsem se na čas do zaměstnání. Nyní mluvím, telefonuji, žiju aktivní život, na nemoci nemám čas :-). Věřte, že i když jsou začátky těžké, výsledek se dostaví! Nenechte se odradit, chce to jen \"kecat a kecat\"!");
@@ -139,7 +112,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele EVA
         if (userRepository.findByUsername("Eva") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Eva");
 
             
@@ -152,7 +124,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Eva");
             user.setPassword(bCryptPasswordEncoder.encode("Eva"));
             user.setEmail("Eva@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Eva a pracuji jako klinická logopedka. Mezi mými klienty jsou také pacienti se ztrátou hlasu po totální laryngektomii. Prošli si náročnou hlasovou rehabilitací a nyní opět úspěšně komunikují. Domnívám se, že tito úspěšní pacienti, jsou nejlepšími vzory a motivací pro ostatní.");
@@ -162,7 +134,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Roman
         if (userRepository.findByUsername("Roman") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Roman");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/roman.jpg").getPath()));
@@ -173,7 +144,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Roman");
             user.setPassword(bCryptPasswordEncoder.encode("Roman"));
             user.setEmail("Roman@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Roman a jsem pět let po tracheostomické operaci. Rozhodl jsem se pro jícnový hlas, po necelém roce jsem začal znovu komunikovat. Vrátil jsem se na čas do zaměstnání. Nyní mluvím, telefonuji, žiju aktivní život, na nemoci nemám čas :-). Věřte, že i když jsou začátky těžké, výsledek se dostaví! Nenechte se odradit, chce to jen \"kecat a kecat\"!");
@@ -183,7 +154,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Hana
         if (userRepository.findByUsername("Hana") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Hana");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/hana.jpg").getPath()));
@@ -194,7 +164,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Hana");
             user.setPassword(bCryptPasswordEncoder.encode("Hana"));
             user.setEmail("Hana@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Hana a jsem od roku 2016 po operaci, kdy mi byl odebrán hrtan a hlasivky. Myslela jsem, že už nebudu nikdy mluvit, jen psát. Cítila jsem beznaděj, ale když jsem se dozvěděla o možnosti jícnového hlasu, okamžitě jsem se rozhodla. Řekla jsem si, že jsem se v životě naučila hodně věcí, a proto se naučím i toto. Dnes mluvím i telefonuji.");
@@ -204,7 +174,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Zdenek
         if (userRepository.findByUsername("Zdeněk") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Zdeněk");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/zdenek.jpg").getPath()));
@@ -215,7 +184,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Zdeněk");
             user.setPassword(bCryptPasswordEncoder.encode("Zdeněk"));
             user.setEmail("Zdeněk@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Zdeněk a jsem po operaci hrtanu již pět let. Po operaci jsem se cítil strašně. Když jsem ale viděl nahrávky, že se dá mluvit i jinak než s hlasivkami, tedy jícnem, řekl jsem si, že když to dokázali jiní, dokážu to taky. Dnes se domluvím po celé Evropě, telefonuji. Znovu jsem se oženil, vedu spokojený život. Co bych vzkázal ostatním? Jícnový hlas je zpočátku námaha, ale stojí to za to!");
@@ -225,7 +194,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Míša
         if (userRepository.findByUsername("Míša") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Míša");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/misa.jpg").getPath()));
@@ -236,7 +204,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Míša");
             user.setPassword(bCryptPasswordEncoder.encode("Míša"));
             user.setEmail("Míša@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Míša a první rok po operaci jsem se snažil naučit jícnový hlas, což se mi nedařilo. Poté mi byla voperována hlasová protéza, ale ani ta se mi neosvědčila. Nyní, třetí rok po operaci, používám elektrolarynx, který mi vyhovuje. Lituji, že jsem nezačal používat přístroj hned po operaci. Domluvím se všude, např.: v bance, na poště, aj. S lidmi, kteří mě znají i telefonuji.");
@@ -246,7 +214,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Jindřich
         if (userRepository.findByUsername("Jindřich") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Jindřich");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/jindrich.jpg").getPath()));
@@ -257,7 +224,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Jindřich");
             user.setPassword(bCryptPasswordEncoder.encode("Jindřich"));
             user.setEmail("Jindřich@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Jindřich a když jsem viděl jak lze mluvit po operaci i bez hrtanu, ihned jsem se rozhodl. Pravidelně trénuji jícnový hlas, ale zatím mi ještě nejde tak plynule a automaticky, jak bych si přál, proto používám elektrolarynx, se kterým je pro mě komunikace snadnější. Cvičení jícnového hlasu nevzdávám a věřím, že když se jej naučili jiní, dokážu to taky!");
@@ -267,7 +234,6 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Karel
         if (userRepository.findByUsername("Karel") == null) {
             User user = new User();
-            Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Karel");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/karel.jpg").getPath()));
@@ -278,7 +244,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Karel");
             user.setPassword(bCryptPasswordEncoder.encode("Karel"));
             user.setEmail("Karel@test.com");
-            user.setRoles(Arrays.asList(roleUser));
+            user.setRole(Const.ROLE_USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Karel a laryngektomie byla pro mě neznámým pojmem, než jsem se s ní před pěti lety \\\"potkal\\\". Operací a léčbou si prošla moje manželka a já najednou viděl celou problematiku zblízka - statečnost své ženy, um a obětavost zdravotníků. Viděl jsem také nedostatky, např. v nízké informovanosti pacientů i veřejnosti. Uvítal jsem vznik spolku, snažím se pomáhat a jako bývalý novinář i přes média. Těší mě vydávání Zpravodaje a věřím, že má naše práce smysl.");
@@ -363,31 +329,5 @@ public class InitialDataLoader implements ApplicationRunner {
 
 
         alreadySetup = true;
-    }
-
-
-    @Transactional
-    protected Privilege createPrivilegeIfNotFound(String name) {
-
-        Privilege privilege = privilegeRepository.findByName(name);
-        if (privilege == null) {
-            privilege = new Privilege(name);
-            privilegeRepository.save(privilege);
-        }
-        return privilege;
-    }
-
-    @Transactional
-    protected Role createRoleIfNotFound(
-            String name, String nameCZ, Collection<Privilege> privileges) {
-
-        Role role = roleRepository.findByName(name);
-        if (role == null) {
-            role = new Role(name);
-            role.setNameCZ(nameCZ);
-            role.setPrivileges(privileges);
-            roleRepository.save(role);
-        }
-        return role;
     }
 }

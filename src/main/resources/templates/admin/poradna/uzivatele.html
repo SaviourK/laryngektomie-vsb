@@ -56,7 +56,7 @@
                     <td th:text="*{username}"> Uživatelské jméno</td>
                     <td th:text="*{email}"> Email</td>
                     <td th:text="*{createDateTimeString}"> Datum registrace</td>
-                    <td th:text="*{rolesString()}"> Role</td>
+                    <td th:text="*{role}"> Role</td>
                     <td>
                         <a th:href="@{'/admin/poradna/uzivatele/upravit/' + *{id}}">Upravit</a>
                         <br/>

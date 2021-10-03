@@ -10,7 +10,6 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.ArrayList;
 import java.util.Collection;
 
 @Entity
@@ -53,14 +52,7 @@ public class User extends EntityBase {
     @Size(max = 1500, message = "Maximální delka je 1500 znaků")
     private String aboutMe;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "users_roles",
-            joinColumns = @JoinColumn(
-                    name = "users_id", referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(
-                    name = "role_id", referencedColumnName = "id"))
-    private Collection<Role> roles;
+    private String role;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
@@ -168,12 +160,12 @@ public class User extends EntityBase {
         this.aboutMe = aboutMe;
     }
 
-    public Collection<Role> getRoles() {
-        return roles;
+    public String getRole() {
+        return role;
     }
 
-    public void setRoles(Collection<Role> roles) {
-        this.roles = roles;
+    public void setRole(String role) {
+        this.role = role;
     }
 
     public Image getImage() {
@@ -200,38 +192,8 @@ public class User extends EntityBase {
         this.posts = posts;
     }
 
-    //Methods
     @Override
     public String toString() {
         return username;
-    }
-
-    public String rolesString() {
-        StringBuilder rolesString = new StringBuilder();
-        for (Role r : roles) {
-            rolesString.append(r.getNameCZ());
-        }
-        return rolesString.toString().trim();
-    }
-
-    public long getFirstRoleId() {
-        return roles.iterator().next().getId();
-
-    }
-
-    public String getRole() {
-        for (Role r : roles) {
-            return r.getNameCZ();
-        }
-        return "Anonym";
-    }
-
-
-    public void addRole(Role role) {
-        if (roles == null) {
-            roles = new ArrayList<>();
-        }
-        roles.add(role);
-
     }
 }

@@ -1,10 +1,10 @@
 package cz.laryngektomie.controller.admin;
 
+import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.news.Image;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.news.ImageService;
-import cz.laryngektomie.service.security.RoleService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -16,6 +16,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -23,12 +25,12 @@ import java.util.Optional;
 public class UserController {
 
     private final UserService userService;
-    private final RoleService roleService;
     private final ImageService imageService;
 
-    public UserController(UserService userService, RoleService roleService, ImageService imageService) {
+    private static final List<String> ROLES = Arrays.asList(Const.ROLE_ADMIN, Const.ROLE_USER, Const.ROLE_SPECIALISTS);
+
+    public UserController(UserService userService, ImageService imageService) {
         this.userService = userService;
-        this.roleService = roleService;
         this.imageService = imageService;
     }
 
@@ -67,7 +69,7 @@ public class UserController {
     @GetMapping("/vytvorit")
     public String vytvoritGet(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("roles", roleService.findAll());
+        model.addAttribute("role", ROLES);
         return "admin/poradna/uzivatele/vytvorit";
     }
 
@@ -78,7 +80,7 @@ public class UserController {
         if (result.hasErrors()) {
             mv.setViewName("admin/poradna/uzivatele/vytvorit");
             mv.addObject("user", user);
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("roles", ROLES);
             mv.addObject("messageError", "Špatně vyplněná pole.");
             return mv;
         }
@@ -86,7 +88,7 @@ public class UserController {
         if (userService.findByUsername(user.getUsername()) != null) {
             mv.setViewName("/admin/poradna/uzivatele/vytvorit");
             mv.addObject("user", user);
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("roles", ROLES);
             mv.addObject("messageError", "Uživatelské jméno obsazeno");
             return mv;
         }
@@ -94,14 +96,14 @@ public class UserController {
         if (userService.findByEmail(user.getEmail()).isPresent()) {
             mv.setViewName("/admin/poradna/uzivatele/vytvorit");
             mv.addObject("user", user);
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("roles", ROLES);
             mv.addObject("messageError", "Email obsazen");
             return mv;
         }
 
-        if (user.getRoles().size() == 0) {
+        if (user.getRole().isEmpty()) {
             mv.addObject("user", user);
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("roles", ROLES);
             mv.setViewName("admin/poradna/uzivatele/vytvorit");
             mv.addObject("messageError", "Prosím vyberte roli pro uživatele");
             return mv;
@@ -133,8 +135,8 @@ public class UserController {
         }
 
         mv.addObject("user", userOptional.get());
-        mv.addObject("userRoleId", userOptional.get().getFirstRoleId());
-        mv.addObject("roles", roleService.findAll());
+        mv.addObject("userRole", userOptional.get().getRole());
+        mv.addObject("roles", ROLES);
         return mv;
     }
 
@@ -145,16 +147,16 @@ public class UserController {
         if (result.hasErrors()) {
             mv.setViewName("admin/poradna/uzivatele/upravit");
             mv.addObject("user", user);
-            mv.addObject("userRoleId", user.getFirstRoleId());
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("userRole", user.getRole());
+            mv.addObject("roles", ROLES);
             mv.addObject("messageError", "Špatně vyplněná pole.");
             return mv;
         }
 
-        if (user.getRoles().size() == 0) {
+        if (user.getRole().isEmpty()) {
             mv.setViewName("admin/poradna/uzivatele/upravit");
             mv.addObject("user", user);
-            mv.addObject("roles", roleService.findAll());
+            mv.addObject("roles", ROLES);
             mv.addObject("messageError", "Vyberte roli");
             return mv;
         }
