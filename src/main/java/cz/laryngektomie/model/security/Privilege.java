@@ -24,9 +24,7 @@ public class Privilege extends EntityBase {
     public Privilege(String name) {
         super();
         this.name = name;
-
     }
-
 
     public String getName() {
         return name;
@@ -43,6 +41,4 @@ public class Privilege extends EntityBase {
     public void setRoles(Collection<Role> roles) {
         this.roles = roles;
     }
-
-
 }

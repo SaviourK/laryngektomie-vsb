@@ -16,5 +16,4 @@ public class LaryngektomieApplication {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
 }

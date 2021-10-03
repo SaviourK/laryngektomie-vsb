@@ -3,7 +3,6 @@ package cz.laryngektomie.controller.home;
 import cz.laryngektomie.model.news.News;
 import cz.laryngektomie.service.news.NewsService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,7 +12,7 @@ import java.util.Optional;
 @RequestMapping("nase-cinnost")
 public class NaseCinnostController {
 
-    private NewsService newsService;
+    private final NewsService newsService;
 
     public NaseCinnostController(NewsService newsService) {
         this.newsService = newsService;
@@ -21,10 +20,8 @@ public class NaseCinnostController {
 
     @RequestMapping("/novinky")
     public ModelAndView aktuality() {
-        ModelAndView mv = new ModelAndView("redirect:/novinky");
-        return mv;
+        return new ModelAndView("redirect:/novinky");
     }
-
 
     @RequestMapping("/zpravodaj")
     public ModelAndView zpravodaj() {
@@ -41,7 +38,6 @@ public class NaseCinnostController {
         mv.addObject("title", "Zpravodaj | Naše činnost");
         mv.addObject("news", newsOptional.get());
         return mv;
-
     }
 
     @RequestMapping("/pomucky")
@@ -51,5 +47,4 @@ public class NaseCinnostController {
         mv.addObject("title", "Pomůcky | Naše činnost");
         return mv;
     }
-
 }

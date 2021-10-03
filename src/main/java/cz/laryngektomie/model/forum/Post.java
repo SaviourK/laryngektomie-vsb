@@ -9,18 +9,15 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Entity
 public class Post extends EntityBase {
 
-
     @NotBlank
     @Size(min = 5, max = 1000, message = "Příspěvek musí mít délku 5-1000 znaků.")
     @Column(length = 1500)
     private String text;
-
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "users_id", nullable = false)
@@ -28,10 +25,8 @@ public class Post extends EntityBase {
     @JsonIgnore
     private User user;
 
-
     @ManyToOne(fetch = FetchType.LAZY)
     private Topic topic;
-
 
     public Post() {
         super();
@@ -43,7 +38,6 @@ public class Post extends EntityBase {
         this.user = user;
         this.topic = topic;
     }
-
 
     public String getText() {
         return text;
@@ -68,7 +62,6 @@ public class Post extends EntityBase {
     public void setTopic(Topic topic) {
         this.topic = topic;
     }
-
 
     public String getDescription() {
         return ForumHelper.getDescription(this.text, 25);

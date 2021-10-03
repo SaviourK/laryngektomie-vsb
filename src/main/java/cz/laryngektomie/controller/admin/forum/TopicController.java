@@ -3,7 +3,6 @@ package cz.laryngektomie.controller.admin.forum;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.service.forum.CategoryService;
-import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
@@ -21,14 +20,12 @@ import java.util.Optional;
 @RequestMapping("/admin/poradna/temata")
 public class TopicController {
 
-    private TopicService topicService;
-    private PostService postService;
-    private CategoryService categoryService;
-    private UserService userService;
+    private final TopicService topicService;
+    private final CategoryService categoryService;
+    private final UserService userService;
 
-    public TopicController(TopicService topicService, PostService postService, CategoryService categoryService, UserService userService) {
+    public TopicController(TopicService topicService, CategoryService categoryService, UserService userService) {
         this.topicService = topicService;
-        this.postService = postService;
         this.categoryService = categoryService;
         this.userService = userService;
     }
@@ -42,7 +39,6 @@ public class TopicController {
         String queryString = query.orElse("");
 
         Page<Topic> topics = topicService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
-
 
         mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(topics.getTotalPages(), pageNumber));
         mv.addObject("currentPage", pageNumber);
@@ -62,7 +58,6 @@ public class TopicController {
     public ModelAndView vytvoritPost(@ModelAttribute("topic") @Valid Topic topic, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
-
         if (topic.getCategory() == null) {
             mv.setViewName("admin/poradna/temata/vytvorit");
             mv.addObject("categories", categoryService.findAll());
@@ -78,7 +73,6 @@ public class TopicController {
             mv.addObject("messageError", "Špatně vyplněná pole.");
             return mv;
         }
-
 
         topic.setUser(userService.findByUsername(principal.getName()));
 
@@ -137,7 +131,5 @@ public class TopicController {
         mv.addObject("messageSuccess", "Téma " + topicOptional.get().getName() + " bylo smazáno.");
         mv.setViewName("redirect:/admin/poradna/temata");
         return mv;
-
     }
-
 }

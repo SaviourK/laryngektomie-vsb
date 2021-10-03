@@ -9,7 +9,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("/o-nas")
 public class ONasController {
 
-    private UserService userService;
+    private final UserService userService;
 
     public ONasController(UserService userService) {
         this.userService = userService;
@@ -21,7 +21,6 @@ public class ONasController {
         mv.addObject("action", "o-nas");
         mv.addObject("title", "Kdo jsme | O nás");
         mv.addObject("users", userService.findByAboutUsTrue());
-
         return mv;
     }
 
@@ -40,5 +39,4 @@ public class ONasController {
         mv.addObject("title", "Stanovy | O nás");
         return mv;
     }
-
 }

@@ -11,14 +11,14 @@ import java.util.Optional;
 @Service
 public class CategoryService extends ServiceBase<Category> {
 
-    private CategoryRepository categoryRepository;
+    private final CategoryRepository categoryRepository;
 
     public CategoryService(CategoryRepository categoryRepository) {
         super(categoryRepository);
         this.categoryRepository = categoryRepository;
     }
 
-    public Optional<Category> findByName(String name){
+    public Optional<Category> findByName(String name) {
         return categoryRepository.findByName(name);
     }
 
@@ -30,6 +30,5 @@ public class CategoryService extends ServiceBase<Category> {
     public void saveOrUpdate(Category category) {
         category.setUrl(ForumHelper.makeFriendlyUrl(category.getName()));
         categoryRepository.save(category);
-
     }
 }

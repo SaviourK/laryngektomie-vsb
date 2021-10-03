@@ -16,12 +16,11 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter implements ApplicationContextAware {
 
-    private UserPrincipalDetailsService userPrincipalDetailsService;
+    private final UserPrincipalDetailsService userPrincipalDetailsService;
 
     public SecurityConfiguration(UserPrincipalDetailsService userPrincipalDetailsService) {
         this.userPrincipalDetailsService = userPrincipalDetailsService;
     }
-
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) {
@@ -36,9 +35,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .antMatchers("/").permitAll()
                 .antMatchers("/poradna/**").authenticated()
                 .antMatchers("/nastaveni/**").authenticated()
+                .antMatchers("/admin/**").hasRole("ADMIN")
                 .antMatchers("/admin/poradna/prispevky/**").hasRole("SPECIALIST")
                 .antMatchers("/admin/poradna/temata/**").hasRole("SPECIALIST")
-                .antMatchers("/admin/**").hasRole("ADMIN")
                 .anyRequest().permitAll()
                 .and()
                 .formLogin()
@@ -51,10 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
                 .deleteCookies("JSESSIONID").logoutSuccessUrl("/prihlaseni")
                 .and()
                 .rememberMe().tokenValiditySeconds(2592000);
-
-
     }
-
 
     @Bean
     DaoAuthenticationProvider authenticationProvider() {

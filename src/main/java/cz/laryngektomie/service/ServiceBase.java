@@ -11,17 +11,15 @@ import java.util.Optional;
 
 public class ServiceBase<T> implements IServiceBase<T> {
 
-    private IRepositoryBase<T> repository;
+    private final IRepositoryBase<T> repository;
 
     public ServiceBase(IRepositoryBase<T> repository) {
         this.repository = repository;
     }
 
-
     @Override
     public Optional<T> findById(long id) {
         return repository.findById(id);
-
     }
 
     @Override
@@ -32,26 +30,18 @@ public class ServiceBase<T> implements IServiceBase<T> {
     @Override
     public Page<T> findAll(int page, int itemsOnPage, String sortBy, boolean asc) {
         Pageable paging;
-        if(asc) {
+        if (asc) {
             paging = PageRequest.of(page - 1, itemsOnPage, Sort.by(sortBy).ascending());
-        }else {
+        } else {
             paging = PageRequest.of(page - 1, itemsOnPage, Sort.by(sortBy).descending());
         }
-
-
         return repository.findAll(paging);
-
-
     }
-
-
-
 
     @Override
     public void saveOrUpdate(T t) {
         repository.save(t);
     }
-
 
 
     @Override

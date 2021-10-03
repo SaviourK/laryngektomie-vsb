@@ -1,15 +1,12 @@
 package cz.laryngektomie.model;
 
-import cz.laryngektomie.helper.ForumHelper;
 import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -28,10 +25,8 @@ public abstract class EntityBase implements Serializable {
     @UpdateTimestamp
     private LocalDateTime updateDateTime;
 
-
     protected EntityBase() {
     }
-
 
     public Long getId() {
         return id;
@@ -70,12 +65,12 @@ public abstract class EntityBase implements Serializable {
         Duration duration = Duration.between(createDateTime, LocalDateTime.now());
         if (duration.toHours() < 24) {
             if (duration.toMinutes() < 60) {
-                if(duration.toMinutes() == 1) {
+                if (duration.toMinutes() == 1) {
                     return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "m", true) + " minutou";
                 }
                 return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "m", true) + " minutami";
             } else {
-                if(duration.toHours() == 1){
+                if (duration.toHours() == 1) {
                     return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "H", true) + " hodinou";
                 }
                 return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "H", true) + " hodinami";
@@ -87,6 +82,4 @@ public abstract class EntityBase implements Serializable {
             return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "d", true) + " dny";
         }
     }
-
-
 }

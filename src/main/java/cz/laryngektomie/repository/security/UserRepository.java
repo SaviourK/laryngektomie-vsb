@@ -4,7 +4,6 @@ import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.repository.IRepositoryBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -12,6 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends IRepositoryBase<User> {
+
     User findByUsername(String username);
 
     Optional<User> findByEmail(String email);
@@ -26,5 +26,4 @@ public interface UserRepository extends IRepositoryBase<User> {
 
     @Override
     void delete(User user);
-
 }

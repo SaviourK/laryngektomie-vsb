@@ -5,8 +5,6 @@ import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.news.ImageService;
 import cz.laryngektomie.service.security.RoleService;
 import cz.laryngektomie.service.security.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,15 +25,13 @@ import java.util.*;
 @Controller
 public class SecurityController {
 
-    private UserService userService;
-    private RoleService roleService;
-    private ImageService imageService;
-    //private EmailService emailService;
+    private final UserService userService;
+    private final RoleService roleService;
+    private final ImageService imageService;
+    //private final EmailService emailService;
 
-
-    @Autowired
-    private ApplicationEventPublisher eventPublisher;
-
+    /*@Autowired
+    private ApplicationEventPublisher eventPublisher;*/
 
     public SecurityController(UserService userService, RoleService roleService, ImageService imageService) {
         this.userService = userService;
@@ -73,10 +69,7 @@ public class SecurityController {
         mv.addObject("action", "prihlaseni");
         mv.addObject("title", "Přihlášení");
         mv.addObject("user", new User());
-
-
         return mv;
-
     }
 
 
@@ -88,7 +81,6 @@ public class SecurityController {
             mv.addObject("messageError", "Špatně vyplněná pole.");
             mv.addObject(user);
             return mv;
-
         }
 
         if (userService.findByUsername(user.getUsername()) != null) {
@@ -107,6 +99,7 @@ public class SecurityController {
             return mv;
 
         }
+
         //TODO change to resize method
         if (file != null) {
             Image image = imageService.saveImage(file);
@@ -117,7 +110,7 @@ public class SecurityController {
 
         user.setPassword(userService.encode(user.getPassword()));
         user.setMatchingPassword(userService.encode(user.getMatchingPassword()));
-        user.setRoles(Arrays.asList(roleService.findByName("ROLE_USER")));
+        user.setRoles(Collections.singleton(roleService.findByName("ROLE_USER")));
         user.setAboutUs(false);
         userService.saveOrUpdate(user);
         mv.addObject("messageSuccess", "Uživatel " + user.getUsername() + " byl vytvořen.");
@@ -167,10 +160,8 @@ public class SecurityController {
 
         modelAndView.setViewName("security/prihlaseni");
         return modelAndView;
-
     }
 
-    // Display form to reset password
     @GetMapping("/obnovit-heslo")
     public ModelAndView obnovitHesloGet(ModelAndView modelAndView, @RequestParam("token") String token) {
 
@@ -188,7 +179,6 @@ public class SecurityController {
         return modelAndView;
     }
 
-    // Process reset password form
     @PostMapping("/obnovit-heslo")
     public ModelAndView obnovitHesloPost(ModelAndView modelAndView, @RequestParam Map<String, String> requestParams, RedirectAttributes redir) {
 

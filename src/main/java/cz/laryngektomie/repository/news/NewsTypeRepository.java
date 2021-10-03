@@ -9,6 +9,5 @@ import java.util.Optional;
 @Repository
 public interface NewsTypeRepository extends IRepositoryBase<NewsType> {
 
-
     Optional<NewsType> findByName(String name);
 }

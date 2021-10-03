@@ -29,10 +29,10 @@ import java.util.stream.IntStream;
 @RequestMapping("/poradna")
 public class ForumController {
 
-    private CategoryService categoryService;
-    private PostService postService;
-    private TopicService topicService;
-    private UserService userService;
+    private final CategoryService categoryService;
+    private final PostService postService;
+    private final TopicService topicService;
+    private final UserService userService;
 
     public ForumController(CategoryService categoryService, PostService postService, TopicService topicService, UserService userService) {
         this.categoryService = categoryService;
@@ -41,7 +41,6 @@ public class ForumController {
         this.userService = userService;
     }
 
-    //zobrazení poradny
     @RequestMapping()
     public ModelAndView poradna(@RequestParam(value = "page", defaultValue = "1") int page) {
         ModelAndView mv = new ModelAndView("poradna");
@@ -59,7 +58,6 @@ public class ForumController {
         return mv;
     }
 
-    //Zobrazeni témat v kategorii
     @RequestMapping({"/{categoryUrl}"})
     public ModelAndView temata(@PathVariable("categoryUrl") String categoryUrl, @RequestParam("page") Optional<Integer> page) {
         int pageNumber = page.orElse(1);
@@ -93,7 +91,6 @@ public class ForumController {
         return mv;
     }
 
-    //zobrazení konkretního tématu s {id}
     @GetMapping("/tema/{id}")
     @ResponseBody
     public ModelAndView detailTema(@PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1") int page) {
@@ -113,7 +110,6 @@ public class ForumController {
         Page<Post> posts = postService.findByTopicId(optionalTopic.get().getId(), pagged);
 
 
-
         mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
         mv.addObject("currentPage", pageNumber);
 
@@ -124,7 +120,6 @@ public class ForumController {
         return mv;
     }
 
-    //Přidání tématu uživatelem s ROLE_USER
     @GetMapping("/tema-nove/{categoryId}")
     public String vytvoritTemaGet(@PathVariable("categoryId") Long categoryId, Model model) {
         Topic topic = new Topic();
@@ -175,11 +170,11 @@ public class ForumController {
         return "poradna/prispevek-novy";
     }
 
-    //Přidání nového přispevku do tématu
     @PostMapping("/prispevek-novy/{topicId}")
     public ModelAndView vytvoritPrispevekPost(@Valid @ModelAttribute("post") Post post, BindingResult result, @PathVariable("topicId") Long topicId, Principal principal) {
         ModelAndView mv = new ModelAndView();
         Optional<Topic> topicOptional = topicService.findById(topicId);
+
         if (!topicOptional.isPresent()) {
             mv.setViewName("redirect:/poradna");
             mv.addObject("messageError", "Téma nenalezeno");
@@ -187,10 +182,10 @@ public class ForumController {
         } else {
             post.setTopic(topicOptional.get());
         }
+
         if (result.hasErrors()) {
             mv.addObject("messageError", "Špatně vyplněná pole.");
-            mv.setViewName("redirect:/poradna/tema/"+topicId);
-           
+            mv.setViewName("redirect:/poradna/tema/" + topicId);
             return mv;
         }
 
@@ -204,9 +199,7 @@ public class ForumController {
 
         mv.addObject("messageSuccess", "Příspěvek přidán");
 
-        mv.setViewName("redirect:/poradna/tema/"+topicId+"?page="+postService.getLastPageOfTopic(topicOptional.get().getId()));
+        mv.setViewName("redirect:/poradna/tema/" + topicId + "?page=" + postService.getLastPageOfTopic(topicOptional.get().getId()));
         return mv;
     }
-
-
 }

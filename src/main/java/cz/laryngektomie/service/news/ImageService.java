@@ -2,7 +2,6 @@ package cz.laryngektomie.service.news;
 
 import cz.laryngektomie.model.news.Image;
 import cz.laryngektomie.repository.news.ImageRepository;
-import cz.laryngektomie.repository.news.NewsRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -10,8 +9,9 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.*;
-import java.nio.file.Files;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -28,10 +28,9 @@ public class ImageService extends ServiceBase<Image> {
 
     //Convert and resize MultipartFile to image
     public Image saveAndResizeImage(MultipartFile file) {
-        if(Objects.equals(file.getContentType(), "image/jpeg") || file.getContentType().equals("image/png")) {
+        if (Objects.equals(file.getContentType(), "image/jpeg") || file.getContentType().equals("image/png")) {
 
             try {
-
                 BufferedImage originalImage =
                         ImageIO.read(new ByteArrayInputStream(file.getBytes()));
                 BufferedImage resizedImage = resize(originalImage, 200, 200);
@@ -56,18 +55,15 @@ public class ImageService extends ServiceBase<Image> {
 
     public Image saveImage(MultipartFile file) throws IOException {
         Image image = null;
-        if(file != null){
+        if (file != null) {
             if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
                 image = new Image(file.getName(), file.getContentType(), file.getBytes());
 
                 imageRepository.save(image);
             }
         }
-
-
         return image;
     }
-
 
 
     public List<Image> saveImages(List<MultipartFile> files) throws IOException {
@@ -75,7 +71,7 @@ public class ImageService extends ServiceBase<Image> {
 
         for (MultipartFile file : files) {
             Image image = null;
-            if(file != null){
+            if (file != null) {
                 if (file.getContentType().equals("image/jpeg") || file.getContentType().equals("image/png")) {
                     image = new Image(file.getName(), file.getContentType(), file.getBytes());
 
@@ -84,7 +80,6 @@ public class ImageService extends ServiceBase<Image> {
             }
             images.add(image);
         }
-
 
 
         return images;
@@ -100,5 +95,4 @@ public class ImageService extends ServiceBase<Image> {
 
         return dimg;
     }
-
 }

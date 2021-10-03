@@ -1,6 +1,5 @@
 package cz.laryngektomie.service;
 
-import cz.laryngektomie.repository.IRepositoryBase;
 import org.springframework.data.domain.Page;
 
 import java.util.List;

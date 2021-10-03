@@ -21,7 +21,7 @@ public class ForumHelper {
             = Pattern.compile("[\\p{InCombiningDiacriticalMarks}\\p{IsLm}\\p{IsSk}]+");
 
 
-    public static List<Integer> getListOfPageNumbers(int totalPages, int currentPage){
+    public static List<Integer> getListOfPageNumbers(int totalPages, int currentPage) {
         List<Integer> pageNumbers;
 
 
@@ -30,10 +30,10 @@ public class ForumHelper {
 
         if (totalPages <= 6) {
             start = 1;
-            end  = totalPages;
+            end = totalPages;
         } else {
             start = Math.max(1, (currentPage - 2));
-            end   = Math.min(totalPages, (currentPage + 2));
+            end = Math.min(totalPages, (currentPage + 2));
 
             if (start == 1) {
                 end = 6;
@@ -44,17 +44,15 @@ public class ForumHelper {
 
         pageNumbers = IntStream.rangeClosed(start, end).boxed().collect(Collectors.toList());
 
-        if(start != 1) {
+        if (start != 1) {
             pageNumbers.add(0, 1);
         }
 
-        if(end != totalPages){
+        if (end != totalPages) {
             pageNumbers.add(totalPages);
         }
 
         return pageNumbers;
-
-
     }
 
     public static String getCreatedTimeString(LocalDateTime time) {
@@ -62,9 +60,8 @@ public class ForumHelper {
     }
 
 
-
     public static String getDescription(String text, int length) {
-        String description = text.replaceAll("\\<[^>]*>","");
+        String description = text.replaceAll("\\<[^>]*>", "");
         if (description.length() > length) {
             description = description.substring(0, length).concat("...");
         }
@@ -102,14 +99,13 @@ public class ForumHelper {
     }
 
 
-
-    public static String makeFriendlyUrl(String name){
+    public static String makeFriendlyUrl(String name) {
         String friendlyUrl = "";
         String titleInUrl = StringUtils.stripAccents(name);
 
         titleInUrl = titleInUrl.replaceAll("[\\-| |\\.]+", "-").toLowerCase();
 
-        if(titleInUrl.length() > TITLE_IN_URL_MAX_LENGTH){
+        if (titleInUrl.length() > TITLE_IN_URL_MAX_LENGTH) {
             friendlyUrl = (titleInUrl.substring(0, TITLE_IN_URL_MAX_LENGTH));
         } else {
             friendlyUrl = titleInUrl;
@@ -124,7 +120,4 @@ public class ForumHelper {
         str = DIACRITICS_AND_FRIENDS.matcher(str).replaceAll("");
         return str;
     }
-
-
-
 }

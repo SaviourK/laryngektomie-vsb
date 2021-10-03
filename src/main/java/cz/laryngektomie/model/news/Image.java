@@ -1,19 +1,15 @@
 package cz.laryngektomie.model.news;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.laryngektomie.model.EntityBase;
-import cz.laryngektomie.model.security.User;
 import org.apache.tomcat.util.codec.binary.Base64;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.annotations.Type;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
 
 @Entity
 public class Image extends EntityBase {
-
 
     @NotBlank
     private String fileName;
@@ -28,7 +24,7 @@ public class Image extends EntityBase {
     public Image() {
     }
 
-    public Image(String fileName, String fileType, byte[] data){
+    public Image(String fileName, String fileType, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
@@ -61,5 +57,4 @@ public class Image extends EntityBase {
     public String getEncodeBase64() {
         return Base64.encodeBase64String(data);
     }
-
 }

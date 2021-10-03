@@ -8,14 +8,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class RoleService extends ServiceBase<Role> {
 
-    private RoleRepository roleRepository;
+    private final RoleRepository roleRepository;
 
     public RoleService(RoleRepository roleRepository) {
         super(roleRepository);
         this.roleRepository = roleRepository;
     }
 
-    public Role findByName(String name){
+    public Role findByName(String name) {
         return roleRepository.findByName(name);
     }
 }

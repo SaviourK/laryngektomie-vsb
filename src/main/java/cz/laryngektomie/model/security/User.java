@@ -2,9 +2,8 @@ package cz.laryngektomie.model.security;
 
 import cz.laryngektomie.model.EntityBase;
 import cz.laryngektomie.model.forum.Post;
-import cz.laryngektomie.model.news.Image;
 import cz.laryngektomie.model.forum.Topic;
-
+import cz.laryngektomie.model.news.Image;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -13,7 +12,6 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
-
 
 @Entity
 @Table(name = "users")
@@ -55,7 +53,6 @@ public class User extends EntityBase {
     @Size(max = 1500, message = "Maximální delka je 1500 znaků")
     private String aboutMe;
 
-
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "users_roles",
@@ -65,11 +62,9 @@ public class User extends EntityBase {
                     name = "role_id", referencedColumnName = "id"))
     private Collection<Role> roles;
 
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image image;
-
 
     @OneToMany
     @JoinColumn(name = "users_id")
@@ -79,14 +74,11 @@ public class User extends EntityBase {
     @JoinColumn(name = "users_id")
     private Collection<Post> posts;
 
-
     public User() {
         super();
         this.enabled = true;
         this.tokenExpired = false;
-
     }
-
 
     public String getUsername() {
         return username;
@@ -227,7 +219,7 @@ public class User extends EntityBase {
 
     }
 
-    public String getRole(){
+    public String getRole() {
         for (Role r : roles) {
             return r.getNameCZ();
         }

@@ -20,9 +20,9 @@ import java.util.Optional;
 @RequestMapping("/admin/poradna/prispevky")
 public class PostController {
 
-    private PostService postService;
-    private TopicService topicService;
-    private UserService userService;
+    private final PostService postService;
+    private final TopicService topicService;
+    private final UserService userService;
 
     public PostController(PostService postService, TopicService topicService, UserService userService) {
         this.postService = postService;
@@ -31,7 +31,7 @@ public class PostController {
     }
 
     @GetMapping()
-    public ModelAndView prispevky(@RequestParam(value = "page", defaultValue = "1") int page,  @RequestParam Optional<String> query) {
+    public ModelAndView prispevky(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView("admin/poradna/prispevky");
 
         int pageNumber = page < 0 ? 1 : page;
@@ -46,8 +46,6 @@ public class PostController {
         return mv;
     }
 
-
-
     @GetMapping("/vytvorit")
     public String vytvoritGet(Model model) {
         model.addAttribute("post", new Post());
@@ -55,7 +53,6 @@ public class PostController {
         return "admin/poradna/prispevky/vytvorit";
 
     }
-
 
     @PostMapping("/vytvorit")
     public ModelAndView vytvoritPost(@ModelAttribute("post") @Valid Post post, BindingResult result, Principal principal) {
@@ -68,8 +65,6 @@ public class PostController {
             return mv;
         }
 
-
-
         if (post.getTopic() == null) {
             mv.addObject("topics", topicService.findAll());
             mv.addObject("post", post);
@@ -77,7 +72,6 @@ public class PostController {
             mv.addObject("messageError", "Prosím vyberte téma pro přispěvek");
             return mv;
         }
-
 
         post.setUser(userService.findByUsername(principal.getName()));
 
@@ -91,7 +85,6 @@ public class PostController {
     public ModelAndView upravitGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView("admin/poradna/prispevky/upravit");
         Optional<Post> postOptional = postService.findById(id);
-
 
         if (!postOptional.isPresent()) {
             mv.addObject("messageError", "Požadovaný příspěvek neexistuje.");
@@ -125,7 +118,6 @@ public class PostController {
     }
 
 
-
     @GetMapping("/smazat/{id}")
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
@@ -141,8 +133,6 @@ public class PostController {
         mv.addObject("messageSuccess", "Příspěvek byl smazán.");
         mv.setViewName("redirect:/admin/poradna/prispevky");
         return mv;
-
     }
-
 }
 

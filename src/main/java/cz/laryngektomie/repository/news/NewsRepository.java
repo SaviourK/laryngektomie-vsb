@@ -1,8 +1,6 @@
 package cz.laryngektomie.repository.news;
 
-import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.news.News;
-import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.repository.IRepositoryBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

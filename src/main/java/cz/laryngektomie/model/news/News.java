@@ -3,28 +3,19 @@ package cz.laryngektomie.model.news;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.EntityBase;
-import cz.laryngektomie.model.forum.Category;
-import cz.laryngektomie.model.forum.Post;
-import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.security.Role;
 import cz.laryngektomie.model.security.User;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
-import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-import java.util.List;
-
 
 @Entity
 public class News extends EntityBase {
-
 
     @NotBlank
     @Size(min = 3, max = 100, message = "Délka mezi 3 - 100 znaky")
@@ -34,7 +25,7 @@ public class News extends EntityBase {
     private String url;
 
     @NotBlank
-    @Column(columnDefinition = "text")
+    @Column(columnDefinition = "varchar(MAX)")
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -44,7 +35,7 @@ public class News extends EntityBase {
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @NotFound(action= NotFoundAction.IGNORE)
+    @NotFound(action = NotFoundAction.IGNORE)
     private Collection<Image> images;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -53,12 +44,9 @@ public class News extends EntityBase {
     @JsonIgnore
     private NewsType newsType;
 
-
-
     public News() {
         super();
     }
-
 
     public String getName() {
         return name;
@@ -110,7 +98,5 @@ public class News extends EntityBase {
 
     public String getDescriptionText() {
         return ForumHelper.getDescription(this.text, 200);
-
-
     }
 }

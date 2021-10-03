@@ -16,14 +16,13 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
 public class UserPrincipalDetailsService implements UserDetailsService {
 
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
     public UserPrincipalDetailsService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
@@ -46,9 +45,7 @@ public class UserPrincipalDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("Uživatel se zadaným uživatelským jménem nebyl nalezen.");
 
         }
-
         return new UserPrincipal(user);
-
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(
@@ -77,5 +74,4 @@ public class UserPrincipalDetailsService implements UserDetailsService {
         }
         return authorities;
     }
-
 }

@@ -9,8 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends IRepositoryBase<Category> {
+
     Optional<Category> findByName(String name);
 
     Optional<Category> findByUrl(String url);
-
 }

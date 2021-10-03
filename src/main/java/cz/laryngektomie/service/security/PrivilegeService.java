@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 @Service
 public class PrivilegeService extends ServiceBase<Privilege> {
 
-    private PrivilegeRepository privilegeRepository;
+    private final PrivilegeRepository privilegeRepository;
 
-    public PrivilegeService(PrivilegeRepository privilegeRepository){
+    public PrivilegeService(PrivilegeRepository privilegeRepository) {
         super(privilegeRepository);
         this.privilegeRepository = privilegeRepository;
     }

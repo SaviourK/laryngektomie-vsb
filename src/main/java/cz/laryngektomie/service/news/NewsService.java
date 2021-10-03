@@ -1,9 +1,7 @@
 package cz.laryngektomie.service.news;
 
 import cz.laryngektomie.helper.ForumHelper;
-import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.news.News;
-import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.repository.news.NewsRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.data.domain.Page;
@@ -18,7 +16,7 @@ import java.util.Optional;
 @Service
 public class NewsService extends ServiceBase<News> {
 
-    private NewsRepository newsRepository;
+    private final NewsRepository newsRepository;
 
     public NewsService(NewsRepository newsRepository) {
         super(newsRepository);
@@ -29,10 +27,9 @@ public class NewsService extends ServiceBase<News> {
     public void saveOrUpdate(News news) {
         news.setUrl(ForumHelper.makeFriendlyUrl(news.getName()));
         newsRepository.save(news);
-
     }
 
-    public List<News> findFirst3ByOrderByCreateDateTimeDesc(){
+    public List<News> findFirst3ByOrderByCreateDateTimeDesc() {
         return newsRepository.findFirst3ByOrderByCreateDateTimeDesc();
     }
 
@@ -40,19 +37,14 @@ public class NewsService extends ServiceBase<News> {
         return newsRepository.findByUrl(url);
     }
 
-
     public Page<News> findAllSearch(int page, int itemsOnPage, String sortBy, boolean asc, String query) {
         Pageable paging;
-        if(asc) {
+        if (asc) {
             paging = PageRequest.of(page - 1, itemsOnPage, Sort.by(sortBy).ascending());
-        }else {
+        } else {
             paging = PageRequest.of(page - 1, itemsOnPage, Sort.by(sortBy).descending());
         }
-
-
         return newsRepository.findAllByNameOrTextOrNewsTypeNameContainingIgnoreCase(query, query, query, paging);
-
-
     }
 
     public Optional<News> findLastNewsletter() {

@@ -16,8 +16,8 @@ import java.security.Principal;
 @RequestMapping("nastaveni")
 public class UserSettingsController {
 
-    private UserService userService;
-    private ImageService imageService;
+    private final UserService userService;
+    private final ImageService imageService;
 
     public UserSettingsController(UserService userService, ImageService imageService) {
         this.userService = userService;
@@ -49,8 +49,8 @@ public class UserSettingsController {
 
         User user = userService.findByUsername(principal.getName());
 
-        if(userService.matchPassword(oldPassword, user.getPassword())) {
-            if(password.equals(matchingPassword)){
+        if (userService.matchPassword(oldPassword, user.getPassword())) {
+            if (password.equals(matchingPassword)) {
                 user.setPassword(userService.encode(password));
             } else {
                 mv.addObject("messageError", "Vaše hesla se neshodují");
@@ -62,12 +62,11 @@ public class UserSettingsController {
             mv.setViewName("redirect:/poradna");
             mv.addObject("messageSuccess", "Vaše heslo bylo změněno");
             return mv;
-        }else {
+        } else {
             mv.addObject("messageError", "Špatné staré heslo");
             mv.setViewName("redirect:/nastaveni/zmenit-heslo");
             return mv;
         }
-
     }
 
 
@@ -100,10 +99,9 @@ public class UserSettingsController {
         Image oldImage = user.getImage();
         if (file != null) {
             Image image = imageService.saveImage(file);
-            if(image != null) {
+            if (image != null) {
                 user.setImage(image);
-
-            }else {
+            } else {
                 mv.addObject("messageError", "Nevybrali jste obrázek");
                 mv.setViewName("redirect:/nastaveni/zmenit-fotku");
                 return mv;
@@ -112,7 +110,7 @@ public class UserSettingsController {
 
 
         userService.saveOrUpdate(user);
-        if(oldImage != null) {
+        if (oldImage != null) {
             imageService.delete(oldImage);
         }
         mv.addObject("messageSuccess", "Fotka byla změněna.");

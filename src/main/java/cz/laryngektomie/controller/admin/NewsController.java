@@ -24,10 +24,10 @@ import java.util.Optional;
 @Controller
 public class NewsController {
 
-    private NewsService newsService;
-    private NewsTypeService newsTypeService;
-    private UserService userService;
-    private ImageService imageService;
+    private final NewsService newsService;
+    private final NewsTypeService newsTypeService;
+    private final UserService userService;
+    private final ImageService imageService;
 
     public NewsController(NewsService newsService, NewsTypeService newsTypeService, UserService userService, ImageService imageService) {
         this.newsService = newsService;
@@ -35,7 +35,6 @@ public class NewsController {
         this.userService = userService;
         this.imageService = imageService;
     }
-
 
     @GetMapping({"/admin/novinky", "/novinky"})
     public ModelAndView novinky(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, @RequestParam Optional<String> query) {
@@ -59,7 +58,6 @@ public class NewsController {
         return mv;
     }
 
-
     @GetMapping("/novinky/{url}")
     public ModelAndView detail(@PathVariable("url") String url) {
         ModelAndView mv = new ModelAndView();
@@ -75,7 +73,6 @@ public class NewsController {
         mv.setViewName("admin/novinky/detail");
         return mv;
     }
-
 
     @RequestMapping("/admin/novinky/vytvorit")
     public ModelAndView vytvoritGet() {
@@ -132,7 +129,6 @@ public class NewsController {
             return mv;
         }
 
-
         news.setUser(userService.findByUsername(news.getUser().getUsername()));
 
         newsService.saveOrUpdate(news);
@@ -156,7 +152,5 @@ public class NewsController {
         mv.addObject("messageSuccess", "Novinka " + newsOptional.get().getName() + " byla smazána.");
         mv.setViewName("redirect:/admin/novinky");
         return mv;
-
-
     }
 }

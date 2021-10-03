@@ -9,10 +9,8 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
-
 
 @Entity
 public class Topic extends EntityBase {
@@ -29,19 +27,14 @@ public class Topic extends EntityBase {
     @Column(length = 1500)
     private String text;
 
-
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "users_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
     private User user;
 
-
-
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private Collection<Post> posts;
-
-
 
     public Topic() {
         super();
@@ -54,7 +47,6 @@ public class Topic extends EntityBase {
         this.user = user;
         this.category = category;
     }
-
 
     public String getName() {
         return name;
@@ -71,7 +63,6 @@ public class Topic extends EntityBase {
     public void setText(String text) {
         this.text = text;
     }
-
 
     public User getUser() {
         return user;
@@ -98,9 +89,6 @@ public class Topic extends EntityBase {
     }
 
     public String getDescription() {
-
         return ForumHelper.getDescription(this.text, 25);
     }
-
-
 }

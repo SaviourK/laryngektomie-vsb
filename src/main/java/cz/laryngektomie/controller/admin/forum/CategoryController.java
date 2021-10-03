@@ -20,8 +20,8 @@ import java.util.Optional;
 @RequestMapping("/admin/poradna/kategorie")
 public class CategoryController {
 
-    private CategoryService categoryService;
-    private UserService userService;
+    private final CategoryService categoryService;
+    private final UserService userService;
 
     public CategoryController(CategoryService categoryService, UserService userService) {
         this.categoryService = categoryService;
@@ -61,7 +61,7 @@ public class CategoryController {
             return mv;
         }
 
-        if (categoryService.findByName(category.getName()) != null) {
+        if (categoryService.findByName(category.getName()).isPresent()) {
             mv.setViewName("admin/poradna/kategorie/vytvorit");
             mv.addObject("category", category);
             mv.addObject("messageError", "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
@@ -100,8 +100,7 @@ public class CategoryController {
             return mv;
         }
 
-        //TODO jinak ověřit ostatní kategorie a ne tu kterou upravuju
-        if (categoryService.findByName(category.getName()) != null) {
+        if (categoryService.findByName(category.getName()).isPresent()) {
             mv.setViewName("admin/poradna/kategorie/upravit");
             mv.addObject("category", category);
             mv.addObject("messageError", "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
@@ -131,7 +130,5 @@ public class CategoryController {
         mv.addObject("messageSuccess", "Kategorie " + categoryOptional.get().getName() + " byla smazána.");
         mv.setViewName("redirect:/admin/poradna/kategorie");
         return mv;
-
     }
-
 }

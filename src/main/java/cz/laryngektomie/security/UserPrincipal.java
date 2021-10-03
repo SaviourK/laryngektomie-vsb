@@ -11,12 +11,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class UserPrincipal implements UserDetails {
-    private User user;
+
+    private final User user;
 
     public UserPrincipal(final User user) {
         this.user = user;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -25,9 +25,7 @@ public class UserPrincipal implements UserDetails {
         for (Role r : user.getRoles()) {
             grantedAuthorities.add(new SimpleGrantedAuthority(r.getName()));
         }
-
         return grantedAuthorities;
-
     }
 
     @Override
@@ -53,13 +51,10 @@ public class UserPrincipal implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-
     }
 
     @Override
     public boolean isEnabled() {
         return user.isEnabled();
     }
-
-
 }

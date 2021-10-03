@@ -12,5 +12,4 @@ public interface ImageRepository extends IRepositoryBase<Image> {
     List<Image> findFirst3ByOrderByCreateDateTimeDesc();
 
     Page<Image> findAllBy(Pageable pageable);
-
 }

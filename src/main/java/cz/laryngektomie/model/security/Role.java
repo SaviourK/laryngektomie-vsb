@@ -9,7 +9,6 @@ import javax.persistence.ManyToMany;
 import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 
-
 @Entity
 public class Role extends EntityBase {
 
@@ -31,7 +30,6 @@ public class Role extends EntityBase {
                     name = "privilege_id", referencedColumnName = "id"))
     private Collection<Privilege> privileges;
 
-
     public Role() {
         super();
     }
@@ -40,9 +38,7 @@ public class Role extends EntityBase {
         super();
         this.name = name;
         this.nameCZ = name;
-
     }
-
 
     public String getName() {
         return name;
@@ -75,6 +71,4 @@ public class Role extends EntityBase {
     public void setPrivileges(Collection<Privilege> privileges) {
         this.privileges = privileges;
     }
-
-
 }

@@ -10,7 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    private NewsService newsService;
+    private final NewsService newsService;
 
     public HomeController(NewsService newsService) {
         this.newsService = newsService;
@@ -24,7 +24,6 @@ public class HomeController {
         mv.addObject("news", newsService.findFirst3ByOrderByCreateDateTimeDesc());
         return mv;
     }
-
 
     @GetMapping("ke-stazeni")
     public ModelAndView keStazeni() {
@@ -41,8 +40,4 @@ public class HomeController {
         mv.addObject("title", "Partneři a Sponzoři");
         return mv;
     }
-
-
-
-
 }

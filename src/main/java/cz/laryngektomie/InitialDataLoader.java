@@ -2,7 +2,6 @@ package cz.laryngektomie;
 
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.news.Image;
 import cz.laryngektomie.model.news.News;
 import cz.laryngektomie.model.news.NewsType;
 import cz.laryngektomie.model.security.Privilege;
@@ -13,24 +12,14 @@ import cz.laryngektomie.repository.security.PrivilegeRepository;
 import cz.laryngektomie.repository.security.RoleRepository;
 import cz.laryngektomie.repository.security.UserRepository;
 import cz.laryngektomie.service.forum.CategoryService;
-
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.news.ImageService;
 import cz.laryngektomie.service.news.NewsService;
-import cz.laryngektomie.service.security.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.util.ResourceUtils;
-
 
 import javax.transaction.Transactional;
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
@@ -40,34 +29,26 @@ public class InitialDataLoader implements ApplicationRunner {
 
     boolean alreadySetup = false;
 
-    private UserRepository userRepository;
-    private ImageService imageService;
-    @Autowired
-    private NewsTypeRepository newsTypeRepository;
+    private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
+    private final PrivilegeRepository privilegeRepository;
+    private final CategoryService categoryService;
+    private final NewsService newsService;
+    private final TopicService topicService;
+    private final NewsTypeRepository newsTypeRepository;
 
-    private RoleRepository roleRepository;
-
-
-    private PrivilegeRepository privilegeRepository;
-
-    @Autowired
-    private CategoryService categoryService;
-    @Autowired
-    private NewsService newsService;
-    @Autowired
-    private TopicService topicService;
-
-
-    public InitialDataLoader(UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, ImageService imageService) {
+    public InitialDataLoader(UserRepository userRepository, RoleRepository roleRepository, PrivilegeRepository privilegeRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.privilegeRepository = privilegeRepository;
-        this.imageService = imageService;
-
+        this.categoryService = categoryService;
+        this.newsService = newsService;
+        this.topicService = topicService;
+        this.newsTypeRepository = newsTypeRepository;
     }
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
         if (alreadySetup)
             return;
@@ -81,14 +62,11 @@ public class InitialDataLoader implements ApplicationRunner {
         createRoleIfNotFound("ROLE_ADMIN", "Administrátor", adminPrivileges);
         createRoleIfNotFound("ROLE_SPECIALIST", "Odborník", Arrays.asList(readPrivilege));
         createRoleIfNotFound("ROLE_USER", "Uživatel", Arrays.asList(readPrivilege));
-        createRoleIfNotFound("ROLE_ANONYMOUS","Anonym", null);
-
-
-
+        createRoleIfNotFound("ROLE_ANONYMOUS", "Anonym", null);
 
 
         //Přidání admina
-        if(userRepository.findByUsername("admin") == null){
+        if (userRepository.findByUsername("admin") == null) {
             Role roleAdmin = roleRepository.findByName("ROLE_ADMIN");
             User admin = new User();
             admin.setUsername("admin");
@@ -104,7 +82,7 @@ public class InitialDataLoader implements ApplicationRunner {
 
             //vytvoreni kategorii
             String[] categoryNames = new String[]{"Pravidla", "Laryngektomie", "Jícnový hlas", "Hlasová protéza", "Elektrolarynx"};
-            for(String categoryName : categoryNames) {
+            for (String categoryName : categoryNames) {
                 Category category = new Category();
                 category.setName(categoryName);
                 category.setUser(admin);
@@ -113,7 +91,7 @@ public class InitialDataLoader implements ApplicationRunner {
 
             //vytvoření příspěvků
             String[] topicNames = new String[]{"Vítejte v naší poradně", "Základní info o laryngektomii"};
-            for(String topicName : topicNames) {
+            for (String topicName : topicNames) {
                 Topic topic = new Topic();
                 topic.setCategory(categoryService.findByName("Pravidla").get());
                 topic.setName(topicName);
@@ -124,7 +102,7 @@ public class InitialDataLoader implements ApplicationRunner {
 
         }
 
-        if(userRepository.findByUsername("doktor") == null) {
+        if (userRepository.findByUsername("doktor") == null) {
             //Pridani specialisty/doktora
             Role roleSpecialist = roleRepository.findByName("ROLE_SPECIALIST");
             User specialist = new User();
@@ -141,7 +119,7 @@ public class InitialDataLoader implements ApplicationRunner {
             userRepository.save(specialist);
         }
         //Pridani uživatele
-        if(userRepository.findByUsername("user") == null) {
+        if (userRepository.findByUsername("user") == null) {
             Role roleUser = roleRepository.findByName("ROLE_USER");
             User user = new User();
             user.setUsername("user");
@@ -159,7 +137,7 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uzivatelu do o-nas
 
         //Pridani uživatele EVA
-        if(userRepository.findByUsername("Eva") == null) {
+        if (userRepository.findByUsername("Eva") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Eva");
@@ -182,7 +160,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Roman
-        if(userRepository.findByUsername("Roman") == null) {
+        if (userRepository.findByUsername("Roman") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Roman");
@@ -203,7 +181,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Hana
-        if(userRepository.findByUsername("Hana") == null) {
+        if (userRepository.findByUsername("Hana") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Hana");
@@ -224,7 +202,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Zdenek
-        if(userRepository.findByUsername("Zdeněk") == null) {
+        if (userRepository.findByUsername("Zdeněk") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Zdeněk");
@@ -245,7 +223,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Míša
-        if(userRepository.findByUsername("Míša") == null) {
+        if (userRepository.findByUsername("Míša") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Míša");
@@ -266,7 +244,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Jindřich
-        if(userRepository.findByUsername("Jindřich") == null) {
+        if (userRepository.findByUsername("Jindřich") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Jindřich");
@@ -287,7 +265,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         //Pridani uživatele Karel
-        if(userRepository.findByUsername("Karel") == null) {
+        if (userRepository.findByUsername("Karel") == null) {
             User user = new User();
             Role roleUser = roleRepository.findByName("ROLE_USER");
             user.setUsername("Karel");
@@ -307,11 +285,11 @@ public class InitialDataLoader implements ApplicationRunner {
             userRepository.save(user);
         }
 
-        String[] typeOfNews = new String[] {"setkání", "konference", "zpravodaj", "oznámení", "terapie", "sezení"};
+        String[] typeOfNews = new String[]{"setkání", "konference", "zpravodaj", "oznámení", "terapie", "sezení"};
 
-        for(String type : typeOfNews) {
+        for (String type : typeOfNews) {
             //pridani typu novinky
-            if(!newsTypeRepository.findByName(type).isPresent()) {
+            if (!newsTypeRepository.findByName(type).isPresent()) {
                 NewsType newsType = new NewsType();
                 newsType.setName(type);
                 newsTypeRepository.save(newsType);
@@ -322,7 +300,7 @@ public class InitialDataLoader implements ApplicationRunner {
         //Novinky inicializace
         String zpravodajName = "Vydáváme zpravodaj";
         User newsAdmin = userRepository.findByUsername("admin");
-        if(!newsService.findByName(zpravodajName).isPresent()) {
+        if (!newsService.findByName(zpravodajName).isPresent()) {
             News news = new News();
             news.setUser(newsAdmin);
 
@@ -341,7 +319,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         String setkani1 = "Dne 9. 1. 2020 proběhlo povánoční tříkrálové posezení.";
-        if(!newsService.findByName(setkani1).isPresent()) {
+        if (!newsService.findByName(setkani1).isPresent()) {
             News news = new News();
             news.setUser(newsAdmin);
 
@@ -363,7 +341,7 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         String setkani2 = "Ve čtvrtek 5. 12. 2019 jsme se sešli na společné logopedické terapii.";
-        if(!newsService.findByName(setkani2).isPresent()) {
+        if (!newsService.findByName(setkani2).isPresent()) {
             News news = new News();
             news.setUser(newsAdmin);
 
@@ -384,11 +362,8 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
 
-
         alreadySetup = true;
     }
-
-
 
 
     @Transactional
@@ -415,6 +390,4 @@ public class InitialDataLoader implements ApplicationRunner {
         }
         return role;
     }
-
-
 }

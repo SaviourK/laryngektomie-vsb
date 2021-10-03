@@ -22,10 +22,9 @@ import java.util.Optional;
 @RequestMapping("/admin/poradna/uzivatele")
 public class UserController {
 
-    private UserService userService;
-    private RoleService roleService;
-    private ImageService imageService;
-
+    private final UserService userService;
+    private final RoleService roleService;
+    private final ImageService imageService;
 
     public UserController(UserService userService, RoleService roleService, ImageService imageService) {
         this.userService = userService;
@@ -34,15 +33,14 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView uzivatele(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query)  {
+    public ModelAndView uzivatele(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView("admin/poradna/uzivatele");
 
         int pageNumber = page < 0 ? 1 : page;
 
         String queryString = query.orElse("");
 
-        Page<User> users = userService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);;
-
+        Page<User> users = userService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
 
         mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(users.getTotalPages(), pageNumber));
         mv.addObject("currentPage", pageNumber);
@@ -91,7 +89,6 @@ public class UserController {
             mv.addObject("roles", roleService.findAll());
             mv.addObject("messageError", "Uživatelské jméno obsazeno");
             return mv;
-
         }
 
         if (userService.findByEmail(user.getEmail()).isPresent()) {
@@ -100,9 +97,7 @@ public class UserController {
             mv.addObject("roles", roleService.findAll());
             mv.addObject("messageError", "Email obsazen");
             return mv;
-
         }
-
 
         if (user.getRoles().size() == 0) {
             mv.addObject("user", user);
@@ -110,13 +105,12 @@ public class UserController {
             mv.setViewName("admin/poradna/uzivatele/vytvorit");
             mv.addObject("messageError", "Prosím vyberte roli pro uživatele");
             return mv;
-
         }
 
         //TODO change to resize method
         if (file != null) {
             Image image = imageService.saveImage(file);
-            if(image != null) {
+            if (image != null) {
                 user.setImage(image);
             }
         }
@@ -169,7 +163,7 @@ public class UserController {
         Image oldImage = user.getImage();
         if (file != null) {
             Image image = imageService.saveImage(file);
-            if(image != null) {
+            if (image != null) {
                 user.setImage(image);
 
             }
@@ -197,7 +191,7 @@ public class UserController {
         }*/
 
         userService.saveOrUpdate(user);
-        if(oldImage != null) {
+        if (oldImage != null) {
             imageService.delete(oldImage);
         }
         mv.addObject("messageSuccess", "Uživatel:" + user.getUsername() + " byl upraven.");
@@ -220,6 +214,5 @@ public class UserController {
         mv.addObject("messageSuccess", "Uživatel " + userOptional.get().getUsername() + " byl vymazán.");
         mv.setViewName("redirect:/admin/poradna/uzivatele");
         return mv;
-
     }
 }

@@ -1,7 +1,5 @@
 package cz.laryngektomie.repository.forum;
 
-
-import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.repository.IRepositoryBase;
 import org.springframework.data.domain.Page;
@@ -27,5 +25,4 @@ public interface TopicRepository extends IRepositoryBase<Topic> {
     Page<Topic> findAllByNameOrTextContainingIgnoreCase(String name, String text, Pageable pageable);
 
     List<Topic> findFirst5ByOrderByIdDesc();
-
 }

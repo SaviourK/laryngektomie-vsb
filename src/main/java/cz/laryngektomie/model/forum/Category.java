@@ -8,7 +8,6 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -32,9 +31,7 @@ public class Category extends EntityBase {
 
     public Category() {
         super();
-
     }
-
 
     public String getName() {
         return name;
@@ -42,7 +39,6 @@ public class Category extends EntityBase {
 
     public void setName(String name) {
         this.name = name;
-
     }
 
     public String getUrl() {
@@ -61,13 +57,11 @@ public class Category extends EntityBase {
         this.user = user;
     }
 
-
     public Collection<Topic> getTopics() {
         return topics;
     }
 
-    public void setTopics(Collection<Topic> topics)
-    {
+    public void setTopics(Collection<Topic> topics) {
         this.topics = topics;
     }
 }
