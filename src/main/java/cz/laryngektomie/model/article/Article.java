@@ -1,4 +1,4 @@
-package cz.laryngektomie.model.news;
+package cz.laryngektomie.model.article;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.laryngektomie.helper.ForumHelper;
@@ -15,7 +15,7 @@ import javax.validation.constraints.Size;
 import java.util.Collection;
 
 @Entity
-public class News extends EntityBase {
+public class Article extends EntityBase {
 
     @NotBlank
     @Size(min = 3, max = 100, message = "Délka mezi 3 - 100 znaky")
@@ -39,12 +39,12 @@ public class News extends EntityBase {
     private Collection<Image> images;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "news_type_id", nullable = false)
+    @JoinColumn(name = "article_type_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonIgnore
-    private NewsType newsType;
+    private ArticleType articleType;
 
-    public News() {
+    public Article() {
         super();
     }
 
@@ -88,12 +88,12 @@ public class News extends EntityBase {
         this.images = images;
     }
 
-    public NewsType getNewsType() {
-        return newsType;
+    public ArticleType getArticleType() {
+        return articleType;
     }
 
-    public void setNewsType(NewsType newsType) {
-        this.newsType = newsType;
+    public void setArticleType(ArticleType articleType) {
+        this.articleType = articleType;
     }
 
     public String getDescriptionText() {

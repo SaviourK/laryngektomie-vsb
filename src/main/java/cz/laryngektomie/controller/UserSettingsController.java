@@ -1,8 +1,8 @@
 package cz.laryngektomie.controller;
 
-import cz.laryngektomie.model.news.Image;
+import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.service.news.ImageService;
+import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;

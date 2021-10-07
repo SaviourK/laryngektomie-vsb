@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
-    <title th:text="${news.name}">Detail novinky</title>
+    <title th:text="${article.name}">Detail novinky</title>
     <style>
         /* Make the image fully responsive */
 
@@ -16,7 +16,7 @@
 </div>
 <div th:replace="'./fragments/fragments.html' :: nav">
 </div>
-<div class="container container-small" th:object="${news}">
+<div class="container container-small" th:object="${article}">
 
     <div class="row m-3 p-3 rounded">
         <div class="col-md">
@@ -36,7 +36,7 @@
         </div>
         <div class="offset-lg-1 col-lg-4 offset-1 col-10 order-lg-1 order-last mb-2 mb-lg-0">
             <div class="hashtag text-center mt-3">
-                #<span th:remove="tag" th:text="*{newsType.name}"></span>
+                #<span th:remove="tag" th:text="*{articleType.name}"></span>
             </div>
         </div>
         <div class="offset-lg-1 col-lg-3 text-lg-right text-center order-lg-2">
@@ -51,7 +51,7 @@
     <div class="row">
         <div class="col-lg">
             <div th:if="*{images!=null and !images.empty}">
-                <div th:if="${#lists.size(news.images) eq 1}">
+                <div th:if="${#lists.size(article.images) eq 1}">
 
                     <div th:remove="tag" th:each="img,iter : *{images}">
 
@@ -59,11 +59,11 @@
 
                     </div>
                 </div>
-                <div th:unless="${#lists.size(news.images) eq 1}" id="news-carousel" class="carousel slide" data-ride="carousel"  data-interval="false" data-pause="hover">
+                <div th:unless="${#lists.size(article.images) eq 1}" id="article-carousel" class="carousel slide" data-ride="carousel"  data-interval="false" data-pause="hover">
                     <!--indicators-->
                     <ul class="carousel-indicators">
                         <div th:remove="tag" th:each="img,iter : *{images}">
-                            <li data-target="#news-carousel" th:data-slide-to="|${iter.index}-${img.id}|" th:classappend="${iter.first} ? 'active' : ''"></li>
+                            <li data-target="#article-carousel" th:data-slide-to="|${iter.index}-${img.id}|" th:classappend="${iter.first} ? 'active' : ''"></li>
                         </div>
                     </ul>
 
@@ -78,10 +78,10 @@
 
                     </div>
                     <!--left and right controls-->
-                    <a class="carousel-control-prev" href="#news-carousel" data-slide="prev">
+                    <a class="carousel-control-prev" href="#article-carousel" data-slide="prev">
                         <span class="carousel-control-prev-icon"></span>
                     </a>
-                    <a class="carousel-control-next" href="#news-carousel" data-slide="next">
+                    <a class="carousel-control-next" href="#article-carousel" data-slide="next">
                         <span class="carousel-control-next-icon"></span>
                     </a>
                 </div>

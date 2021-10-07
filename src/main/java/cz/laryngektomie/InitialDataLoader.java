@@ -5,15 +5,15 @@ import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.news.News;
-import cz.laryngektomie.model.news.NewsType;
+import cz.laryngektomie.model.article.Article;
+import cz.laryngektomie.model.article.ArticleType;
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.repository.news.NewsTypeRepository;
+import cz.laryngektomie.repository.article.ArticleTypeRepository;
 import cz.laryngektomie.repository.security.UserRepository;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.news.NewsService;
+import cz.laryngektomie.service.article.ArticleService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,17 +29,17 @@ public class InitialDataLoader implements ApplicationRunner {
 
     private final UserRepository userRepository;
     private final CategoryService categoryService;
-    private final NewsService newsService;
+    private final ArticleService articleService;
     private final TopicService topicService;
-    private final NewsTypeRepository newsTypeRepository;
+    private final ArticleTypeRepository articleTypeRepository;
     private final PostService postService;
 
-    public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, NewsService newsService, TopicService topicService, NewsTypeRepository newsTypeRepository, PostService postService) {
+    public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, ArticleService articleService, TopicService topicService, ArticleTypeRepository articleTypeRepository, PostService postService) {
         this.userRepository = userRepository;
         this.categoryService = categoryService;
-        this.newsService = newsService;
+        this.articleService = articleService;
         this.topicService = topicService;
-        this.newsTypeRepository = newsTypeRepository;
+        this.articleTypeRepository = articleTypeRepository;
         this.postService = postService;
     }
 
@@ -263,10 +263,10 @@ public class InitialDataLoader implements ApplicationRunner {
 
         for (String type : typeOfNews) {
             //pridani typu novinky
-            if (!newsTypeRepository.findByName(type).isPresent()) {
-                NewsType newsType = new NewsType();
-                newsType.setName(type);
-                newsTypeRepository.save(newsType);
+            if (!articleTypeRepository.findByName(type).isPresent()) {
+                ArticleType articleType = new ArticleType();
+                articleType.setName(type);
+                articleTypeRepository.save(articleType);
             }
         }
 
@@ -274,9 +274,9 @@ public class InitialDataLoader implements ApplicationRunner {
         //Novinky inicializace
         String zpravodajName = "Vydáváme zpravodaj";
         User newsAdmin = userRepository.findByUsername("admin");
-        if (!newsService.findByName(zpravodajName).isPresent()) {
-            News news = new News();
-            news.setUser(newsAdmin);
+        if (!articleService.findByName(zpravodajName).isPresent()) {
+            Article article = new Article();
+            article.setUser(newsAdmin);
 
            /* byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/zpravodaj.jpg").getPath()));
             Image image = new Image("Zpravodaj", "image/jpeg", array);
@@ -284,18 +284,18 @@ public class InitialDataLoader implements ApplicationRunner {
             images.add(image);
             news.setImages(images);*/
 
-            news.setNewsType(newsTypeRepository.findByName("zpravodaj").get());
+            article.setArticleType(articleTypeRepository.findByName("zpravodaj").get());
 
-            news.setName(zpravodajName);
-            news.setText("<p><span style=\"color: rgb(85, 85, 85);\"><b>V posledním listopadovém týdnu vyšlo druhé číslo Zpravodaje a měli byste ho již mít doma.</b></span><br></p><p style=\"\">z obsahu vyjímáme:</p><ul><li>na co nebyl v ordinaci čas:<br></li></ul><ul><li>odpovědi na otázky stran výživy</li></ul><ul><li>výsledky ankety</li></ul><ul><li>Jak se nám žije po laryngektomii:&nbsp;<span style=\"color: rgb(51, 51, 51);\">příběh pana Zdeňka</span></li></ul><ul><li>reportáž z našeho 2. setkání v Pardubicích<br></li></ul><ul><li>podrobnosti o aplikaci záchranka<br></li></ul><ul><li>a další zajímavosti a rady</li></ul>");
+            article.setName(zpravodajName);
+            article.setText("<p><span style=\"color: rgb(85, 85, 85);\"><b>V posledním listopadovém týdnu vyšlo druhé číslo Zpravodaje a měli byste ho již mít doma.</b></span><br></p><p style=\"\">z obsahu vyjímáme:</p><ul><li>na co nebyl v ordinaci čas:<br></li></ul><ul><li>odpovědi na otázky stran výživy</li></ul><ul><li>výsledky ankety</li></ul><ul><li>Jak se nám žije po laryngektomii:&nbsp;<span style=\"color: rgb(51, 51, 51);\">příběh pana Zdeňka</span></li></ul><ul><li>reportáž z našeho 2. setkání v Pardubicích<br></li></ul><ul><li>podrobnosti o aplikaci záchranka<br></li></ul><ul><li>a další zajímavosti a rady</li></ul>");
 
-            newsService.saveOrUpdate(news);
+            articleService.saveOrUpdate(article);
         }
 
         String setkani1 = "Dne 9. 1. 2020 proběhlo povánoční tříkrálové posezení.";
-        if (!newsService.findByName(setkani1).isPresent()) {
-            News news = new News();
-            news.setUser(newsAdmin);
+        if (!articleService.findByName(setkani1).isPresent()) {
+            Article article = new Article();
+            article.setUser(newsAdmin);
 
             /*Collection<Image> images = new ArrayList<>();
             byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/a.jpg").getPath()));
@@ -306,18 +306,18 @@ public class InitialDataLoader implements ApplicationRunner {
             images.add(image1);
             news.setImages(images);*/
 
-            news.setNewsType(newsTypeRepository.findByName("terapie").get());
+            article.setArticleType(articleTypeRepository.findByName("terapie").get());
 
-            news.setName(setkani1);
-            news.setText("<p style=\"margin-left: 0px;\"><font>Tentokrát jsme se sešli v komornějším počtu, v příjemném prostředí restaurace Fascila. Pozvání na besedu přijal&nbsp;MUDr. Milan Vošmik, Ph.D.,&nbsp;zástupce přednosty Onkologické kliniky ve FN HK, předseda Sekce pro nádory hlavy a krku v rámci České onkologické společnosti, který nám zodpověděl mnoho, pro nás zajímavých, otázek.</font></p><p style=\"margin-left: 0px;\"><font>Klinická logopedka&nbsp;Mgr. Jarmila Hofmanová&nbsp;nás&nbsp;seznámila se svými zkušenostmi s použitím přípravku <b>ENZYMEL</b>, s jeho účinky, použitím i s novou formou nejen gelu a zubní pasty, ale také ústních pastilek.<br></font></p><p style=\"margin-left: 0px;\"><font>Všichni účastníci vyjadřovali nadšení a uznání k vysoké odbornosti našich hostů a k jejich laskavému přístupu. Nejen, že jsme se dozvěděli spoutu nových informací, také jsme se zasmáli a odnášeli si mnoho témat k přemýšlení.<br></font></p><p style=\"margin-left: 0px;\"><font>Všichni si vážíme ochoty a času našich hostí, který nám věnovali a ještě jednou jim&nbsp;DĚKUJEME!</font></p>");
+            article.setName(setkani1);
+            article.setText("<p style=\"margin-left: 0px;\"><font>Tentokrát jsme se sešli v komornějším počtu, v příjemném prostředí restaurace Fascila. Pozvání na besedu přijal&nbsp;MUDr. Milan Vošmik, Ph.D.,&nbsp;zástupce přednosty Onkologické kliniky ve FN HK, předseda Sekce pro nádory hlavy a krku v rámci České onkologické společnosti, který nám zodpověděl mnoho, pro nás zajímavých, otázek.</font></p><p style=\"margin-left: 0px;\"><font>Klinická logopedka&nbsp;Mgr. Jarmila Hofmanová&nbsp;nás&nbsp;seznámila se svými zkušenostmi s použitím přípravku <b>ENZYMEL</b>, s jeho účinky, použitím i s novou formou nejen gelu a zubní pasty, ale také ústních pastilek.<br></font></p><p style=\"margin-left: 0px;\"><font>Všichni účastníci vyjadřovali nadšení a uznání k vysoké odbornosti našich hostů a k jejich laskavému přístupu. Nejen, že jsme se dozvěděli spoutu nových informací, také jsme se zasmáli a odnášeli si mnoho témat k přemýšlení.<br></font></p><p style=\"margin-left: 0px;\"><font>Všichni si vážíme ochoty a času našich hostí, který nám věnovali a ještě jednou jim&nbsp;DĚKUJEME!</font></p>");
 
-            newsService.saveOrUpdate(news);
+            articleService.saveOrUpdate(article);
         }
 
         String setkani2 = "Ve čtvrtek 5. 12. 2019 jsme se sešli na společné logopedické terapii.";
-        if (!newsService.findByName(setkani2).isPresent()) {
-            News news = new News();
-            news.setUser(newsAdmin);
+        if (!articleService.findByName(setkani2).isPresent()) {
+            Article article = new Article();
+            article.setUser(newsAdmin);
 
             /*Collection<Image> images = new ArrayList<>();
             byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/c.jpg").getPath()));
@@ -328,11 +328,11 @@ public class InitialDataLoader implements ApplicationRunner {
             images.add(image1);
             news.setImages(images);*/
 
-            news.setNewsType(newsTypeRepository.findByName("setkání").get());
+            article.setArticleType(articleTypeRepository.findByName("setkání").get());
 
-            news.setName(setkani2);
-            news.setText("<p style=\"margin-left: 0px;\"><font>Ve čtvrtek&nbsp;<font>5. 12. 2019&nbsp;</font>jsme se sešli na společné logopedické terapii. Kromě toho, že to bylo velice příjemné setkání, také jsme pracovali i předávali své zkušenosti.<br></font></p><p style=\"margin-left: 0px;\"><font>S velmi zajímavými \"vychytávkami\" ohledně kanyly a jejího krytí a dalšího nás seznamuje pan&nbsp;Jindřich Habart,&nbsp;Jindro díky :)!</font></p><p style=\"margin-left: 0px;\"><font>Poděkování patří též manželům&nbsp;Láďovi a Ivaně Plačkovým&nbsp;- přivezli \"přebytky\" kanyl pro odsávání. Tak pokud byste někdo potřebovali, jsou u mě k dispozici</font>.</p>");
-            newsService.saveOrUpdate(news);
+            article.setName(setkani2);
+            article.setText("<p style=\"margin-left: 0px;\"><font>Ve čtvrtek&nbsp;<font>5. 12. 2019&nbsp;</font>jsme se sešli na společné logopedické terapii. Kromě toho, že to bylo velice příjemné setkání, také jsme pracovali i předávali své zkušenosti.<br></font></p><p style=\"margin-left: 0px;\"><font>S velmi zajímavými \"vychytávkami\" ohledně kanyly a jejího krytí a dalšího nás seznamuje pan&nbsp;Jindřich Habart,&nbsp;Jindro díky :)!</font></p><p style=\"margin-left: 0px;\"><font>Poděkování patří též manželům&nbsp;Láďovi a Ivaně Plačkovým&nbsp;- přivezli \"přebytky\" kanyl pro odsávání. Tak pokud byste někdo potřebovali, jsou u mě k dispozici</font>.</p>");
+            articleService.saveOrUpdate(article);
         }
 
         fakeData();

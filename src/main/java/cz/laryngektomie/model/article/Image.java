@@ -1,4 +1,4 @@
-package cz.laryngektomie.model.news;
+package cz.laryngektomie.model.article;
 
 import cz.laryngektomie.model.EntityBase;
 import org.apache.tomcat.util.codec.binary.Base64;

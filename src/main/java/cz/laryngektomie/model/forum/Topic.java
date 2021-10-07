@@ -36,12 +36,12 @@ public class Topic extends EntityBase {
 
     @ManyToMany
     @JoinTable(
-            name = "watching_users",
+            name = "topic_watching_user",
             joinColumns = @JoinColumn(
                     name = "topic_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(
                     name = "user_id", referencedColumnName = "id"))
-    private Collection<User> watchingUsers;
+    private Collection<User> topicWatchingUser;
 
     @OneToMany(mappedBy = "topic", cascade = CascadeType.ALL)
     private Collection<Post> posts;
@@ -98,19 +98,19 @@ public class Topic extends EntityBase {
         this.posts = posts;
     }
 
-    public Collection<User> getWatchingUsers() {
-        return watchingUsers;
+    public Collection<User> getTopicWatchingUser() {
+        return topicWatchingUser;
     }
 
-    public void setWatchingUsers(Collection<User> watchingUsers) {
-        this.watchingUsers = watchingUsers;
+    public void setTopicWatchingUser(Collection<User> topicWatchingUser) {
+        this.topicWatchingUser = topicWatchingUser;
     }
 
-    public void addWatchingUser(User user) {
-        if(watchingUsers == null) {
-            watchingUsers = new ArrayList<>();
+    public void addTopicWatchingUser(User user) {
+        if(topicWatchingUser == null) {
+            topicWatchingUser = new ArrayList<>();
         }
-        watchingUsers.add(user);
+        topicWatchingUser.add(user);
     }
 
     public String getDescription() {

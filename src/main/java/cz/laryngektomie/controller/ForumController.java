@@ -1,11 +1,13 @@
 package cz.laryngektomie.controller;
 
 import cz.laryngektomie.helper.ForumHelper;
+import cz.laryngektomie.model.dto.TopicOrPost;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.forum.CategoryService;
+import cz.laryngektomie.service.forum.ForumService;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
 import cz.laryngektomie.service.security.UserService;
@@ -34,12 +36,14 @@ public class ForumController {
     private final PostService postService;
     private final TopicService topicService;
     private final UserService userService;
+    private final ForumService forumService;
 
-    public ForumController(CategoryService categoryService, PostService postService, TopicService topicService, UserService userService) {
+    public ForumController(CategoryService categoryService, PostService postService, TopicService topicService, UserService userService, ForumService forumService) {
         this.categoryService = categoryService;
         this.postService = postService;
         this.topicService = topicService;
         this.userService = userService;
+        this.forumService = forumService;
     }
 
     @RequestMapping()
@@ -48,14 +52,17 @@ public class ForumController {
 
         int pageNumber = page < 0 ? 1 : page;
 
-        Page<Post> posts = postService.findAll(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false);
-        List<Topic> topics = topicService.findLatest();
+        List<TopicOrPost> topicOrPostList = forumService.getTopicOrPostList();
+        //Page<Post> posts = postService.findAll(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false);
+        //List<Topic> topics = topicService.findLatest();
 
         mv.addObject("categories", categoryService.findAll());
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
+        //mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
         mv.addObject("currentPage", pageNumber);
-        mv.addObject("topics", topics);
-        mv.addObject("posts", posts);
+        mv.addObject("topicOrPostList", topicOrPostList);
+        mv.addObject("postCount", postService.findAll().size());
+        mv.addObject("topicCount", topicService.findAll().size());
+        //mv.addObject("posts", posts);
         return mv;
     }
 
@@ -210,7 +217,7 @@ public class ForumController {
         if (optionalTopic.isPresent()) {
             Topic topic = optionalTopic.get();
             User user = userService.findByUsername(principal.getName());
-            topic.addWatchingUser(user);
+            topic.addTopicWatchingUser(user);
             topicService.saveOrUpdate(topic);
         }
         return "redirect:/poradna/tema/" + topicId;

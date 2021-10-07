@@ -1,7 +1,7 @@
-package cz.laryngektomie.service.news;
+package cz.laryngektomie.service.article;
 
-import cz.laryngektomie.model.news.Image;
-import cz.laryngektomie.repository.news.ImageRepository;
+import cz.laryngektomie.model.article.Image;
+import cz.laryngektomie.repository.article.ImageRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;

@@ -45,14 +45,14 @@
                 </thead>
                 <tbody>
 
-                <tr th:if="${news.empty}">
+                <tr th:if="${article.empty}">
                     <td colspan="6"> Žádné dostupné novinky</td>
                 </tr>
-                <tr th:each="n : ${news}">
+                <tr th:each="n : ${article}">
                     <td><a th:href="@{/admin/novinky/{url}(url=${n.url})}">Detail: <span
                             th:text="${n.id}"> Id </span></a></td>
                     <td th:text="${n.name}"> Název novinky</td>
-                    <td th:text="${n.newsType.name}"> Typ novinky</td>
+                    <td th:text="${n.articleType.name}"> Typ novinky</td>
                     <td th:text="${n.getCreateDateTimeString()}"> Datum vytvoření</td>
                     <td th:text="${n.getUpdateDateTimeString()}"> Datum úpravy</td>
                     <td th:text="${n.user.username}"> Vytvoril</td>

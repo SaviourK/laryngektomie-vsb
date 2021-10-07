@@ -1,10 +1,10 @@
 package cz.laryngektomie.controller;
 
 import cz.laryngektomie.helper.Const;
-import cz.laryngektomie.model.news.Image;
+import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.security.UserPrincipal;
-import cz.laryngektomie.service.news.ImageService;
+import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.security.core.Authentication;

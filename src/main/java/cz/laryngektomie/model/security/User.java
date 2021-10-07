@@ -3,7 +3,7 @@ package cz.laryngektomie.model.security;
 import cz.laryngektomie.model.EntityBase;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.news.Image;
+import cz.laryngektomie.model.article.Image;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -24,6 +24,7 @@ public class User extends EntityBase {
     @Size(min = 3, max = 500, message = "Heslo musí mít délku mezi minimálně 3 znaky.")
     private String password;
 
+    @Transient
     private String matchingPassword;
 
     @NotBlank
@@ -66,16 +67,19 @@ public class User extends EntityBase {
     @JoinColumn(name = "users_id")
     private Collection<Post> posts;
 
+    private int topicCount;
+
     private int postCount;
 
-    private int newsCount;
+    private int articleCount;
 
     public User() {
         super();
         this.enabled = true;
         this.tokenExpired = false;
+        this.topicCount = 0;
         this.postCount = 0;
-        this.newsCount = 0;
+        this.articleCount = 0;
     }
 
     public String getUsername() {
@@ -206,12 +210,20 @@ public class User extends EntityBase {
         this.postCount = postCount;
     }
 
-    public int getNewsCount() {
-        return newsCount;
+    public int getArticleCount() {
+        return articleCount;
     }
 
-    public void setNewsCount(int newsCount) {
-        this.newsCount = newsCount;
+    public void setArticleCount(int newsCount) {
+        this.articleCount = newsCount;
+    }
+
+    public int getTopicCount() {
+        return topicCount;
+    }
+
+    public void setTopicCount(int topicCount) {
+        this.topicCount = topicCount;
     }
 
     @Override

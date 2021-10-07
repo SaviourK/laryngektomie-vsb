@@ -14,7 +14,7 @@
 
     <div class="row m-3 p-3 rounded">
         <div class="col-lg">
-            <h1 class="text-center">Poradna</h1>
+            <h1 class="text-center">Úvod poradny</h1>
 
         </div>
 
@@ -23,8 +23,10 @@
     <div th:replace="'./fragments/fragments.html' :: admin-navigation"></div>
 
     <div class="row mt-3 rounded">
-        <div class="offset-xl-0 col-xl-2 offset-sm-2 col-sm-8 offset-0 col-12 text-center">
-            <a class="btn btn-primary btn-block " th:href="@{/poradna}" th:classappend="${#request.requestURI == '/poradna' ? 'active':''}"> Poradna</a>
+        <div class="col-xl-2 col-sm-6 col-5 text-center">
+            <a class="btn btn-primary btn-block " th:href="@{/poradna}"
+               th:classappend="${#request.requestURI == '/poradna' ? 'active':''}"> Úvod poradny</a>
+            <br>
             <h2>Kategorie</h2>
             <div th:each="category : ${categories}">
                 <p><a class="btn btn-primary btn-block"
@@ -32,45 +34,17 @@
                       th:text="${category.name}"></a></p>
 
             </div>
+            <br>
+            <div class="text-center">
+                <h2 class="text-center">Statistiky poradny</h2>
+                <h4>Počet témat: <span th:text="${topicCount}"></span></h4>
+                <h4>Počet příspěvků: <span th:text="${postCount}"></span></h4>
+            </div>
 
         </div>
 
-        <div class="col-xl-5 col-12 text-center">
-            <h2 class="text-center">Nová témata</h2>
-            <table class="table table-striped table-responsive-sm">
-                <thead>
-                <tr>
-                    <th class="text-left"> Téma</th>
-                    <th> Kategorie</th>
-                    <th> Přispěvky</th>
-                    <th class="column-hide-second"> Autor</th>
-                    <th class="column-hide-first"> Vytvořeno</th>
-
-
-
-                </tr>
-                </thead>
-                <tbody>
-
-                <tr th:if="${topics.empty}">
-                    <td colspan="5"> Žádné dostupné přispěvky</td>
-                </tr>
-                <tr th:each="topic : ${topics}" th:object="${topic}">
-                    <td class="text-left"><a th:href="@{/poradna/tema/{id}(id=*{id})}" th:text="*{name}"> Téma</a></td>
-                    <td th:text="*{category.name}"> Kategorie tématu</td>
-                    <td th:text="*{posts.size()}"> Příspěvků</td>
-                    <td th:text="*{user.username}" class="column-hide-second"> Autor</td>
-                    <td th:text="*{getTimePassedString()}" class="column-hide-first"> Vytvořeno</td>
-
-
-                </tr>
-                </tbody>
-            </table>
-        </div>
-
-
-        <div class="col-xl-5 col-12 text-center">
-            <h2 class="text-center">Nejnovější příspěvky</h2>
+        <div class="offset-1 col-xl-8 col-10 text-center">
+            <h2 class="text-center">Nejnovější události</h2>
             <table class="table table-striped table-responsive-sm">
                 <thead>
                 <tr>
@@ -84,15 +58,15 @@
                 </thead>
                 <tbody>
 
-                <tr th:if="${posts.empty}">
+                <tr th:if="${topicOrPostList.empty}">
                     <td colspan="5"> Žádné dostupné přispěvky</td>
                 </tr>
-                <tr th:each="post : ${posts}" th:object="${post}">
-                    <td class="text-left"><a th:href="@{/poradna/tema/{id}(id=*{topic.id})}"><span
-                            th:text="*{topic.name}"> Téma přispevku </span></a><br/><small
+                <tr th:each="topicOrPost : ${topicOrPostList}" th:object="${topicOrPost}">
+                    <td class="text-left"><a th:href="@{/poradna/tema/{id}(id=*{topicId})}"><span
+                            th:text="*{topicName}"> Téma přispevku </span></a><br/><small
                             th:text="*{getDescription()}"></small></td>
-                    <td th:text="*{topic.category.name}"> Kategorie příspěvku</td>
-                    <td th:text="*{user.username}"> Autor</td>
+                    <td th:text="*{categoryName}"> Kategorie příspěvku</td>
+                    <td th:text="*{author}"> Autor</td>
                     <td th:text="*{getTimePassedString()}" class="column-hide-second"> Vytvořeno</td>
 
 
@@ -101,6 +75,8 @@
             </table>
 
         </div>
+
+
 
     </div>
 </div>

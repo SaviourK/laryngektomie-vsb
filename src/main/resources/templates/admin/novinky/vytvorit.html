@@ -27,7 +27,7 @@
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
             <form method="post" action="#" th:method="post" th:action="@{/admin/novinky/vytvorit}"
-                  th:object="${news}" enctype="multipart/form-data">
+                  th:object="${article}" enctype="multipart/form-data">
 
 
                 <div class="form-group">
@@ -52,11 +52,11 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="newsType">Typ novinky</label>
-                    <label th:if="${#fields.hasErrors('newsType')}" th:errors="*{newsType}"></label>
-                    <select class="form-control" id="newsType" th:field="*{newsType}">
+                    <label for="articleType">Typ novinky</label>
+                    <label th:if="${#fields.hasErrors('articleType')}" th:errors="*{articleType}"></label>
+                    <select class="form-control" id="articleType" th:field="*{articleType}">
                         <option value="" selected="selected">Vyberte typ novinky</option>
-                        <option th:each="type : ${newsTypes}"
+                        <option th:each="type : ${articleTypes}"
                                 th:value="${type.id}"
                                 th:text="${type.name}"></option>
                     </select>

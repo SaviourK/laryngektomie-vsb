@@ -1,7 +1,7 @@
 package cz.laryngektomie.controller.home;
 
 
-import cz.laryngektomie.service.news.NewsService;
+import cz.laryngektomie.service.article.ArticleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -10,10 +10,10 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class HomeController {
 
-    private final NewsService newsService;
+    private final ArticleService articleService;
 
-    public HomeController(NewsService newsService) {
-        this.newsService = newsService;
+    public HomeController(ArticleService articleService) {
+        this.articleService = articleService;
     }
 
     @GetMapping("/")
@@ -21,7 +21,7 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("action", "home");
         mv.addObject("title", "Úvod");
-        mv.addObject("news", newsService.findFirst3ByOrderByCreateDateTimeDesc());
+        mv.addObject("article", articleService.findFirst3ByOrderByCreateDateTimeDesc());
         return mv;
     }
 

@@ -2,9 +2,9 @@ package cz.laryngektomie.controller.admin;
 
 import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.helper.ForumHelper;
-import cz.laryngektomie.model.news.Image;
+import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.service.news.ImageService;
+import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -69,7 +69,7 @@ public class UserController {
     @GetMapping("/vytvorit")
     public String vytvoritGet(Model model) {
         model.addAttribute("user", new User());
-        model.addAttribute("role", ROLES);
+        model.addAttribute("roles", ROLES);
         return "admin/poradna/uzivatele/vytvorit";
     }
 
