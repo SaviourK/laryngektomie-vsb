@@ -101,7 +101,7 @@ public class UserController {
             return mv;
         }
 
-        if (user.getRole().isEmpty()) {
+        if (user.getRole() == null) {
             mv.addObject("user", user);
             mv.addObject("roles", ROLES);
             mv.setViewName("admin/poradna/uzivatele/vytvorit");
@@ -153,7 +153,7 @@ public class UserController {
             return mv;
         }
 
-        if (user.getRole().isEmpty()) {
+        if (user.getRole() == null) {
             mv.setViewName("admin/poradna/uzivatele/upravit");
             mv.addObject("user", user);
             mv.addObject("roles", ROLES);

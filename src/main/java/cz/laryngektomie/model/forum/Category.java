@@ -8,6 +8,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -16,8 +17,12 @@ public class Category extends EntityBase {
 
     @NotBlank
     @Size(min = 3, max = 50, message = "Název kategorie musí mít délku mezi 3 - 50 znaky.")
+    @Column(unique = true)
+    @NotNull
     private String name;
 
+    @Column(unique = true)
+    @NotNull
     private String url;
 
     @OneToMany(mappedBy = "category", cascade = CascadeType.ALL)

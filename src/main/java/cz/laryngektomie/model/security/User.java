@@ -18,10 +18,13 @@ public class User extends EntityBase {
 
     @NotBlank
     @Size(min = 3, max = 50, message = "Přihlašovací jméno musí mít délku mezi 3 - 50 znaky.")
+    @Column(unique = true)
+    @NotNull
     private String username;
 
     @NotBlank
     @Size(min = 3, max = 500, message = "Heslo musí mít délku mezi minimálně 3 znaky.")
+    @NotNull
     private String password;
 
     @Transient
@@ -29,14 +32,18 @@ public class User extends EntityBase {
 
     @NotBlank
     @Size(min = 2, max = 50, message = "Jméno musí mít délku mezi 2 - 50 znaky.")
+    @NotNull
     private String firstName;
 
     @NotBlank
     @Size(min = 2, max = 50, message = "Příjmení musí mít délku mezi 2 - 50 znaky.")
+    @NotNull
     private String lastName;
 
     @NotBlank
     @Email(message = "Špatně zadaný email")
+    @Column(unique = true)
+    @NotNull
     private String email;
 
     @NotNull
@@ -53,7 +60,8 @@ public class User extends EntityBase {
     @Size(max = 1500, message = "Maximální delka je 1500 znaků")
     private String aboutMe;
 
-    private String role;
+    @NotNull
+    private UserRole role;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
@@ -170,11 +178,11 @@ public class User extends EntityBase {
         this.aboutMe = aboutMe;
     }
 
-    public String getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 

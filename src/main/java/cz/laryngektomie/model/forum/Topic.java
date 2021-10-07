@@ -9,6 +9,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,15 +18,18 @@ import java.util.Collection;
 public class Topic extends EntityBase {
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @NotNull
     private Category category;
 
     @NotBlank
     @Size(min = 2, max = 30, message = "Název musí mít délku 2-30 znaků.")
+    @NotNull
     private String name;
 
     @NotBlank
     @Size(min = 5, max = 1000, message = "Text musí mít délku 5-1000 znaků.")
     @Column(length = 1500)
+    @NotNull
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

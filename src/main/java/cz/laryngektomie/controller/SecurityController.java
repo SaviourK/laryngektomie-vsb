@@ -3,6 +3,7 @@ package cz.laryngektomie.controller;
 import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.model.security.User;
+import cz.laryngektomie.model.security.UserRole;
 import cz.laryngektomie.security.UserPrincipal;
 import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.security.UserService;
@@ -108,7 +109,7 @@ public class SecurityController {
 
         user.setPassword(userService.encode(user.getPassword()));
         user.setMatchingPassword(userService.encode(user.getMatchingPassword()));
-        user.setRole("USER");
+        user.setRole(UserRole.USER);
         user.setAboutUs(false);
         userService.saveOrUpdate(user);
         mv.addObject("messageSuccess", "Uživatel " + user.getUsername() + " byl vytvořen.");

@@ -7,18 +7,22 @@ import org.hibernate.annotations.Type;
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Entity
 public class Image extends EntityBase {
 
     @NotBlank
+    @NotNull
     private String fileName;
 
     @NotBlank
+    @NotNull
     private String fileType;
 
     @Lob
     @Type(type = "org.hibernate.type.ImageType")
+    @NotNull
     private byte[] data;
 
     public Image() {

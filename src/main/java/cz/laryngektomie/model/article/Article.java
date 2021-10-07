@@ -11,6 +11,7 @@ import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Collection;
 
@@ -19,13 +20,18 @@ public class Article extends EntityBase {
 
     @NotBlank
     @Size(min = 3, max = 100, message = "Délka mezi 3 - 100 znaky")
+    @Column(unique = true)
+    @NotNull
     private String name;
 
     @Size(max = 150)
+    @Column(unique = true)
+    @NotNull
     private String url;
 
     @NotBlank
     @Column(columnDefinition = "varchar(MAX)")
+    @NotNull
     private String text;
 
     @ManyToOne(fetch = FetchType.EAGER, optional = false)

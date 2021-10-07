@@ -8,6 +8,7 @@ import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.article.Article;
 import cz.laryngektomie.model.article.ArticleType;
 import cz.laryngektomie.model.security.User;
+import cz.laryngektomie.model.security.UserRole;
 import cz.laryngektomie.repository.article.ArticleTypeRepository;
 import cz.laryngektomie.repository.security.UserRepository;
 import cz.laryngektomie.service.forum.CategoryService;
@@ -57,7 +58,7 @@ public class InitialDataLoader implements ApplicationRunner {
             admin.setLastName("Kanok");
             admin.setPassword(bCryptPasswordEncoder.encode("admin"));
             admin.setEmail("vitezslav.kanok@email.cz");
-            admin.setRole(Const.ROLE_ADMIN);
+            admin.setRole(UserRole.ADMIN);
             admin.setEnabled(true);
             admin.setAboutMe("Jmenuji se Hana a jsem dva roky po operaci, kdy mi byl odebrán hrtan a hlasivky. Myslela jsem, že už nebudu nikdy mluvit, jen psát. Cítila jsem beznaděj, ale když jsem se dozvěděla o možnosti jícnového hlasu, okamžitě jsem se rozhodla. Řekla jsem si, že jsem se v životě naučila hodně věcí, a proto se naučím i toto. Dnes mluvím i telefonuji.");
             admin.setAboutUs(false);
@@ -93,7 +94,7 @@ public class InitialDataLoader implements ApplicationRunner {
             specialist.setLastName("doktor");
             specialist.setPassword(bCryptPasswordEncoder.encode("doktor"));
             specialist.setEmail("doktor@test.com");
-            specialist.setRole(Const.ROLE_SPECIALISTS);
+            specialist.setRole(UserRole.SPECIALISTS);
             specialist.setEnabled(true);
             specialist.setAboutUs(false);
 
@@ -108,7 +109,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("user");
             user.setPassword(bCryptPasswordEncoder.encode("user"));
             user.setEmail("user@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(false);
             user.setAboutMe("Jmenuji se Roman a jsem čtyři roky po tracheostomické operaci. Rozhodl jsem se pro jícnový hlas, po necelém roce jsem začal znovu komunikovat. Vrátil jsem se na čas do zaměstnání. Nyní mluvím, telefonuji, žiju aktivní život, na nemoci nemám čas :-). Věřte, že i když jsou začátky těžké, výsledek se dostaví! Nenechte se odradit, chce to jen \"kecat a kecat\"!");
@@ -132,7 +133,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Eva");
             user.setPassword(bCryptPasswordEncoder.encode("Eva"));
             user.setEmail("Eva@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Eva a pracuji jako klinická logopedka. Mezi mými klienty jsou také pacienti se ztrátou hlasu po totální laryngektomii. Prošli si náročnou hlasovou rehabilitací a nyní opět úspěšně komunikují. Domnívám se, že tito úspěšní pacienti, jsou nejlepšími vzory a motivací pro ostatní.");
@@ -152,7 +153,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Roman");
             user.setPassword(bCryptPasswordEncoder.encode("Roman"));
             user.setEmail("Roman@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Roman a jsem pět let po tracheostomické operaci. Rozhodl jsem se pro jícnový hlas, po necelém roce jsem začal znovu komunikovat. Vrátil jsem se na čas do zaměstnání. Nyní mluvím, telefonuji, žiju aktivní život, na nemoci nemám čas :-). Věřte, že i když jsou začátky těžké, výsledek se dostaví! Nenechte se odradit, chce to jen \"kecat a kecat\"!");
@@ -172,7 +173,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Hana");
             user.setPassword(bCryptPasswordEncoder.encode("Hana"));
             user.setEmail("Hana@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Hana a jsem od roku 2016 po operaci, kdy mi byl odebrán hrtan a hlasivky. Myslela jsem, že už nebudu nikdy mluvit, jen psát. Cítila jsem beznaděj, ale když jsem se dozvěděla o možnosti jícnového hlasu, okamžitě jsem se rozhodla. Řekla jsem si, že jsem se v životě naučila hodně věcí, a proto se naučím i toto. Dnes mluvím i telefonuji.");
@@ -192,7 +193,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Zdeněk");
             user.setPassword(bCryptPasswordEncoder.encode("Zdeněk"));
             user.setEmail("Zdeněk@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Zdeněk a jsem po operaci hrtanu již pět let. Po operaci jsem se cítil strašně. Když jsem ale viděl nahrávky, že se dá mluvit i jinak než s hlasivkami, tedy jícnem, řekl jsem si, že když to dokázali jiní, dokážu to taky. Dnes se domluvím po celé Evropě, telefonuji. Znovu jsem se oženil, vedu spokojený život. Co bych vzkázal ostatním? Jícnový hlas je zpočátku námaha, ale stojí to za to!");
@@ -212,7 +213,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Míša");
             user.setPassword(bCryptPasswordEncoder.encode("Míša"));
             user.setEmail("Míša@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Míša a první rok po operaci jsem se snažil naučit jícnový hlas, což se mi nedařilo. Poté mi byla voperována hlasová protéza, ale ani ta se mi neosvědčila. Nyní, třetí rok po operaci, používám elektrolarynx, který mi vyhovuje. Lituji, že jsem nezačal používat přístroj hned po operaci. Domluvím se všude, např.: v bance, na poště, aj. S lidmi, kteří mě znají i telefonuji.");
@@ -232,7 +233,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Jindřich");
             user.setPassword(bCryptPasswordEncoder.encode("Jindřich"));
             user.setEmail("Jindřich@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Jindřich a když jsem viděl jak lze mluvit po operaci i bez hrtanu, ihned jsem se rozhodl. Pravidelně trénuji jícnový hlas, ale zatím mi ještě nejde tak plynule a automaticky, jak bych si přál, proto používám elektrolarynx, se kterým je pro mě komunikace snadnější. Cvičení jícnového hlasu nevzdávám a věřím, že když se jej naučili jiní, dokážu to taky!");
@@ -252,7 +253,7 @@ public class InitialDataLoader implements ApplicationRunner {
             user.setLastName("Karel");
             user.setPassword(bCryptPasswordEncoder.encode("Karel"));
             user.setEmail("Karel@test.com");
-            user.setRole(Const.ROLE_USER);
+            user.setRole(UserRole.USER);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Karel a laryngektomie byla pro mě neznámým pojmem, než jsem se s ní před pěti lety \\\"potkal\\\". Operací a léčbou si prošla moje manželka a já najednou viděl celou problematiku zblízka - statečnost své ženy, um a obětavost zdravotníků. Viděl jsem také nedostatky, např. v nízké informovanosti pacientů i veřejnosti. Uvítal jsem vznik spolku, snažím se pomáhat a jako bývalý novinář i přes média. Těší mě vydávání Zpravodaje a věřím, že má naše práce smysl.");
