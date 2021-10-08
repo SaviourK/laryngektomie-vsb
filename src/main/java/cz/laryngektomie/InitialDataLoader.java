@@ -1,20 +1,19 @@
 package cz.laryngektomie;
 
 import com.github.javafaker.Faker;
-import cz.laryngektomie.helper.Const;
+import cz.laryngektomie.model.article.Article;
+import cz.laryngektomie.model.article.ArticleType;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.article.Article;
-import cz.laryngektomie.model.article.ArticleType;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.model.security.UserRole;
 import cz.laryngektomie.repository.article.ArticleTypeRepository;
 import cz.laryngektomie.repository.security.UserRepository;
+import cz.laryngektomie.service.article.ArticleService;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.article.ArticleService;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
