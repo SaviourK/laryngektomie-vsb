@@ -126,8 +126,8 @@
                             Naše&nbsp;činnost
                         </a>
                         <div class="dropdown-menu" aria-labelledby="naseCinnostDropdown">
-                            <a class="dropdown-item" href="/nase-cinnost/novinky"
-                               th:href="@{~/nase-cinnost/novinky}">Novinky</a>
+                            <a class="dropdown-item" href="/nase-cinnost/clanky"
+                               th:href="@{~/nase-cinnost/clanky}">Články</a>
                             <a class="dropdown-item" href="/nase-cinnost/zpravodaj"
                                th:href="@{~/nase-cinnost/zpravodaj}">Zpravodaj</a>
                             <a class="dropdown-item" href="/nase-cinnost/pomucky"
@@ -161,7 +161,7 @@
 
                     <li sec:authorize="hasRole('ADMIN')" class="nav-item"
                         th:classappend="${#strings.contains(#request.getRequestURI(), '/admin')} ? 'active' : ''">
-                        <a class="nav-link" href="/admin/novinky" th:href="@{~/admin/novinky}">Administrace</a>
+                        <a class="nav-link" href="/admin/clanky" th:href="@{~/admin/clanky}">Administrace</a>
                     </li>
 
                     <li sec:authorize="hasAnyRole('SPECIALIST', 'USER')" class="nav-item dropdown"
@@ -260,8 +260,8 @@
 
     <div class="col-md-2 col-4">
         <p><a class="btn btn-primary btn-block"
-              th:classappend="${#strings.contains(#request.getRequestURI(), '/admin/novinky')} ? 'active' : ''"
-              th:href="@{~/admin/novinky}" th:text="Články">Články</a>
+              th:classappend="${#strings.contains(#request.getRequestURI(), '/admin/clanky')} ? 'active' : ''"
+              th:href="@{~/admin/clanky}" th:text="Články">Články</a>
         </p>
     </div>
     <div class="col-md-2 col-4">

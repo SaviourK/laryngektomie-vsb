@@ -222,8 +222,8 @@ public class User extends EntityBase {
         return articleCount;
     }
 
-    public void setArticleCount(int newsCount) {
-        this.articleCount = newsCount;
+    public void setArticleCount(int articleCount) {
+        this.articleCount = articleCount;
     }
 
     public int getTopicCount() {

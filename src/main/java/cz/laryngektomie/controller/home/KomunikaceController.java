@@ -19,7 +19,7 @@ public class KomunikaceController {
         ModelAndView mv = new ModelAndView("komunikace");
         mv.addObject("action", "komunikace");
         mv.addObject("title", "Komunikace");
-        createDataJob.run();
+        //createDataJob.run();
         return mv;
     }
 

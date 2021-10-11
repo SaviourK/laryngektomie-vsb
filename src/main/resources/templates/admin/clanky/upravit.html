@@ -1,11 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="cs">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{::link})">
-    <title>Novinky - vytvořit</title>
+    <title>Články - upravit</title>
     <link th:href="@{~/css/simditor.css}" rel="stylesheet">
+
 </head>
-
-
 <body>
 
 
@@ -18,7 +17,7 @@
 
     <div class="row m-3 p-3 rounded">
         <div class="col-lg">
-            <h1 class="text-center">Přidat novinku</h1>
+            <h1 class="text-center">Přidat článek</h1>
         </div>
 
 
@@ -26,54 +25,76 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/admin/novinky/vytvorit}"
-                  th:object="${article}" enctype="multipart/form-data">
+            <form method="post" action="#" th:method="post" th:action="@{/admin/clanky/upravit}"
+                  th:object="${article}">
+
+                <div class="form-group">
+
+                    <label for="id">Id článku</label>
+                    <br/>
+                    <input class="form-control" type="text" id="id" name="id" th:field="*{id}" readonly="readonly"/>
+                </div>
+
+                <div class="form-group">
+
+                    <label for="text">Uživatel </label>
+                    <br/>
+                    <input class="form-control" type="text" id="user" name="user" th:field="*{user.username}"
+                           readonly="readonly"/>
+                </div>
+
+                <input type="hidden" th:field="*{images}" id="images" name="images"
+                       class="form-control mb-4"
+                       />
+
+                <div class="form-group">
+
+                    <label for="createDateTime">Vytvořeno </label>
+                    <br/>
+                    <input class="form-control" type="text" id="createDateTime" name="createDateTime"
+                           th:field="*{createDateTime}"
+                           readonly="readonly"/>
+                </div>
 
 
                 <div class="form-group">
 
-                    <label for="name">Název novinky</label>
+                    <label for="name">Název článku</label>
                     <label class="label-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
                     <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
-                           placeholder="Název novinky" required pattern=".{3,100}" title="Délka 3-100 znaků."/>
+                           placeholder="Název článku" required pattern=".{3,100}" title="Délka 3-100 znaků."/>
 
                 </div>
 
 
-
                 <div class="form-group">
 
-                    <label for="text">Text novinky</label>
+                    <label for="text">Text článku</label>
                     <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
                     <textarea type="text" th:field="*{text}" id="text" name="text" class="form-control mb-4"
-                              placeholder="Text novinky" rows="4" cols="50" required></textarea>
+                              placeholder="Text článku" rows="4" cols="50" required></textarea>
 
                     <label id="count"></label>
                 </div>
 
                 <div class="form-group">
-                    <label for="articleType">Typ novinky</label>
+                    <label for="articleType">Typ článku</label>
                     <label th:if="${#fields.hasErrors('articleType')}" th:errors="*{articleType}"></label>
                     <select class="form-control" id="articleType" th:field="*{articleType}">
-                        <option value="" selected="selected">Vyberte typ novinky</option>
+                        <option value="" selected="selected">Vyberte typ článku</option>
                         <option th:each="type : ${articleTypes}"
                                 th:value="${type.id}"
                                 th:text="${type.name}"></option>
                     </select>
                 </div>
 
+                <input type="hidden" th:field="*{url}" id="url" name="url" />
 
-                <div class="input-group mb-2">
-                    <div class="custom-file">
-                        <input type="file" name="files" multiple="multiple" class="custom-file-input" id="customFile">
-                        <label id="upload-file-info" class="custom-file-label" for="customFile">Vyberte obrázky</label>
-                    </div>
-                </div>
 
 
 
                 <!-- Send button -->
-                <button class="btn btn-primary" type="submit">Vytvořit</button>
+                <button class="btn btn-primary" type="submit">Upravit</button>
 
             </form>
         </div>
@@ -81,8 +102,6 @@
 
 
     <div th:replace="'./fragments/fragments.html' :: footer"></div>
-
-
 
     <script th:src="@{~/js/simditor/module.js}"></script>
     <script th:src="@{~/js/simditor/hotkeys.js}"></script>
@@ -94,19 +113,8 @@
             textarea: $('#text')
             //optional options
         });
-
-        $(".custom-file-input").on("change", function() {
-            //clear the info before appending
-            $(".custom-file-label").html("");
-
-            var files = $(this).prop('files');
-            for (var i = 0; i < files.length; i++) {
-                $('#upload-file-info').append(files[i].name+' ');
-            }
-
-        });
-
     </script>
+
 </div>
 </body>
 </html>

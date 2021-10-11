@@ -56,7 +56,7 @@ public class SecurityController {
         authorities = auth.getAuthorities();
         String myRole = authorities.toArray()[0].toString();
         if (myRole.equals(UserPrincipal.ROLE_PREFIX + Const.ROLE_ADMIN)) {
-            return "redirect:/admin/novinky";
+            return "redirect:/admin/clanky";
         }
         return "redirect:/poradna";
     }

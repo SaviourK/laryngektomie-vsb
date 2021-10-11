@@ -93,13 +93,13 @@
 
 
                 <div class="form-group">
-                    <label for="roles">Role</label>
-                    <label th:if="${#fields.hasErrors('roles')}" th:errors="*{roles}"></label>
-                    <select class="form-control" id="roles" th:field="*{roles}">
+                    <label for="role">Role</label>
+                    <label th:if="${#fields.hasErrors('role')}" th:errors="*{role}"></label>
+                    <select class="form-control" id="role" th:field="*{role}">
                         <option value="" selected="selected">Vyberte prosím roli</option>
                         <option th:each="role : ${roles}"
-                                th:value="${role.id}"
-                                th:text="${role.nameCZ}"></option>
+                                th:value="${role}"
+                                th:text="${role}"></option>
                     </select>
                 </div>
 
@@ -123,6 +123,12 @@
                         <label class="form-check-label" for="aboutUs">V sekci o nás?</label>
                     </div>
                 </div>
+
+                <input type="hidden" th:field="*{topics}" id="topics" name="topics" />
+                <input type="hidden" th:field="*{posts}" id="posts" name="posts" />
+                <input type="hidden" th:field="*{topicCount}" id="topicCount" name="topicCount" />
+                <input type="hidden" th:field="*{postCount}" id="postCount" name="postCount" />
+                <input type="hidden" th:field="*{articleCount}" id="articleCount" name="articleCount" />
                 <!-- Send button -->
                 <button class="btn btn-primary" type="submit">Upravit</button>
 

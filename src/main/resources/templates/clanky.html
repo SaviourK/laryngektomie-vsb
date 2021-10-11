@@ -17,7 +17,7 @@
 
     <div class="row m-3 p-3 rounded">
         <div class="col-lg">
-            <h1 class="text-center">Novinky</h1>
+            <h1 class="text-center">Články</h1>
         </div>
 
 
@@ -27,7 +27,7 @@
 
     <div class="container mt-3">
         <p th:if="${article.isEmpty()}">
-            Žádné novinky
+            Žádné články
         </p>
         <div class="row" th:each="n,iter : ${article}">
 
@@ -46,7 +46,7 @@
                         <p th:text="${n.getCreateDateTimeString()}"></p>
 
                 <div class="text-center">
-                    <a th:href="@{~/novinky/{url}(url=${n.url})}" class="btn btn-primary text-center"
+                    <a th:href="@{~/clanky/{url}(url=${n.url})}" class="btn btn-primary text-center"
                        role="button" aria-pressed="true">Více info</a>
                 </div>
                 <hr/>

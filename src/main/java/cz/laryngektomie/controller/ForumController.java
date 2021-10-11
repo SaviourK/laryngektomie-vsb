@@ -161,7 +161,6 @@ public class ForumController {
             topic.setUser(userService.findByUsername(principal.getName()));
         }
 
-
         topicService.saveOrUpdate(topic);
 
         mv.addObject("messageSuccess", "Téma " + topic.getName() + " bylo úspěšně přidáno.");

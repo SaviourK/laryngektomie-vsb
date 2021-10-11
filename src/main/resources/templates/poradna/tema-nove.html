@@ -44,6 +44,7 @@
                               placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
                     <label id="count">Zbývá 1000 znaků.</label>
                 </div>
+                <input type="hidden" th:field="*{category.id}" id="categoryId" name="categoryId" />
 
                 <!-- Send button -->
                 <button class="btn btn-primary" type="submit">Vytvořit</button>

@@ -36,14 +36,14 @@ public class ArticleController {
         this.imageService = imageService;
     }
 
-    @GetMapping({"/admin/novinky", "/novinky"})
-    public ModelAndView novinky(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, @RequestParam Optional<String> query) {
-        ModelAndView mv = new ModelAndView("novinky");
+    @GetMapping({"/admin/clanky", "/clanky"})
+    public ModelAndView clanky(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, @RequestParam Optional<String> query) {
+        ModelAndView mv = new ModelAndView("clanky");
 
         int pageNumber = page < 0 ? 1 : page;
 
-        if (request.getRequestURI().contains("/admin/novinky")) {
-            mv.setViewName("admin/novinky");
+        if (request.getRequestURI().contains("/admin/clanky")) {
+            mv.setViewName("admin/clanky");
         }
 
         String queryString = query.orElse("");
@@ -58,36 +58,36 @@ public class ArticleController {
         return mv;
     }
 
-    @GetMapping("/novinky/{url}")
+    @GetMapping("/clanky/{url}")
     public ModelAndView detail(@PathVariable("url") String url) {
         ModelAndView mv = new ModelAndView();
-        Optional<Article> newsOptional = articleService.findByUrl(url);
+        Optional<Article> articleOptional = articleService.findByUrl(url);
 
-        if (!newsOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaná novinka neexstuje.");
-            mv.setViewName("redirect:/admin/novinky");
+        if (!articleOptional.isPresent()) {
+            mv.addObject("messageError", "Požadovaný článek neexstuje.");
+            mv.setViewName("redirect:/admin/clanky");
             return mv;
         }
 
-        mv.addObject("article", newsOptional.get());
-        mv.setViewName("admin/novinky/detail");
+        mv.addObject("article", articleOptional.get());
+        mv.setViewName("admin/clanky/detail");
         return mv;
     }
 
-    @RequestMapping("/admin/novinky/vytvorit")
+    @RequestMapping("/admin/clanky/vytvorit")
     public ModelAndView vytvoritGet() {
-        ModelAndView mv = new ModelAndView("admin/novinky/vytvorit");
+        ModelAndView mv = new ModelAndView("admin/clanky/vytvorit");
         mv.addObject("article", new Article());
         mv.addObject("articleTypes", articleTypeService.findAll());
         return mv;
     }
 
-    @PostMapping("/admin/novinky/vytvorit")
+    @PostMapping("/admin/clanky/vytvorit")
     public ModelAndView vytvoritPost(@Valid @ModelAttribute("article") Article article, @RequestParam("files") List<MultipartFile> files, BindingResult result, Principal principal) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors() || article.getArticleType() == null) {
-            mv.setViewName("admin/novinky/vytvorit");
+            mv.setViewName("admin/clanky/vytvorit");
             mv.addObject("article", article);
             mv.addObject("articleTypes", articleTypeService.findAll());
             mv.addObject("messageError", "Špatně vyplněná pole.");
@@ -98,31 +98,31 @@ public class ArticleController {
         article.setImages(images);
         article.setUser(userService.findByUsername(principal.getName()));
         articleService.saveOrUpdate(article);
-        mv.addObject("messageSuccess", "Novinka " + article.getName() + " byla úspěšně přidána.");
-        mv.setViewName("redirect:/admin/novinky");
+        mv.addObject("messageSuccess", "Článek " + article.getName() + " byl úspěšně přidán.");
+        mv.setViewName("redirect:/admin/clanky");
         return mv;
     }
 
-    @GetMapping("/admin/novinky/upravit/{id}")
+    @GetMapping("/admin/clanky/upravit/{id}")
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/novinky/upravit");
-        Optional<Article> optionalNews = articleService.findById(id);
-        if (!optionalNews.isPresent()) {
-            mv.addObject("messageError", "Požadovaná novinka neexistuje.");
-            mv.setViewName("redirect:/admin/novinky");
+        ModelAndView mv = new ModelAndView("admin/clanky/upravit");
+        Optional<Article> articleOptional = articleService.findById(id);
+        if (!articleOptional.isPresent()) {
+            mv.addObject("messageError", "Požadovaný článek neexistuje.");
+            mv.setViewName("redirect:/admin/clanky");
             return mv;
         }
 
         mv.addObject("articleTypes", articleTypeService.findAll());
-        mv.addObject("article", optionalNews.get());
+        mv.addObject("article", articleOptional.get());
         return mv;
     }
 
-    @PostMapping("/admin/novinky/upravit")
+    @PostMapping("/admin/clanky/upravit")
     public ModelAndView upravitPost(@Valid @ModelAttribute("article") Article article, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
-            mv.setViewName("admin/novinky/upravit");
+            mv.setViewName("admin/clanky/upravit");
             mv.addObject("article", article);
             mv.addObject("articleTypes", articleTypeService.findAll());
             mv.addObject("messageError", "Špatně vyplněná pole.");
@@ -133,24 +133,24 @@ public class ArticleController {
 
         articleService.saveOrUpdate(article);
 
-        mv.addObject("messageSuccess", "Novinka:" + article.getName() + " byla upravena.");
-        mv.setViewName("redirect:/admin/novinky");
+        mv.addObject("messageSuccess", "Článek:" + article.getName() + " byl upraven.");
+        mv.setViewName("redirect:/admin/clanky");
         return mv;
     }
 
-    @GetMapping("/admin/novinky/smazat/{id}")
+    @GetMapping("/admin/clanky/smazat/{id}")
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
-        Optional<Article> newsOptional = articleService.findById(id);
-        if (!newsOptional.isPresent()) {
-            mv.addObject("messageError", "Novinka s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/novinky");
+        Optional<Article> articleOptional = articleService.findById(id);
+        if (!articleOptional.isPresent()) {
+            mv.addObject("messageError", "Článek s id: " + id + " neexistuje.");
+            mv.setViewName("redirect:/admin/clanky");
             return mv;
         }
 
-        articleService.delete(newsOptional.get());
-        mv.addObject("messageSuccess", "Novinka " + newsOptional.get().getName() + " byla smazána.");
-        mv.setViewName("redirect:/admin/novinky");
+        articleService.delete(articleOptional.get());
+        mv.addObject("messageSuccess", "Článek " + articleOptional.get().getName() + " byla smazána.");
+        mv.setViewName("redirect:/admin/clanky");
         return mv;
     }
 }

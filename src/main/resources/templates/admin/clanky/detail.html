@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
-    <title th:text="${article.name}">Detail novinky</title>
+    <title th:text="${article.name}">Detail článku</title>
 
 </head>
 
@@ -22,7 +22,7 @@
     </div>
     <div class="row m-3 rounded">
         <div class="col m-auto text-center">
-            <a class="btn btn-secondary" th:href="@{~/novinky}">Zpět</a>
+            <a class="btn btn-secondary" th:href="@{~/clanky}">Zpět</a>
         </div>
 
     </div>

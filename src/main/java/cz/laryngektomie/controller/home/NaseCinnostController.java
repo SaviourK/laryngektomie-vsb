@@ -18,17 +18,17 @@ public class NaseCinnostController {
         this.articleService = articleService;
     }
 
-    @RequestMapping("/novinky")
+    @RequestMapping("/clanky")
     public ModelAndView aktuality() {
-        return new ModelAndView("redirect:/novinky");
+        return new ModelAndView("redirect:/clanky");
     }
 
     @RequestMapping("/zpravodaj")
     public ModelAndView zpravodaj() {
         ModelAndView mv = new ModelAndView("nase-cinnost/zpravodaj");
-        Optional<Article> newsOptional = articleService.findLastNewsletter();
+        Optional<Article> articleOptional = articleService.findLastNewsletter();
 
-        if (!newsOptional.isPresent()) {
+        if (!articleOptional.isPresent()) {
             mv.addObject("messageError", "Zatím žádný zpravodaj");
             mv.setViewName("redirect:/index");
             return mv;
@@ -36,7 +36,7 @@ public class NaseCinnostController {
 
         mv.addObject("action", "nase-cinnost");
         mv.addObject("title", "Zpravodaj | Naše činnost");
-        mv.addObject("article", newsOptional.get());
+        mv.addObject("article", articleOptional.get());
         return mv;
     }
 

@@ -18,7 +18,7 @@ public interface ArticleRepository extends IRepositoryBase<Article> {
 
     Page<Article> findAllByTextContainingIgnoreCase(String name, Pageable pageable);
 
-    Page<Article> findAllByNameOrTextOrArticleTypeNameContainingIgnoreCase(String name, String text, String newsTypeName, Pageable pageable);
+    Page<Article> findAllByNameOrTextOrArticleTypeNameContainingIgnoreCase(String name, String text, String articleTypeName, Pageable pageable);
 
     Page<Article> findAllByArticleTypeName(String name, Pageable pageable);
 

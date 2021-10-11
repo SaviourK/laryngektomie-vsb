@@ -259,10 +259,10 @@ public class InitialDataLoader implements ApplicationRunner {
             userRepository.save(user);
         }
 
-        String[] typeOfNews = new String[]{"setkání", "konference", "zpravodaj", "oznámení", "terapie", "sezení"};
+        String[] typeOfArticle = new String[]{"setkání", "konference", "zpravodaj", "oznámení", "terapie", "sezení"};
 
-        for (String type : typeOfNews) {
-            //pridani typu novinky
+        for (String type : typeOfArticle) {
+            //pridani typu clanku
             if (!articleTypeRepository.findByName(type).isPresent()) {
                 ArticleType articleType = new ArticleType();
                 articleType.setName(type);
@@ -271,12 +271,12 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
 
-        //Novinky inicializace
+        //Članky inicializace
         String zpravodajName = "Vydáváme zpravodaj";
-        User newsAdmin = userRepository.findByUsername("admin");
+        User articleAdmin = userRepository.findByUsername("admin");
         if (!articleService.findByName(zpravodajName).isPresent()) {
             Article article = new Article();
-            article.setUser(newsAdmin);
+            article.setUser(articleAdmin);
 
            /* byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/zpravodaj.jpg").getPath()));
             Image image = new Image("Zpravodaj", "image/jpeg", array);
@@ -295,7 +295,7 @@ public class InitialDataLoader implements ApplicationRunner {
         String setkani1 = "Dne 9. 1. 2020 proběhlo povánoční tříkrálové posezení.";
         if (!articleService.findByName(setkani1).isPresent()) {
             Article article = new Article();
-            article.setUser(newsAdmin);
+            article.setUser(articleAdmin);
 
             /*Collection<Image> images = new ArrayList<>();
             byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/a.jpg").getPath()));
@@ -317,7 +317,7 @@ public class InitialDataLoader implements ApplicationRunner {
         String setkani2 = "Ve čtvrtek 5. 12. 2019 jsme se sešli na společné logopedické terapii.";
         if (!articleService.findByName(setkani2).isPresent()) {
             Article article = new Article();
-            article.setUser(newsAdmin);
+            article.setUser(articleAdmin);
 
             /*Collection<Image> images = new ArrayList<>();
             byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/init/c.jpg").getPath()));

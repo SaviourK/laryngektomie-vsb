@@ -27,7 +27,7 @@
     <div class="row mt-3 rounded">
         <div class="col-md-12 bgcolor2 p-4 text-center">
             <a class="btn btn-secondary m-2" href="/admin/poradna/prispevky/vytvorit"
-               th:href="@{~/admin/novinky/vytvorit}">Vytvořit</a>
+               th:href="@{~/admin/clanky/vytvorit}">Vytvořit</a>
             <br>
 
             <table class="table table-striped">
@@ -46,20 +46,20 @@
                 <tbody>
 
                 <tr th:if="${article.empty}">
-                    <td colspan="6"> Žádné dostupné novinky</td>
+                    <td colspan="6"> Žádné dostupné články</td>
                 </tr>
                 <tr th:each="n : ${article}">
-                    <td><a th:href="@{/admin/novinky/{url}(url=${n.url})}">Detail: <span
+                    <td><a th:href="@{/clanky/{url}(url=${n.url})}">Detail: <span
                             th:text="${n.id}"> Id </span></a></td>
-                    <td th:text="${n.name}"> Název novinky</td>
-                    <td th:text="${n.articleType.name}"> Typ novinky</td>
+                    <td th:text="${n.name}"> Název článku</td>
+                    <td th:text="${n.articleType.name}"> Typ článku</td>
                     <td th:text="${n.getCreateDateTimeString()}"> Datum vytvoření</td>
                     <td th:text="${n.getUpdateDateTimeString()}"> Datum úpravy</td>
                     <td th:text="${n.user.username}"> Vytvoril</td>
                     <td>
-                        <a th:href="@{'/admin/novinky/upravit/' + ${n.id}}">Upravit</a>
+                        <a th:href="@{'/admin/clanky/upravit/' + ${n.id}}">Upravit</a>
                         <br/>
-                        <a th:href="@{'/admin/novinky/smazat/' + ${n.id}}">Smazat</a>
+                        <a th:href="@{'/admin/clanky/smazat/' + ${n.id}}">Smazat</a>
                     </td>
                 </tr>
                 </tbody>
