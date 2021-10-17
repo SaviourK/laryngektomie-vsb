@@ -63,6 +63,9 @@ public class UserController {
         }
 
         mv.addObject("user", userOptional.get());
+        //TOOD pridat dotazy
+        mv.addObject("adminCategory", "Laryngektomie, Pravidla");
+        mv.addObject("watchingTopics", 5);
         return mv;
     }
 

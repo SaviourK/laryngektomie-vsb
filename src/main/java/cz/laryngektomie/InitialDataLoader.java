@@ -242,17 +242,20 @@ public class InitialDataLoader implements ApplicationRunner {
         //Pridani uživatele Karel
         if (userRepository.findByUsername("Karel") == null) {
             User user = new User();
-            user.setUsername("Karel");
+            user.setUsername("KarelGott");
 
             /*byte[] array = Files.readAllBytes(Paths.get(ResourceUtils.getFile("classpath:static/images/clenove/karel.jpg").getPath()));
             Image image = new Image(user.getUsername(), "image/jpeg", array);
             user.setImage(image);*/
 
             user.setFirstName("Karel");
-            user.setLastName("Karel");
+            user.setLastName("Gott");
             user.setPassword(bCryptPasswordEncoder.encode("Karel"));
-            user.setEmail("Karel@test.com");
-            user.setRole(UserRole.USER);
+            user.setEmail("KarelGott@gmail.com");
+            user.setRole(UserRole.SPECIALISTS);
+            user.setArticleCount(13);
+            user.setPostCount(55);
+            user.setTopicCount(8);
             user.setEnabled(true);
             user.setAboutUs(true);
             user.setAboutMe("Jmenuji se Karel a laryngektomie byla pro mě neznámým pojmem, než jsem se s ní před pěti lety \\\"potkal\\\". Operací a léčbou si prošla moje manželka a já najednou viděl celou problematiku zblízka - statečnost své ženy, um a obětavost zdravotníků. Viděl jsem také nedostatky, např. v nízké informovanosti pacientů i veřejnosti. Uvítal jsem vznik spolku, snažím se pomáhat a jako bývalý novinář i přes média. Těší mě vydávání Zpravodaje a věřím, že má naše práce smysl.");
