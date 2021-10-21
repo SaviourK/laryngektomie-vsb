@@ -14,7 +14,7 @@ public interface TopicRepository extends IRepositoryBase<Topic> {
 
     Optional<Topic> findByName(String name);
 
-    List<Topic> findAllByOrderByCreateDateTimeDesc();
+    //List<Topic> findAllByOrderByCreateDateTimeDesc();
 
     List<Topic> findByCategoryId(Long id);
 

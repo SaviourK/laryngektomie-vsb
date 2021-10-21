@@ -5,6 +5,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -16,14 +17,14 @@ import java.time.format.DateTimeFormatter;
 public abstract class EntityBase implements Serializable {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     protected Long id;
 
-    @CreationTimestamp
+    /*@CreationTimestamp
     private LocalDateTime createDateTime;
 
     @UpdateTimestamp
-    private LocalDateTime updateDateTime;
+    private LocalDateTime updateDateTime;*/
 
     protected EntityBase() {
     }
@@ -37,32 +38,35 @@ public abstract class EntityBase implements Serializable {
     }
 
     public LocalDateTime getCreateDateTime() {
-        return createDateTime;
+        return LocalDateTime.now();
     }
 
     public void setCreateDateTime(LocalDateTime createDateTime) {
-        this.createDateTime = createDateTime;
+
     }
 
     public LocalDateTime getUpdateDateTime() {
-        return updateDateTime;
+        return LocalDateTime.now();
     }
 
     public void setUpdateDateTime(LocalDateTime updateDateTime) {
-        this.updateDateTime = updateDateTime;
+
     }
 
     public String getCreateDateTimeString() {
-        return createDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
+        //return createDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
+        return "ABC";
     }
 
     public String getUpdateDateTimeString() {
-        return updateDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
+        //return updateDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
+        return "ABC";
     }
 
     public String getTimePassedString() {
         //Duration = čas mezi vytvořením objektu a součastností
-        Duration duration = Duration.between(createDateTime, LocalDateTime.now());
+        return "před ";
+        /*Duration duration = Duration.between(createDateTime, LocalDateTime.now());
         if (duration.toHours() < 24) {
             if (duration.toMinutes() < 60) {
                 if (duration.toMinutes() == 1) {
@@ -80,6 +84,6 @@ public abstract class EntityBase implements Serializable {
                 return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "d", true) + " dnem";
             }
             return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "d", true) + " dny";
-        }
+        }*/
     }
 }

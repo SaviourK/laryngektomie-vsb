@@ -7,15 +7,17 @@ import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.TopicService;
 import cz.laryngektomie.service.security.UserService;
+import org.hibernate.Session;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.FlushModeType;
 import javax.persistence.PersistenceUnit;
+import java.sql.PreparedStatement;
+import java.sql.Timestamp;
 import java.time.Duration;
 import java.time.Instant;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -36,11 +38,58 @@ public class CreateDataJob {
     }
 
     public void run() {
-        fakeData();
+        bulkInsert();
+    }
+
+    public void bulkInsert() {
+        EntityManager em = entityManagerFactory.createEntityManager();
+        Session session = em.unwrap(Session.class);
+        //Timestamp startTime = new Timestamp(System.currentTimeMillis());
+        int records = 5000000;
+        long start = System.currentTimeMillis();
+        session.doWork(connection -> {
+            int totalInserted = 0;
+            connection.setAutoCommit(false);
+            /*String compiledQuery = "INSERT INTO category(id, name, url, users_id)" +
+                    " VALUES" + "(?, ?, ?, ?)";*/
+            String compiledQuery = "INSERT INTO article_type(id, name)" +
+                    " VALUES" + "(?, ?)";
+            String articleType = "article_type";
+            PreparedStatement preparedStatement = connection.prepareStatement(compiledQuery);
+            for (long i = 100; i < records; i++) {
+                preparedStatement.setLong(1, i);
+                preparedStatement.setString(2, articleType+i);
+                //preparedStatement.setTimestamp(2, startTime);
+                //preparedStatement.setTimestamp(3, startTime);
+                /*preparedStatement.setString(2, "name" + i);
+                preparedStatement.setString(3, "name" + i);
+                preparedStatement.setLong(4, 1L);*/
+                preparedStatement.addBatch();
+                if (i % 10000 == 0) {
+                    totalInserted += preparedStatement.executeBatch().length;
+                    connection.commit();
+                    long end = System.currentTimeMillis();
+                    System.out.println("total time taken = " + (end - start)/1000 + " s" + " total inserted " + totalInserted + " i =" + i);
+                }
+            }
+
+            //long start = System.currentTimeMillis();
+            int[] inserted = preparedStatement.executeBatch();
+            long end = System.currentTimeMillis();
+
+            System.out.println("total time taken to insert the batch = " + (end - start)/1000 + "s");
+
+            preparedStatement.close();
+            connection.close();
+
+        });
     }
 
     private void fakeData() {
+
         EntityManager em = entityManagerFactory.createEntityManager();
+
+
         Faker faker = new Faker();
         int milion = 1000000;
         Instant starts = Instant.now();

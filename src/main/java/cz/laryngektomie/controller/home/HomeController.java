@@ -1,6 +1,7 @@
 package cz.laryngektomie.controller.home;
 
 
+import cz.laryngektomie.CreateDataJob;
 import cz.laryngektomie.service.article.ArticleService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +12,11 @@ import org.springframework.web.servlet.ModelAndView;
 public class HomeController {
 
     private final ArticleService articleService;
+    private final CreateDataJob createDataJob;
 
-    public HomeController(ArticleService articleService) {
+    public HomeController(ArticleService articleService, CreateDataJob createDataJob) {
         this.articleService = articleService;
+        this.createDataJob = createDataJob;
     }
 
     @GetMapping("/")
@@ -21,7 +24,14 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("action", "home");
         mv.addObject("title", "Úvod");
-        mv.addObject("article", articleService.findFirst3ByOrderByCreateDateTimeDesc());
+        mv.addObject("article", null);
+        return mv;
+    }
+
+    @GetMapping("/batch")
+    public ModelAndView batch() {
+        ModelAndView mv = new ModelAndView("redirect:/komunikace");
+        createDataJob.run();
         return mv;
     }
 

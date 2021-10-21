@@ -30,7 +30,8 @@ public class ArticleService extends ServiceBase<Article> {
     }
 
     public List<Article> findFirst3ByOrderByCreateDateTimeDesc() {
-        return articleRepository.findFirst3ByOrderByCreateDateTimeDesc();
+        return articleRepository.findAll();
+        //return articleRepository.findFirst3ByOrderByCreateDateTimeDesc();
     }
 
     public Optional<Article> findByUrl(String url) {
@@ -48,7 +49,8 @@ public class ArticleService extends ServiceBase<Article> {
     }
 
     public Optional<Article> findLastNewsletter() {
-        return articleRepository.findFirstByArticleTypeNameOrderByCreateDateTimeDesc("zpravodaj");
+        return articleRepository.findByName("ab");
+        //return articleRepository.findFirstByArticleTypeNameOrderByCreateDateTimeDesc("zpravodaj");
     }
 
     public Optional<Article> findByName(String name) {
