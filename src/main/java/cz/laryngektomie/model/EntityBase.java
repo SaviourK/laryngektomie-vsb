@@ -17,8 +17,8 @@ import java.time.format.DateTimeFormatter;
 public abstract class EntityBase implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    protected Long id;
+    @GeneratedValue
+    protected long id;
 
     /*@CreationTimestamp
     private LocalDateTime createDateTime;
@@ -29,11 +29,11 @@ public abstract class EntityBase implements Serializable {
     protected EntityBase() {
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 
