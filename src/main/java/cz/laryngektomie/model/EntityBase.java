@@ -4,10 +4,7 @@ import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -20,11 +17,13 @@ public abstract class EntityBase implements Serializable {
     @GeneratedValue
     protected long id;
 
-    /*@CreationTimestamp
+    @CreationTimestamp
+    @Column(nullable = true)
     private LocalDateTime createDateTime;
 
     @UpdateTimestamp
-    private LocalDateTime updateDateTime;*/
+    @Column(nullable = true)
+    private LocalDateTime updateDateTime;
 
     protected EntityBase() {
     }

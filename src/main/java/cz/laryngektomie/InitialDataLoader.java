@@ -25,7 +25,7 @@ import java.util.Random;
 @Component
 public class InitialDataLoader implements ApplicationRunner {
 
-    boolean alreadySetup = false;
+    boolean alreadySetup = true;
 
     private final UserRepository userRepository;
     private final CategoryService categoryService;

@@ -68,11 +68,11 @@ public class User extends EntityBase {
     private Image image;
 
     @OneToMany
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Collection<Topic> topics;
 
     @OneToMany
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Collection<Post> posts;
 
     private int topicCount;

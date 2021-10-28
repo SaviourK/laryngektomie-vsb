@@ -29,7 +29,7 @@ public class ForumService {
                 "       tonly.text AS text,\n" +
                 "       c.name AS category_name\n" +
                 "FROM topic tonly\n" +
-                "JOIN users u ON tonly.users_id = u.id\n" +
+                "JOIN users u ON tonly.user_id = u.id\n" +
                 "JOIN category c ON tonly.category_id = c.id\n" +
                 "UNION\n" +
                 "SELECT tpost.id AS topic_id,\n" +
@@ -40,7 +40,7 @@ public class ForumService {
                 "       c.name AS category_name\n" +
                 "FROM topic tpost\n" +
                 "JOIN post p ON tpost.id = p.topic_id\n" +
-                "JOIN users u ON p.users_id = u.id\n" +
+                "JOIN users u ON p.user_id = u.id\n" +
                 "JOIN category c ON tpost.category_id = c.id\n" +
                 "ORDER BY created_date_time DESC");
         List<Object[]> res = nativeQuery.getResultList();

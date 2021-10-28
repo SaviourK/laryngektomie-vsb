@@ -50,7 +50,7 @@ public class CreateDataJob {
         session.doWork(connection -> {
             int totalInserted = 0;
             connection.setAutoCommit(false);
-            /*String compiledQuery = "INSERT INTO category(id, name, url, users_id)" +
+            /*String compiledQuery = "INSERT INTO category(id, name, url, user_id)" +
                     " VALUES" + "(?, ?, ?, ?)";*/
             String compiledQuery = "INSERT INTO article_type(id, name)" +
                     " VALUES" + "(?, ?)";
