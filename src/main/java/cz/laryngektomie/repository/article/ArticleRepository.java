@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface ArticleRepository extends IRepositoryBase<Article> {
 
-    //List<Article> findFirst3ByOrderByCreateDateTimeDesc();
+    List<Article> findFirst3ByOrderByCreateDateTimeDesc();
 
     Optional<Article> findByUrl(String url);
 
@@ -22,7 +22,7 @@ public interface ArticleRepository extends IRepositoryBase<Article> {
 
     Page<Article> findAllByArticleTypeName(String name, Pageable pageable);
 
-    //Optional<Article> findFirstByArticleTypeNameOrderByCreateDateTimeDesc(String name);
+    Optional<Article> findFirstByArticleTypeNameOrderByCreateDateTimeDesc(String name);
 
     Optional<Article> findByName(String name);
 }

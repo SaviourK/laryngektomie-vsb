@@ -20,7 +20,6 @@ public class Article extends EntityBase {
 
     @NotBlank
     @Size(min = 3, max = 100, message = "Délka mezi 3 - 100 znaky")
-    @Column(unique = true)
     @NotNull
     private String name;
 

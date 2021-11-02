@@ -22,7 +22,7 @@ public class Topic extends EntityBase {
     private Category category;
 
     @NotBlank
-    @Size(min = 2, max = 30, message = "Název musí mít délku 2-30 znaků.")
+    @Size(min = 2, max = 100, message = "Název musí mít délku 2-100 znaků.")
     @NotNull
     private String name;
 

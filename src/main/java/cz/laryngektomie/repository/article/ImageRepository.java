@@ -9,7 +9,7 @@ import java.util.List;
 
 public interface ImageRepository extends IRepositoryBase<Image> {
 
-    //List<Image> findFirst3ByOrderByCreateDateTimeDesc();
+    List<Image> findFirst3ByOrderByCreateDateTimeDesc();
 
     Page<Image> findAllBy(Pageable pageable);
 }

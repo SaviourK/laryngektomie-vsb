@@ -24,7 +24,7 @@ public class HomeController {
         ModelAndView mv = new ModelAndView("index");
         mv.addObject("action", "home");
         mv.addObject("title", "Úvod");
-        mv.addObject("article", null);
+        mv.addObject("article", articleService.findFirst3ByOrderByCreateDateTimeDesc());
         return mv;
     }
 

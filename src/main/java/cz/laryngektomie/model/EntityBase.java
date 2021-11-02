@@ -18,11 +18,9 @@ public abstract class EntityBase implements Serializable {
     protected long id;
 
     @CreationTimestamp
-    @Column(nullable = true)
     private LocalDateTime createDateTime;
 
     @UpdateTimestamp
-    @Column(nullable = true)
     private LocalDateTime updateDateTime;
 
     protected EntityBase() {
@@ -53,19 +51,16 @@ public abstract class EntityBase implements Serializable {
     }
 
     public String getCreateDateTimeString() {
-        //return createDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
-        return "ABC";
+        return createDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
     }
 
     public String getUpdateDateTimeString() {
-        //return updateDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
-        return "ABC";
+        return updateDateTime.format(DateTimeFormatter.ofPattern("HH:mm dd.MM.yyyy"));
     }
 
     public String getTimePassedString() {
         //Duration = čas mezi vytvořením objektu a součastností
-        return "před ";
-        /*Duration duration = Duration.between(createDateTime, LocalDateTime.now());
+        Duration duration = Duration.between(createDateTime, LocalDateTime.now());
         if (duration.toHours() < 24) {
             if (duration.toMinutes() < 60) {
                 if (duration.toMinutes() == 1) {
@@ -83,6 +78,6 @@ public abstract class EntityBase implements Serializable {
                 return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "d", true) + " dnem";
             }
             return "před " + DurationFormatUtils.formatDuration(duration.toMillis(), "d", true) + " dny";
-        }*/
+        }
     }
 }

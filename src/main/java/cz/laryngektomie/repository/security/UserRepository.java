@@ -16,7 +16,7 @@ public interface UserRepository extends IRepositoryBase<User> {
 
     Optional<User> findByEmail(String email);
 
-    //List<User> findByAboutUsTrueOrderByCreateDateTimeAsc();
+    List<User> findByAboutUsTrueOrderByCreateDateTimeAsc();
 
     Optional<User> findByResetToken(String resetToken);
 
