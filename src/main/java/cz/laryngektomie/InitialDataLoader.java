@@ -25,7 +25,7 @@ import java.util.Random;
 @Component
 public class InitialDataLoader implements ApplicationRunner {
 
-    boolean alreadySetup = true;
+    private static final boolean CREATE_INIT_DATA = false;
 
     private final UserRepository userRepository;
     private final CategoryService categoryService;
@@ -46,9 +46,9 @@ public class InitialDataLoader implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) {
         BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-        if (alreadySetup)
+        if (!CREATE_INIT_DATA) {
             return;
-
+        }
         //Přidání admina
         if (userRepository.findByUsername("admin") == null) {
             User admin = new User();
@@ -339,7 +339,6 @@ public class InitialDataLoader implements ApplicationRunner {
         }
 
         fakeData();
-        alreadySetup = true;
     }
 
     private void fakeData() {
