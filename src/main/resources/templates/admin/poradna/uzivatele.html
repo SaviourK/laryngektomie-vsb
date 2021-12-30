@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Uživatelé</title>
 </head>
@@ -50,7 +50,7 @@
                 </tr>
                 <tr th:each="user : ${users}" th:object="${user}">
                     <td><a th:href="@{/admin/poradna/uzivatele/{id}(id=*{id})}">Detail: <span
-                            th:text="*{id}" th:remove="tag"> Id </span></a></td>
+                            th:remove="tag" th:text="*{id}"> Id </span></a></td>
                     <td th:text="*{firstName}"> Jméno</td>
                     <td th:text="*{lastName}"> Přijmení</td>
                     <td th:text="*{username}"> Uživatelské jméno</td>

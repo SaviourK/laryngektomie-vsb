@@ -34,8 +34,8 @@ public class UserService extends ServiceBase<User> {
     }
 
 
-    public List<User> findByAboutUsTrue() {
-        return userRepository.findByAboutUsTrueOrderByCreateDateTimeAsc();
+    public List<User> findTop3ByAboutUsTrue() {
+        return userRepository.findTop3ByAboutUsTrueOrderByCreateDateTimeAsc();
     }
 
     public Optional<User> findUserByResetToken(String resetToken) {

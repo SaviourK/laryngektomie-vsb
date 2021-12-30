@@ -13,13 +13,13 @@ import java.util.stream.IntStream;
 
 public class ForumHelper {
 
-    public static final int itemsOnPage = 5;
-
+    public static final int ITEMS_ON_PAGE = 5;
     public static final int TITLE_IN_URL_MAX_LENGTH = 70;
-
     public static final Pattern DIACRITICS_AND_FRIENDS
             = Pattern.compile("[\\p{InCombiningDiacriticalMarks}\\p{IsLm}\\p{IsSk}]+");
 
+    private ForumHelper() {
+    }
 
     public static List<Integer> getListOfPageNumbers(int totalPages, int currentPage) {
         List<Integer> pageNumbers;
@@ -113,6 +113,10 @@ public class ForumHelper {
 
         return friendlyUrl;
 
+    }
+
+    public static int resolvePageNumber(int page) {
+        return page <= 0 ? 1 : page;
     }
 
     private static String stripDiacritics(String str) {

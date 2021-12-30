@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Uživatel - vytvořit</title>
 </head>
@@ -24,16 +24,16 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/admin/poradna/uzivatele/vytvorit}"
-                  th:object="${user}" enctype="multipart/form-data">
+            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/admin/poradna/uzivatele/vytvorit}"
+                  th:method="post" th:object="${user}">
 
 
                 <div class="form-group">
 
                     <label for="username">Uživatelské jméno</label>
-                    <label th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></label>
-                    <input type="text" th:field="*{username}" id="username" name="username" class="form-control mb-4"
-                           placeholder="Uživatelské jméno" required pattern=".{3,50}" title="Délka 3-50 znaků."/>
+                    <label th:errors="*{username}" th:if="${#fields.hasErrors('username')}"></label>
+                    <input class="form-control mb-4" id="username" name="username" pattern=".{3,50}" placeholder="Uživatelské jméno"
+                           required th:field="*{username}" title="Délka 3-50 znaků." type="text"/>
 
                 </div>
 
@@ -41,68 +41,68 @@
                 <div class="form-group">
 
                     <label for="email">Email</label>
-                    <label th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
-                    <input type="email" th:field="*{email}" id="email" name="email" class="form-control mb-4"
-                           placeholder="Email" required/>
+                    <label th:errors="*{email}" th:if="${#fields.hasErrors('email')}"></label>
+                    <input class="form-control mb-4" id="email" name="email" placeholder="Email" required
+                           th:field="*{email}" type="email"/>
 
                 </div>
 
                 <div class="form-group">
 
                     <label for="firstName">Jméno</label>
-                    <label th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></label>
-                    <input type="text" th:field="*{firstName}" id="firstName" name="firstName" class="form-control mb-4"
-                           placeholder="Jméno" required pattern=".{2,50}" title="Délka 2-50 znaků."/>
+                    <label th:errors="*{firstName}" th:if="${#fields.hasErrors('firstName')}"></label>
+                    <input class="form-control mb-4" id="firstName" name="firstName" pattern=".{2,50}" placeholder="Jméno"
+                           required th:field="*{firstName}" title="Délka 2-50 znaků." type="text"/>
 
                 </div>
 
                 <div class="form-group">
 
                     <label for="lastName">Příjmení</label>
-                    <label th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></label>
-                    <input type="text" th:field="*{lastName}" id="lastName" name="lastName" class="form-control mb-4"
-                           placeholder="Příjmení" required pattern=".{2,50}" title="Délka 2-50 znaků."/>
+                    <label th:errors="*{lastName}" th:if="${#fields.hasErrors('lastName')}"></label>
+                    <input class="form-control mb-4" id="lastName" name="lastName" pattern=".{2,50}" placeholder="Příjmení"
+                           required th:field="*{lastName}" title="Délka 2-50 znaků." type="text"/>
 
                 </div>
 
                 <div class="form-group">
 
                     <label for="password">Heslo</label>
-                    <label th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
-                    <input type="password" th:field="*{password}" id="password" name="password"
-                           class="form-control mb-4"
-                           placeholder="Heslo" required/>
+                    <label th:errors="*{password}" th:if="${#fields.hasErrors('password')}"></label>
+                    <input class="form-control mb-4" id="password" name="password" placeholder="Heslo"
+                           required
+                           th:field="*{password}" type="password"/>
 
                 </div>
                 <div class="form-group">
                     <label for="password">O mně (nepovinné)</label>
-                    <label th:if="${#fields.hasErrors('aboutMe')}" th:errors="*{aboutMe}"></label>
-                    <textarea type="text" th:field="*{aboutMe}" name="aboutMe" class="form-control mb-4"
-                              placeholder="O mně (nepovinné)" pattern=".{,1500}" title="Max 1500 znaků." rows="4"
-                              cols="50"></textarea>
+                    <label th:errors="*{aboutMe}" th:if="${#fields.hasErrors('aboutMe')}"></label>
+                    <textarea class="form-control mb-4" cols="50" name="aboutMe" pattern=".{,1500}"
+                              placeholder="O mně (nepovinné)" rows="4" th:field="*{aboutMe}" title="Max 1500 znaků."
+                              type="text"></textarea>
                 </div>
 
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <label th:if="${#fields.hasErrors('role')}" ></label>
+                    <label th:if="${#fields.hasErrors('role')}"></label>
                     <select class="form-control" id="role" th:field="*{role}">
-                        <option value="" selected="selected">Vyberte prosím roli</option>
+                        <option selected="selected" value="">Vyberte prosím roli</option>
                         <option th:each="role : ${roles}"
-                                th:value="${role}"
-                                th:text="${role}"></option>
+                                th:text="${role}"
+                                th:value="${role}"></option>
                     </select>
                 </div>
 
                 <div class="input-group mb-2">
                     <div class="custom-file">
-                        <input type="file" name="file" class="custom-file-input" id="customFile">
+                        <input class="custom-file-input" id="customFile" name="file" type="file">
                         <label class="custom-file-label" for="customFile">Vyberte obrázek (nepovinné)</label>
                     </div>
                 </div>
 
                 <div class="form-group">
                     <div class="form-check">
-                        <input type="checkbox" name="aboutUs" th:checked="*{aboutUs}" id="aboutUs"/>
+                        <input id="aboutUs" name="aboutUs" th:checked="*{aboutUs}" type="checkbox"/>
                         <label class="form-check-label" for="aboutUs">V sekci o nás?</label>
                     </div>
                 </div>
@@ -119,7 +119,7 @@
     <div th:replace="'./fragments/fragments.html' :: footer"></div>
     <script>
 
-        $(".custom-file-input").on("change", function() {
+        $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });

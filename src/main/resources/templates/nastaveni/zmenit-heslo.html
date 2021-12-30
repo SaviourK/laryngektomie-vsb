@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Změnit heslo</title>
 
@@ -25,28 +25,29 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-3 offset-md-1 rounded mx-3 p-5 border-custom">
-            <form method="POST" action="#" th:method="POST" th:action="@{/nastaveni/zmenit-heslo}" onsubmit="return checkForm(this)" autocomplete="off">
+            <form action="#" autocomplete="off" method="POST" onsubmit="return checkForm(this)"
+                  th:action="@{/nastaveni/zmenit-heslo}" th:method="POST">
 
 
                 <div class="form-group">
                     <label for="oldPassword">Staré heslo</label>
-                    <input type="password" class="form-control" id="oldPassword" name="oldPassword"
-                           placeholder="Staré heslo" required>
+                    <input class="form-control" id="oldPassword" name="oldPassword" placeholder="Staré heslo"
+                           required type="password">
 
                 </div>
 
                 <div class="form-group">
 
                     <label for="password">Heslo</label>
-                    <input type="password" id="password" name="password"
-                           class="form-control mb-4"
-                           placeholder="Heslo" required pattern=".{5,}" title="Minimální délka je 5 znaků."/>
+                    <input class="form-control mb-4" id="password" name="password"
+                           pattern=".{5,}"
+                           placeholder="Heslo" required title="Minimální délka je 5 znaků." type="password"/>
 
                 </div>
 
                 <div class="form-group">
-                    <input id="matchingPass" type="password" name="matchingPassword" class="form-control mb-4"
-                           placeholder="Zopakujte heslo" required pattern=".{5,}" title="Minimální délka je 5 znaků."/>
+                    <input class="form-control mb-4" id="matchingPass" name="matchingPassword" pattern=".{5,}"
+                           placeholder="Zopakujte heslo" required title="Minimální délka je 5 znaků." type="password"/>
                 </div>
 
                 <!-- Send button -->
@@ -58,16 +59,14 @@
     </div>
 
 
-
     <div th:replace="'./fragments/fragments.html' :: footer"></div>
 
     <script>
         // Function to check Whether both passwords
         // is same or not.
-        function checkForm(form)
-        {
+        function checkForm(form) {
 
-            if(form.password.value !== "" && form.password.value === form.matchingPassword.value) {
+            if (form.password.value !== "" && form.password.value === form.matchingPassword.value) {
                 return true
             } else {
                 alert("Chyba: Hesla se neschodují");

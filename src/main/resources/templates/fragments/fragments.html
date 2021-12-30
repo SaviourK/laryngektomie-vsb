@@ -1,34 +1,33 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
+<html lang="cs"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns:th="http://www.thymeleaf.org">
 
 <!-- Fragment #1 : Head files contains css and js references -->
 <head th:fragment="head(title, links)">
     <!--dynamic title for specific page-->
     <title th:replace="${title}">The awesome application</title>
     <!-- metas, link and scripts -->
-    <link th:href="@{~/css/bootstrap.min.css}" rel="stylesheet">
-    <link th:href="@{~/css/scss/style.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{~/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{~/css/scss/style.css}">
     <!--Aby fungovaly hacky-->
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description"
-          content="Spolek S-LET vznikl 10. 8. 2018 s cílem podporovat osoby po laryngektomii. Členy spolku jsou lidé po operacích hrtanu - po laryngektomii, jejich rodinní příslušníci, lékaři, logopedi a ostatní příznivci.">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v3.8.5">
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+    <meta content="Spolek S-LET vznikl 10. 8. 2018 s cílem podporovat osoby po laryngektomii. Členy spolku jsou lidé po operacích hrtanu - po laryngektomii, jejich rodinní příslušníci, lékaři, logopedi a ostatní příznivci."
+          name="description">
+    <meta content="Mark Otto, Jacob Thornton, and Bootstrap contributors" name="author">
+    <meta content="Jekyll v3.8.5" name="generator">
     <!-- font -->
     <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
-          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
-    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+    <link crossorigin="anonymous" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" rel="stylesheet">
+    <script crossorigin="anonymous" defer
             integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP"
-            crossorigin="anonymous"></script>
-    <link rel="stylesheet" type="text/css"
-          href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css"/>
+            src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"></script>
+    <link href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.css" rel="stylesheet"
+          type="text/css"/>
     <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.1.0/cookieconsent.min.js"></script>
-
 
 
     <!--Specific links per page-->
@@ -44,7 +43,7 @@
         <div class="row justify-content-center align-items-center p-3">
             <div class="col-lg-2  text-center">
                 <a href="/">
-                    <img src="/images/s-let-logo2.jpg" th:src="@{~/images/s-let-logo2.jpg}" alt="logo" width="80">
+                    <img alt="logo" src="/images/s-let-logo2.jpg" th:src="@{~/images/s-let-logo2.jpg}" width="80">
                 </a>
             </div>
             <div class="col-lg-2 d-none d-lg-block"></div>
@@ -93,7 +92,7 @@
         <div class="container">
             <div class="mx-auto order-0">
                 <a class="navbar-brand mx-auto" href="#"></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".collapse">
+                <button class="navbar-toggler" data-target=".collapse" data-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
             </div>
@@ -108,11 +107,11 @@
                     </li>
                     <li class="nav-item dropdown"
                         th:classappend="${action == 'o-nas'}? 'active' : ''">
-                        <a class="nav-link dropdown-toggle" href="#" id="oNasDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#" id="oNasDropdown" role="button">
                             O&nbsp;nás
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="oNasDropdown">
+                        <div aria-labelledby="oNasDropdown" class="dropdown-menu">
                             <a class="dropdown-item" href="/o-nas/kdo-jsme" th:href="@{~/o-nas/kdo-jsme}">Kdo jsme</a>
                             <a class="dropdown-item" href="/o-nas/clenstvi" th:href="@{~/o-nas/clenstvi}">Členství</a>
                             <a class="dropdown-item" href="/o-nas/stanovy" th:href="@{~/o-nas/stanovy}">Stanovy</a>
@@ -121,11 +120,11 @@
 
                     <li class="nav-item dropdown"
                         th:classappend="${action == 'nase-cinnost'}? 'active' : ''">
-                        <a class="nav-link dropdown-toggle" href="#" id="naseCinnostDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#" id="naseCinnostDropdown" role="button">
                             Naše&nbsp;činnost
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="naseCinnostDropdown">
+                        <div aria-labelledby="naseCinnostDropdown" class="dropdown-menu">
                             <a class="dropdown-item" href="/nase-cinnost/clanky"
                                th:href="@{~/nase-cinnost/clanky}">Články</a>
                             <a class="dropdown-item" href="/nase-cinnost/zpravodaj"
@@ -143,7 +142,7 @@
                         <a class="nav-link" href="/kontakt" th:href="@{~/kontakt}">Kontakt</a>
                     </li>
 
-                    <li sec:authorize="isAnonymous()" class="nav-item"
+                    <li class="nav-item" sec:authorize="isAnonymous()"
                         th:classappend="${#request.requestURI == '/prihlaseni' ? 'active':''}">
                         <a class="nav-link"
                            href="~/prihlaseni?messageError=Pro%20nahlížení%20do%20fora%20se%20musite%20prihlasit"
@@ -154,23 +153,23 @@
                         <a class="nav-link" href="/partneri-sponzori" th:href="@{~/partneri-sponzori}">Partneři&nbsp;a&nbsp;sponzoři</a>
                     </li>
 
-                    <li sec:authorize="isAuthenticated()" class="nav-item"
+                    <li class="nav-item" sec:authorize="isAuthenticated()"
                         th:classappend="${#request.requestURI == '/poradna' ? 'active':''}">
                         <a class="nav-link" href="/poradna" th:href="@{~/poradna}">Poradna</a>
                     </li>
 
-                    <li sec:authorize="hasRole('ADMIN')" class="nav-item"
+                    <li class="nav-item" sec:authorize="hasRole('ADMIN')"
                         th:classappend="${#strings.contains(#request.getRequestURI(), '/admin')} ? 'active' : ''">
                         <a class="nav-link" href="/admin/clanky" th:href="@{~/admin/clanky}">Administrace</a>
                     </li>
 
-                    <li sec:authorize="hasAnyRole('SPECIALIST', 'USER')" class="nav-item dropdown"
+                    <li class="nav-item dropdown" sec:authorize="hasAnyRole('SPECIALIST', 'USER')"
                         th:classappend="${action == 'nastaveni'}? 'active' : ''">
-                        <a class="nav-link dropdown-toggle" href="#" id="nastaveniDropdown" role="button"
-                           data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-toggle="dropdown"
+                           href="#" id="nastaveniDropdown" role="button">
                             Nastavení
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="nastaveniDropdown">
+                        <div aria-labelledby="nastaveniDropdown" class="dropdown-menu">
                             <a class="dropdown-item" href="/nastaveni/zmenit-heslo"
                                th:href="@{~/nastaveni/zmenit-heslo}">Změnit&nbsp;heslo</a>
                             <a class="dropdown-item" href="/nastaveni/zmenit-fotku"
@@ -181,13 +180,14 @@
 
                 </ul>
 
-                <form sec:authorize="isAuthenticated()" class="form-inline d-lg-none" method="post"
+                <form class="form-inline d-lg-none" method="post" sec:authorize="isAuthenticated()"
                       th:action="@{/odhlaseni}">
                     <button class="btn btn-secondary mt-3 btn-sm mx-auto"
                             type="submit">Odhlásit&nbsp;se
                     </button>
                 </form>
-                <form sec:authorize="isAnonymous()" class="form-inline d-lg-none" method="get" th:action="@{~/prihlaseni}">
+                <form class="form-inline d-lg-none" method="get" sec:authorize="isAnonymous()"
+                      th:action="@{~/prihlaseni}">
                     <button class="btn btn-secondary mt-3 btn-sm mx-auto" type="submit">Přihlásit&nbsp;se
                     </button>
                 </form>
@@ -204,11 +204,13 @@
 
         </div>
 
-        <form sec:authorize="isAuthenticated()" class="form-inline d-none d-lg-block" method="post" th:action="@{/odhlaseni}">
-            <button  class="btn btn-secondary my-2 my-sm-0 btn-sm" type="submit">Odhlásit&nbsp;se
+        <form class="form-inline d-none d-lg-block" method="post" sec:authorize="isAuthenticated()"
+              th:action="@{/odhlaseni}">
+            <button class="btn btn-secondary my-2 my-sm-0 btn-sm" type="submit">Odhlásit&nbsp;se
             </button>
         </form>
-        <form sec:authorize="isAnonymous()" class="form-inline d-none d-lg-block" method="get" th:action="@{/prihlaseni}">
+        <form class="form-inline d-none d-lg-block" method="get" sec:authorize="isAnonymous()"
+              th:action="@{/prihlaseni}">
             <button class="btn btn-secondary my-2 my-sm-0 btn-sm" type="submit">Přihlásit&nbsp;se
             </button>
         </form>
@@ -216,37 +218,37 @@
 
     </nav>
 
-    <div th:if="${messageSuccess != null}" class="alert alert-success alert-dismissible fade show text-center"
-         role="alert">
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert"
+         th:if="${messageSuccess != null}">
         <strong>Úspěch</strong>
         <p th:text="${messageSuccess}"></p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
-    <div th:if="${param.messageSuccess}" class="alert alert-success alert-dismissible fade show text-center"
-         role="alert">
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert"
+         th:if="${param.messageSuccess}">
         <strong>Úspěch</strong>
         <p th:text="${param.messageSuccess}"></p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
-    <div th:if="${messageError != null}" class="alert alert-warning alert-dismissible fade show text-center"
-         role="alert">
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert"
+         th:if="${messageError != null}">
         <strong>Upozornění</strong>
         <p th:text="${messageError}"></p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
 
-    <div th:if="${param.messageError}" class="alert alert-warning alert-dismissible fade show text-center" role="alert">
+    <div class="alert alert-warning alert-dismissible fade show text-center" role="alert" th:if="${param.messageError}">
         <strong>Upozornění</strong>
         <p th:text="${param.messageError}"></p>
-        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <button aria-label="Close" class="close" data-dismiss="alert" type="button">
             <span aria-hidden="true">&times;</span>
         </button>
     </div>
@@ -256,7 +258,7 @@
 <!-- Fragment #3 end -->
 
 <!-- Fragment #4 Side nav -->
-<div class="row" th:fragment="admin-navigation" sec:authorize="hasRole('ADMIN')">
+<div class="row" sec:authorize="hasRole('ADMIN')" th:fragment="admin-navigation">
 
     <div class="col-md-2 col-4">
         <p><a class="btn btn-primary btn-block"
@@ -302,11 +304,12 @@
 <!-- Fragment #5 search bar -->
 <div class="row" th:fragment="searchBar">
     <div class="col-lg m-2">
-        <form method="get" action="#" th:method="get" th:action="@{${#request.requestURI}}">
+        <form action="#" method="get" th:action="@{${#request.requestURI}}" th:method="get">
             <div class="input-group offset-lg-4 col-lg-4">
-                <input class="form-control py-2" placeholder="Vyhledat" type="search" name="query" id="example-search-input">
+                <input class="form-control py-2" id="example-search-input" name="query" placeholder="Vyhledat"
+                       type="search">
                 <span class="input-group-append">
-                    <button th:type="submit" class="btn btn-outline-secondary" type="button">
+                    <button class="btn btn-outline-secondary" th:type="submit" type="button">
                         <i class="fa fa-search"></i>
                     </button>
                   </span>
@@ -328,29 +331,32 @@
         <div aria-label="Pagination">
             <ul class="pagination justify-content-center">
                 <li class="page-item" th:classappend="${currentPage eq 1} ? 'disabled'">
-                    <a class="page-link svg-icon"
-                       th:href="@{${#request.requestURI}(page=${currentPage lt 2 ? 1 : currentPage - 1},query=${#request.getParameter('query')})}"
-                       aria-label="Previous"
-                       title="Previous Page" rel="tooltip">
-                        <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20">Předchozí</span>
+                    <a aria-label="Previous"
+                       class="page-link svg-icon"
+                       rel="tooltip"
+                       th:href="@{${#request.requestURI}(page=${currentPage lt 2 ? 1 : currentPage - 1},query=${#request.getParameter('query')})}" title="Previous Page">
+                        <span aria-hidden="true" data-feather="chevrons-left" height="20" width="20">Předchozí</span>
                     </a>
                 </li>
 
 
-                <li th:classappend="${pageNumber==currentPage} ? active" class="page-item"
+                <li class="page-item" th:classappend="${pageNumber==currentPage} ? active"
                     th:each="pageNumber : ${pageNumbers}">
 
 
-                    <a class="page-link" th:href="@{${#request.requestURI}(page=${pageNumber},query=${#request.getParameter('query')})}"
+                    <a class="page-link"
+                       th:href="@{${#request.requestURI}(page=${pageNumber},query=${#request.getParameter('query')})}"
                        th:text="${pageNumber}">1</a>
 
                 </li>
 
-                <li class="page-item" th:classappend="${currentPage} == ${pageNumbers.get(#lists.size(pageNumbers)-1)} ? 'disabled' : ''">
-                    <a class="page-link svg-icon" th:href="@{${#request.requestURI}(page=${currentPage + 1},query=${#request.getParameter('query')})}"
-                       aria-label="Next"
-                       title="Next Page" rel="tooltip">
-                        <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20">Nasledující</span>
+                <li class="page-item"
+                    th:classappend="${currentPage} == ${pageNumbers.get(#lists.size(pageNumbers)-1)} ? 'disabled' : ''">
+                    <a aria-label="Next"
+                       class="page-link svg-icon"
+                       rel="tooltip"
+                       th:href="@{${#request.requestURI}(page=${currentPage + 1},query=${#request.getParameter('query')})}" title="Next Page">
+                        <span aria-hidden="true" data-feather="chevrons-right" height="20" width="20">Nasledující</span>
                     </a>
                 </li>
 
@@ -365,29 +371,29 @@
 <div aria-label="Pagination" th:if="${pageNumbers gt 0}">
     <ul class="pagination justify-content-center font-weight-medium">
         <li class="page-item" th:classappend="${customers.number eq 0} ? 'disabled'">
-            <a class="page-link svg-icon"
-               th:href="@{/admin/customers?page={id}(id=${customers.number lt 2 ? 1 : customers.number})}"
-               aria-label="Previous"
-               title="Previous Page" rel="tooltip">
-                <span aria-hidden="true" data-feather="chevrons-left" width="20" height="20"></span>
+            <a aria-label="Previous"
+               class="page-link svg-icon"
+               rel="tooltip"
+               th:href="@{/admin/customers?page={id}(id=${customers.number lt 2 ? 1 : customers.number})}" title="Previous Page">
+                <span aria-hidden="true" data-feather="chevrons-left" height="20" width="20"></span>
             </a>
         </li>
         <li class="page-item" th:classappend="${i eq customers.number + 1} ? 'active'"
             th:each="i : ${#numbers.sequence( customers.number + 1, customers.totalPages > 10 + customers.number ? customers.number + 10 : customers.totalPages, 1)}">
-            <a class="page-link" th:href="@{/admin/customers?page={id}(id=${i})}" th:text="${i}"
-               th:title="${'Page '+ i}"
-               rel="tooltip"></a>
+            <a class="page-link" rel="tooltip" th:href="@{/admin/customers?page={id}(id=${i})}"
+               th:text="${i}"
+               th:title="${'Page '+ i}"></a>
         </li>
         <li class="page-item disabled" th:if="${customers.number + 10 < customers.totalPages}">
             <a class="page-link svg-icon" href="#">
-                <span data-feather="more-horizontal" width="20" height="20"></span>
+                <span data-feather="more-horizontal" height="20" width="20"></span>
             </a>
         </li>
         <li class="page-item" th:classappend="${customers.number + 1 eq customers.totalPages} ? 'disabled'">
-            <a class="page-link svg-icon" th:href="@{/admin/customers?page={id}(id=${customers.number + 2})}"
-               aria-label="Next"
-               title="Next Page" rel="tooltip">
-                <span aria-hidden="true" data-feather="chevrons-right" width="20" height="20"></span>
+            <a aria-label="Next" class="page-link svg-icon"
+               rel="tooltip"
+               th:href="@{/admin/customers?page={id}(id=${customers.number + 2})}" title="Next Page">
+                <span aria-hidden="true" data-feather="chevrons-right" height="20" width="20"></span>
             </a>
         </li>
     </ul>
@@ -398,20 +404,18 @@
 <div class="footer rounded-top" th:fragment="footer">
     <div class="row mx-3 mt-3 p-5">
         <div>
-            &copy;2019-<span th:text="${#dates.year(#dates.createNow())}" th:remove="tag"></span> Mgr. Eva Kocábková,
+            &copy;2019-<span th:remove="tag" th:text="${#dates.year(#dates.createNow())}"></span> Mgr. Eva Kocábková,
             LOGOMEDIC s.r.o. <br>
             Veverkova 1361/5, 500 02 Hradec Králové
         </div>
     </div>
 
     <!--JQuery-->
-    <script src="https://code.jquery.com/jquery-2.2.4.min.js"
+    <script crossorigin="anonymous"
             integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="
-            crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-2.2.4.min.js"></script>
     <script th:src="@{~/js/main.js}"></script>
     <script th:src="@{~/js/bootstrap.bundle.min.js}"></script>
-
-
 
 
 </div>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title th:text="${user.username}"></title>
 </head>
@@ -14,7 +14,8 @@
 
     <div class="row bgcolor1 m-3 p-3 rounded">
         <div class="col-lg">
-            <h1 class="text-center colorWhite">Profil uživatele: <span th:remove="tag" th:text="${user.username}"></span></h1>
+            <h1 class="text-center colorWhite">Profil uživatele: <span th:remove="tag"
+                                                                       th:text="${user.username}"></span></h1>
         </div>
     </div>
 
@@ -31,7 +32,6 @@
                         <th> Přijmení</th>
                         <th> O mně</th>
                         <th> Temat</th>
-
 
 
                     </tr>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Změnit fotku</title>
 
@@ -24,17 +24,19 @@
     </div>
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/nastaveni/zmenit-fotku} "enctype="multipart/form-data">
+            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/nastaveni/zmenit-fotku} "
+                  th:method="post">
                 <div th:if="${userImage != null}">
 
-                    <img class="img-fluid mx-auto d-block" th:src="|data:image/jpeg;base64,${userImage.getEncodeBase64()}|">
+                    <img class="img-fluid mx-auto d-block"
+                         th:src="|data:image/jpeg;base64,${userImage.getEncodeBase64()}|">
 
                 </div>
 
 
                 <div class="form-group mb-2">
                     <div class="custom-file">
-                        <input type="file" name="file" class="custom-file-input" id="customFile">
+                        <input class="custom-file-input" id="customFile" name="file" type="file">
                         <label class="custom-file-label" for="customFile">Nový obrázek</label>
                     </div>
                 </div>
@@ -52,7 +54,7 @@
 
     <script>
 
-        $(".custom-file-input").on("change", function() {
+        $(".custom-file-input").on("change", function () {
             var fileName = $(this).val().split("\\").pop();
             $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
         });

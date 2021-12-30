@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Zapomenuté heslo</title>
 
@@ -24,14 +24,13 @@
     </div>
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-xl-3 col-lg-4 col-md-5 offset-lg-3 offset-md-1 rounded mx-3 p-5 border-custom">
-            <form method="POST" action="#" th:method="POST" th:action="@{zapomenute-heslo}">
-
+            <form action="#" method="POST" th:action="@{zapomenute-heslo}" th:method="POST">
 
 
                 <div class="form-group">
                     <label for="email">Zadejte email</label>
-                    <input type="email" class="form-control" id="email" name="email"
-                           placeholder="Email" required>
+                    <input class="form-control" id="email" name="email" placeholder="Email"
+                           required type="email">
 
                 </div>
 

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Starší přispěvky</title>
 
@@ -42,12 +42,12 @@
                     </div>
                 </div>
 
-                        <p class="mt-2" th:utext="${n.getDescriptionText()}"></p>
-                        <p th:text="${n.getCreateDateTimeString()}"></p>
+                <p class="mt-2" th:utext="${n.getDescriptionText()}"></p>
+                <p th:text="${n.getCreateDateTimeString()}"></p>
 
                 <div class="text-center">
-                    <a th:href="@{~/clanky/{url}(url=${n.url})}" class="btn btn-primary text-center"
-                       role="button" aria-pressed="true">Více info</a>
+                    <a aria-pressed="true" class="btn btn-primary text-center"
+                       role="button" th:href="@{~/clanky/{url}(url=${n.url})}">Více info</a>
                 </div>
                 <hr/>
             </div>

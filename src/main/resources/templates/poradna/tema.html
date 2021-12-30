@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Téma</title>
 </head>
@@ -15,7 +15,7 @@
 
     <div class="row mt-4 pt-4 rounded">
         <div class="col-lg">
-            <h1 th:text="${topic.name}" class="text-center">Nadpis</h1>
+            <h1 class="text-center" th:text="${topic.name}">Nadpis</h1>
         </div>
     </div>
 
@@ -35,10 +35,10 @@
 
     <div aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a th:text="Poradna" th:href="@{/poradna}"></a></li>
-            <li class="breadcrumb-item"><a th:text="${topic.category.name}"
-                                           th:href="@{/poradna/{url}(url=${topic.category.url})}"></a></li>
-            <li class="breadcrumb-item active" aria-current="page" th:text="${topic.name}"></li>
+            <li class="breadcrumb-item"><a th:href="@{/poradna}" th:text="Poradna"></a></li>
+            <li class="breadcrumb-item"><a th:href="@{/poradna/{url}(url=${topic.category.url})}"
+                                           th:text="${topic.category.name}"></a></li>
+            <li aria-current="page" class="breadcrumb-item active" th:text="${topic.name}"></li>
         </ol>
 
     </div>
@@ -49,13 +49,14 @@
         <hr>
         <div class="row">
             <div class="col-2">
-                <img title="Odborník" alt="odborník icon" th:if="${topic.user.getRole().equals('Doktor')}" th:src="@{~/images/icons/doctor-sm.png}" src="images/icons/doctor-sm.png">
+                <img alt="odborník icon" src="images/icons/doctor-sm.png" th:if="${topic.user.getRole().equals('Doktor')}"
+                     th:src="@{~/images/icons/doctor-sm.png}" title="Odborník">
             </div>
 
             <div class="col-10 px-4 text-left">
                 <p>
 
-                    <span th:text="|${topic.user.firstName} ${topic.user.lastName}:|" th:remove="tag"></span>
+                    <span th:remove="tag" th:text="|${topic.user.firstName} ${topic.user.lastName}:|"></span>
                 </p>
 
             </div>
@@ -69,18 +70,17 @@
 
             <div class="col-10 px-4 text-left">
                 <div>
-                    <span th:text="${topic.text}" th:remove="tag"></span></p>
+                    <span th:remove="tag" th:text="${topic.text}"></span></p>
                 </div>
             </div>
         </div>
         <div class="row">
 
             <div class="offset-2 col-10 px-4 pt-2 text-left">
-                <p><span th:text="${topic.timePassedString}" th:remove="tag"></span></p>
+                <p><span th:remove="tag" th:text="${topic.timePassedString}"></span></p>
             </div>
         </div>
     </div>
-
 
 
     <hr>
@@ -92,13 +92,14 @@
             </div>
         </div>
     </div>
-    <div th:each="post : ${posts}" class="my-3">
+    <div class="my-3" th:each="post : ${posts}">
         <div class="row">
             <div class="col-2">
-                <img title="Odborník" alt="odborník icon" th:if="${post.user.getRole().equals('Doktor')}" th:src="@{~/images/icons/doctor-sm.png}" src="images/icons/doctor-sm.png">
+                <img alt="odborník icon" src="images/icons/doctor-sm.png" th:if="${post.user.getRole().equals('Doktor')}"
+                     th:src="@{~/images/icons/doctor-sm.png}" title="Odborník">
             </div>
             <div class="col-10 px-4 text-left">
-                <p><span th:text="|${post.user.firstName} ${post.user.lastName}:|" th:remove="tag"></span></p>
+                <p><span th:remove="tag" th:text="|${post.user.firstName} ${post.user.lastName}:|"></span></p>
             </div>
         </div>
         <div class="row">
@@ -119,7 +120,7 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/poradna/prispevek-novy/}+${topic.id}"
+            <form action="#" method="post" th:action="@{/poradna/prispevek-novy/}+${topic.id}" th:method="post"
                   th:object="${post}">
 
 
@@ -127,10 +128,11 @@
 
 
                     <label for="text">Text komentáře</label>
-                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
-                    <textarea type="text" th:field="*{text}" id="text" name="text"
-                              class="form-control mb-4"
-                              placeholder="Text komentáře" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                    <label class="label-error" th:errors="*{text}" th:if="${#fields.hasErrors('text')}"></label>
+                    <textarea class="form-control mb-4" cols="50" id="text" maxlength="1000"
+                              minlength="5"
+                              name="text" placeholder="Text komentáře" required rows="4" th:field="*{text}"
+                              type="text"></textarea>
                     <label id="count">Zbývá 1000 znaků.</label>
 
                 </div>
@@ -144,8 +146,7 @@
     </div>
 
 
-
-<div th:replace="'./fragments/fragments.html' :: pagination"></div>
+    <div th:replace="'./fragments/fragments.html' :: pagination"></div>
 </div>
 
 <div th:insert="'./fragments/fragments.html' :: footer"></div>

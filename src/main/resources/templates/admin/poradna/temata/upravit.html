@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Téma - upravit</title>
 </head>
@@ -24,61 +24,62 @@
 
     <div class="row justify-content-center align-items-center mt-3">
         <div class="col-md-6 rounded p-2 text-center">
-            <form method="POST" action="#" th:method="POST" th:object="${topic}"
-                  th:action="@{/admin/poradna/temata/upravit}">
+            <form action="#" method="POST" th:action="@{/admin/poradna/temata/upravit}" th:method="POST"
+                  th:object="${topic}">
 
 
                 <div class="form-group">
 
                     <label for="id">Id Tématu</label>
-                    <input class="form-control" type="text" id="id" name="id" th:field="*{id}" readonly="readonly"/>
+                    <input class="form-control" id="id" name="id" readonly="readonly" th:field="*{id}" type="text"/>
                 </div>
 
                 <div class="form-group">
 
                     <label for="user">Uživatel </label>
-                    <input class="form-control" type="text" id="user" name="user" th:field="*{user.username}"
-                           readonly="readonly"/>
+                    <input class="form-control" id="user" name="user" readonly="readonly" th:field="*{user.username}"
+                           type="text"/>
                 </div>
 
                 <div class="form-group">
 
                     <label for="createDateTime">Datum vytvoření </label>
-                    <input class="form-control" type="text" id="createDateTime" name="createDateTime"
+                    <input class="form-control" id="createDateTime" name="createDateTime" readonly="readonly"
                            th:field="*{createDateTime}"
-                           readonly="readonly"/>
+                           type="text"/>
                 </div>
 
                 <div class="form-group">
 
                     <label for="updateDateTime">Datum poslední úpravy</label>
-                    <input class="form-control" type="text" id="updateDateTime" name="updateDateTime"
+                    <input class="form-control" id="updateDateTime" name="updateDateTime" readonly="readonly"
                            th:field="*{updateDateTime}"
-                           readonly="readonly"/>
+                           type="text"/>
                 </div>
 
                 <div class="form-group">
                     <label for="category">Kategorie</label>
-                    <label th:if="${#fields.hasErrors('category')}" th:errors="*{category}"></label>
+                    <label th:errors="*{category}" th:if="${#fields.hasErrors('category')}"></label>
                     <select class="form-control" id="category" th:field="*{category}">
                         <option th:each="category : ${categories}"
-                                th:value="${category.id}"
-                                th:text="${category.name}"></option>
+                                th:text="${category.name}"
+                                th:value="${category.id}"></option>
                     </select>
                 </div>
 
                 <div class="form-group">
 
                     <label for="name">Nadpis tématu </label>
-                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
-                    <input class="form-control" type="text" id="name" name="name" th:field="*{name}"/>
+                    <label th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></label>
+                    <input class="form-control" id="name" name="name" th:field="*{name}" type="text"/>
                 </div>
 
                 <label for="text">Text tématu</label>
-                <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
-                <textarea type="text" th:field="*{text}" id="text" name="text"
-                          class="form-control mb-4"
-                          placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                <label class="label-error" th:errors="*{text}" th:if="${#fields.hasErrors('text')}"></label>
+                <textarea class="form-control mb-4" cols="50" id="text" maxlength="1000"
+                          minlength="5"
+                          name="text" placeholder="Text příspěvku" required rows="4" th:field="*{text}"
+                          type="text"></textarea>
                 <label id="count"></label>
 
 

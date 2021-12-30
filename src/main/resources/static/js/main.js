@@ -79,7 +79,7 @@ function zmenaMedia(mql) {
 
         elements.forEach(removeClass);
         elementsImg.forEach(changeClassTo100);
-    }else {
+    } else {
         elements.forEach(addClass);
         elementsImg.forEach(changeClassTo75);
     }

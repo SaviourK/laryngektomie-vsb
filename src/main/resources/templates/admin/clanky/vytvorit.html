@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{::link})">
     <title>Články - vytvořit</title>
-    <link th:href="@{~/css/simditor.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{~/css/simditor.css}">
 </head>
 
 
@@ -26,51 +26,50 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/admin/clanky/vytvorit}"
-                  th:object="${article}" enctype="multipart/form-data">
+            <form action="#" enctype="multipart/form-data" method="post" th:action="@{/admin/clanky/vytvorit}"
+                  th:method="post" th:object="${article}">
 
 
                 <div class="form-group">
 
                     <label for="name">Název článku</label>
-                    <label class="label-error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
-                    <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
-                           placeholder="Název článku" required pattern=".{3,100}" title="Délka 3-100 znaků."/>
+                    <label class="label-error" th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></label>
+                    <input class="form-control mb-4" id="name" name="name" pattern=".{3,100}" placeholder="Název článku"
+                           required th:field="*{name}" title="Délka 3-100 znaků." type="text"/>
 
                 </div>
-
 
 
                 <div class="form-group">
 
                     <label for="text">Text článku</label>
-                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
-                    <textarea type="text" th:field="*{text}" id="text" name="text" class="form-control mb-4"
-                              placeholder="Text článku" rows="4" cols="50" required></textarea>
+                    <label class="label-error" th:errors="*{text}" th:if="${#fields.hasErrors('text')}"></label>
+                    <textarea class="form-control mb-4" cols="50" id="text" name="text" placeholder="Text článku"
+                              required rows="4" th:field="*{text}" type="text"></textarea>
 
                     <label id="count"></label>
                 </div>
 
                 <div class="form-group">
                     <label for="articleType">Typ článku</label>
-                    <label th:if="${#fields.hasErrors('articleType')}" th:errors="*{articleType}"></label>
+                    <label th:errors="*{articleType}" th:if="${#fields.hasErrors('articleType')}"></label>
                     <select class="form-control" id="articleType" th:field="*{articleType}">
-                        <option value="" selected="selected">Vyberte typ článku</option>
+                        <option selected="selected" value="">Vyberte typ článku</option>
                         <option th:each="type : ${articleTypes}"
-                                th:value="${type.id}"
-                                th:text="${type.name}"></option>
+                                th:text="${type.name}"
+                                th:value="${type.id}"></option>
                     </select>
                 </div>
 
 
                 <div class="input-group mb-2">
                     <div class="custom-file">
-                        <input type="file" name="files" multiple="multiple" class="custom-file-input" id="customFile">
-                        <label id="upload-file-info" class="custom-file-label" for="customFile">Vyberte obrázky</label>
+                        <input class="custom-file-input" id="customFile" multiple="multiple" name="files" type="file">
+                        <label class="custom-file-label" for="customFile" id="upload-file-info">Vyberte obrázky</label>
                     </div>
                 </div>
 
-                <input type="hidden" th:field="*{url}" id="url" name="url" />
+                <input id="url" name="url" th:field="*{url}" type="hidden"/>
 
 
                 <!-- Send button -->
@@ -84,7 +83,6 @@
     <div th:replace="'./fragments/fragments.html' :: footer"></div>
 
 
-
     <script th:src="@{~/js/simditor/module.js}"></script>
     <script th:src="@{~/js/simditor/hotkeys.js}"></script>
     <script th:src="@{~/js/simditor/uploader.js}"></script>
@@ -96,13 +94,13 @@
             //optional options
         });
 
-        $(".custom-file-input").on("change", function() {
+        $(".custom-file-input").on("change", function () {
             //clear the info before appending
             $(".custom-file-label").html("");
 
             var files = $(this).prop('files');
             for (var i = 0; i < files.length; i++) {
-                $('#upload-file-info').append(files[i].name+' ');
+                $('#upload-file-info').append(files[i].name + ' ');
             }
 
         });

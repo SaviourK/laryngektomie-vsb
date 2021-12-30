@@ -1,5 +1,6 @@
 package cz.laryngektomie.service.article;
 
+import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.article.Article;
 import cz.laryngektomie.repository.article.ArticleRepository;
@@ -48,7 +49,7 @@ public class ArticleService extends ServiceBase<Article> {
     }
 
     public Optional<Article> findLastNewsletter() {
-        return articleRepository.findFirstByArticleTypeNameOrderByCreateDateTimeDesc("zpravodaj");
+        return articleRepository.findFirstByArticleTypeNameOrderByCreateDateTimeDesc(Const.ARTICLE_TYPE_NEWSLETTER);
     }
 
     public Optional<Article> findByName(String name) {

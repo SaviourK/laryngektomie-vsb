@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Členství | O nás</title>
 </head>
@@ -21,58 +21,58 @@
     </div>
 
 
-        <div class="row justify-content-center mt-3">
-            <div class="col-md-9 p-4">
-                <h1> Jak se stát členem?</h1>
-                <p>Členem spolku se může stát každý občan ČR, který souhlasí s jeho posláním a chtěl by se podílet na
-                    jeho činnosti. </p>
-                <p>Stačí poslat vyplněné údaje v přihlášce a zaplatit roční příspěvek - tím se stanete členem spolku a
-                    můžete očekávat informace a pozvánky na společné akce. </p>
+    <div class="row justify-content-center mt-3">
+        <div class="col-md-9 p-4">
+            <h1> Jak se stát členem?</h1>
+            <p>Členem spolku se může stát každý občan ČR, který souhlasí s jeho posláním a chtěl by se podílet na
+                jeho činnosti. </p>
+            <p>Stačí poslat vyplněné údaje v přihlášce a zaplatit roční příspěvek - tím se stanete členem spolku a
+                můžete očekávat informace a pozvánky na společné akce. </p>
 
 
-            </div>
-            <div class="col-md-1">
-            </div>
+        </div>
+        <div class="col-md-1">
+        </div>
 
-            <div class="col-md-2 p-md-4 align-self-lg-center text-center">
+        <div class="col-md-2 p-md-4 align-self-lg-center text-center">
 
-                <a href="/ke-stazeni" class="btn btn-primary btn-lg text-center" role="button" aria-pressed="true">Přihláška</a>
+            <a aria-pressed="true" class="btn btn-primary btn-lg text-center" href="/ke-stazeni"
+               role="button">Přihláška</a>
 
-
-            </div>
 
         </div>
 
+    </div>
 
 
-        <div class="row  justify-content-center my-lg-4">
-            <div class="col-md p-4">
-                <h1> Co členství přináší?</h1>
-                <ul>
-                    <li>možnost zúčastňovat se na akcích spolku</li>
-                    <li>možnost spolupodílet se na spolkové činnosti</li>
-                    <li>předkládat návrhy, připomínky a náměty k činnosti spolku</li>
-                    <li>pravidelný výtisk Zpravodaje spolku</li>
-                    <li>pozvánky na akce spolku</li>
-                </ul>
-            </div>
-            <div class="col-md p-4">
-                <h1>Jaké jsou povinnosti člena?</h1>
-                <ul>
-                    <li>dodržovat stanovy spolku a jednat v souladu s jeho cíli</li>
-                    <li>sdělovat změny údajů uvedených v přihlášce</li>
-                    <li>uhradit členský příspěvek - roční příspěvek činí <b>200 Kč</b><br />
-                        Číslo účtu: <b>115-8132340257/0100</b> <br />
-                        Variabilní symbol - <b>9</b> <br />
-                        do zprávy pro příjemce uveďte své <b>jméno</b></li>
-
-                </ul>
-            </div>
+    <div class="row  justify-content-center my-lg-4">
+        <div class="col-md p-4">
+            <h1> Co členství přináší?</h1>
+            <ul>
+                <li>možnost zúčastňovat se na akcích spolku</li>
+                <li>možnost spolupodílet se na spolkové činnosti</li>
+                <li>předkládat návrhy, připomínky a náměty k činnosti spolku</li>
+                <li>pravidelný výtisk Zpravodaje spolku</li>
+                <li>pozvánky na akce spolku</li>
+            </ul>
         </div>
+        <div class="col-md p-4">
+            <h1>Jaké jsou povinnosti člena?</h1>
+            <ul>
+                <li>dodržovat stanovy spolku a jednat v souladu s jeho cíli</li>
+                <li>sdělovat změny údajů uvedených v přihlášce</li>
+                <li>uhradit členský příspěvek - roční příspěvek činí <b>200 Kč</b><br/>
+                    Číslo účtu: <b>115-8132340257/0100</b> <br/>
+                    Variabilní symbol - <b>9</b> <br/>
+                    do zprávy pro příjemce uveďte své <b>jméno</b></li>
+
+            </ul>
+        </div>
+    </div>
 </div>
 
 
-    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
 
 
 </body>

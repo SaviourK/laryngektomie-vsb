@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Téma - vytvořit</title>
 </head>
@@ -23,28 +23,29 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="|@{/poradna/tema-nove/}${categoryId}|"
+            <form action="#" method="post" th:action="|@{/poradna/tema-nove/}${categoryId}|" th:method="post"
                   th:object="${topic}">
 
 
                 <div class="form-group">
 
                     <label for="name">Název tématu</label>
-                    <label th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
-                    <input type="text" th:field="*{name}" id="name" name="name" class="form-control mb-4"
-                           placeholder="Název tématu" required pattern=".{3,50}" title="Délka 3-50 znaků."/>
+                    <label th:errors="*{name}" th:if="${#fields.hasErrors('name')}"></label>
+                    <input class="form-control mb-4" id="name" name="name" pattern=".{3,50}" placeholder="Název tématu"
+                           required th:field="*{name}" title="Délka 3-50 znaků." type="text"/>
 
                 </div>
 
                 <div class="form-group">
                     <label for="text">Text tématu</label>
-                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
-                    <textarea type="text" th:field="*{text}" id="text" name="text"
-                              class="form-control mb-4"
-                              placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                    <label class="label-error" th:errors="*{text}" th:if="${#fields.hasErrors('text')}"></label>
+                    <textarea class="form-control mb-4" cols="50" id="text" maxlength="1000"
+                              minlength="5"
+                              name="text" placeholder="Text příspěvku" required rows="4" th:field="*{text}"
+                              type="text"></textarea>
                     <label id="count">Zbývá 1000 znaků.</label>
                 </div>
-                <input type="hidden" th:field="*{category.id}" id="categoryId" name="categoryId" />
+                <input id="categoryId" name="categoryId" th:field="*{category.id}" type="hidden"/>
 
                 <!-- Send button -->
                 <button class="btn btn-primary" type="submit">Vytvořit</button>

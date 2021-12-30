@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Poradna</title>
 </head>
@@ -24,8 +24,8 @@
 
     <div class="row mt-3 rounded">
         <div class="col-xl-2 col-sm-6 col-5 text-center">
-            <a class="btn btn-primary btn-block " th:href="@{/poradna}"
-               th:classappend="${#request.requestURI == '/poradna' ? 'active':''}"> Úvod poradny</a>
+            <a class="btn btn-primary btn-block " th:classappend="${#request.requestURI == '/poradna' ? 'active':''}"
+               th:href="@{/poradna}"> Úvod poradny</a>
             <br>
             <h2>Kategorie</h2>
             <div th:each="category : ${categories}">
@@ -67,7 +67,7 @@
                             th:text="*{getDescription()}"></small></td>
                     <td th:text="*{categoryName}"> Kategorie příspěvku</td>
                     <td th:text="*{author}"> Autor</td>
-                    <td th:text="*{getTimePassedString()}" class="column-hide-second"> Vytvořeno</td>
+                    <td class="column-hide-second" th:text="*{getTimePassedString()}"> Vytvořeno</td>
 
 
                 </tr>
@@ -75,7 +75,6 @@
             </table>
 
         </div>
-
 
 
     </div>

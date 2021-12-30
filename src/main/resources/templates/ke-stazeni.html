@@ -1,8 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{::link})">
     <title>Ke stažení</title>
-    <link th:href="@{~/css/smoothbox.css}" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{~/css/smoothbox.css}">
 </head>
 
 <body>
@@ -28,8 +28,8 @@
 
             <a class="sb" href="/images/prihlaska.jpg" th:href="@{/images/prihlaska.jpg}"
                title="Příhláška">
-                <img src="/images/prihlaska_nahled.jpg" th:src="@{/images/prihlaska_nahled.jpg}"
-                     alt="Přihláška">
+                <img alt="Přihláška" src="/images/prihlaska_nahled.jpg"
+                     th:src="@{/images/prihlaska_nahled.jpg}">
             </a>
 
 
@@ -39,8 +39,8 @@
     </div>
     <div class="row m-3 p-3 rounded text-center">
         <div class="col-lg">
-            <a class="btn btn-primary" href="/documents/prihlaska.docx" th:href="@{/documents/prihlaska.docx}"
-               title="Příhláška" download>
+            <a class="btn btn-primary" download href="/documents/prihlaska.docx"
+               th:href="@{/documents/prihlaska.docx}" title="Příhláška">
                 Stáhnout přihlášku
             </a>
         </div>

@@ -19,11 +19,22 @@ import java.util.Objects;
 @Service
 public class ImageService extends ServiceBase<Image> {
 
-    private ImageRepository imageRepository;
+    private final ImageRepository imageRepository;
 
     public ImageService(ImageRepository imageRepository) {
         super(imageRepository);
         this.imageRepository = imageRepository;
+    }
+
+    private static BufferedImage resize(BufferedImage img, int newW, int newH) {
+        java.awt.Image tmp = img.getScaledInstance(newW, newH, java.awt.Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return dimg;
     }
 
     //Convert and resize MultipartFile to image
@@ -65,7 +76,6 @@ public class ImageService extends ServiceBase<Image> {
         return image;
     }
 
-
     public List<Image> saveImages(List<MultipartFile> files) throws IOException {
         List<Image> images = new ArrayList<>();
 
@@ -83,16 +93,5 @@ public class ImageService extends ServiceBase<Image> {
 
 
         return images;
-    }
-
-    private static BufferedImage resize(BufferedImage img, int newW, int newH) {
-        java.awt.Image tmp = img.getScaledInstance(newW, newH, java.awt.Image.SCALE_SMOOTH);
-        BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-
-        Graphics2D g2d = dimg.createGraphics();
-        g2d.drawImage(tmp, 0, 0, null);
-        g2d.dispose();
-
-        return dimg;
     }
 }

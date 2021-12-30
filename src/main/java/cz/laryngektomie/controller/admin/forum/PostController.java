@@ -16,8 +16,11 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
-@RequestMapping("/admin/poradna/prispevky")
+@RequestMapping(ADMIN_PORADNA_URL + PRISPEVKY_URL)
 public class PostController {
 
     private final PostService postService;
@@ -31,107 +34,107 @@ public class PostController {
     }
 
     @GetMapping()
-    public ModelAndView prispevky(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query) {
-        ModelAndView mv = new ModelAndView("admin/poradna/prispevky");
+    public ModelAndView prispevky(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + PRISPEVKY_URL);
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = ForumHelper.resolvePageNumber(page);
 
-        String queryString = query.orElse("");
+        String queryString = query.orElse(EMPTY_STRING);
 
-        Page<Post> posts = postService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
+        Page<Post> posts = postService.findAllSearch(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false, queryString);
 
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("posts", posts);
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(POSTS, posts);
         return mv;
     }
 
-    @GetMapping("/vytvorit")
+    @GetMapping(VYTVORIT_URL)
     public String vytvoritGet(Model model) {
-        model.addAttribute("post", new Post());
-        model.addAttribute("topics", topicService.findAll());
-        return "admin/poradna/prispevky/vytvorit";
+        model.addAttribute(POST, new Post());
+        model.addAttribute(TOPICS, topicService.findAll());
+        return ADMIN_PORADNA_URL + PRISPEVKY_URL + VYTVORIT_URL;
 
     }
 
-    @PostMapping("/vytvorit")
-    public ModelAndView vytvoritPost(@ModelAttribute("post") @Valid Post post, BindingResult result, Principal principal) {
+    @PostMapping(VYTVORIT_URL)
+    public ModelAndView vytvoritPost(@ModelAttribute(POST) @Valid Post post, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.addObject("post", post);
-            mv.addObject("messageError", "Špatně vypněné pole.");
-            mv.setViewName("admin/poradna/prispevky/vytvorit");
+            mv.addObject(POST, post);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENE_POLE_ERROR_MSG);
+            mv.setViewName(ADMIN_PORADNA_URL + PRISPEVKY_URL + VYTVORIT_URL);
             return mv;
         }
 
         if (post.getTopic() == null) {
-            mv.addObject("topics", topicService.findAll());
-            mv.addObject("post", post);
-            mv.setViewName("admin/poradna/prispevky/vytvorit");
-            mv.addObject("messageError", "Prosím vyberte téma pro přispěvek");
+            mv.addObject(TOPICS, topicService.findAll());
+            mv.addObject(POST, post);
+            mv.setViewName(ADMIN_PORADNA_URL + PRISPEVKY_URL + VYTVORIT_URL);
+            mv.addObject(MESSAGE_ERROR, "Prosím vyberte téma pro přispěvek");
             return mv;
         }
 
         post.setUser(userService.findByUsername(principal.getName()));
 
         postService.saveOrUpdate(post);
-        mv.addObject("messageSuccess", "Příspěvek byl přidán");
-        mv.setViewName("redirect:/admin/poradna/prispevky");
+        mv.addObject(MESSAGE_SUCCESS, "Příspěvek byl přidán");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + PRISPEVKY_URL);
         return mv;
     }
 
-    @GetMapping("/upravit/{id}")
+    @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/poradna/prispevky/upravit");
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + PRISPEVKY_URL + UPRAVIT_URL);
         Optional<Post> postOptional = postService.findById(id);
 
         if (!postOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaný příspěvek neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/prispevky");
+            mv.addObject(MESSAGE_ERROR, "Požadovaný příspěvek neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + PRISPEVKY_URL);
             return mv;
         }
 
-        mv.addObject("post", postOptional.get());
-        mv.addObject("topics", topicService.findAll());
+        mv.addObject(POST, postOptional.get());
+        mv.addObject(TOPICS, topicService.findAll());
         return mv;
     }
 
-    @PostMapping("/upravit")
-    public ModelAndView upravitPost(@ModelAttribute("post") @Valid Post post, BindingResult result) {
+    @PostMapping(UPRAVIT_URL)
+    public ModelAndView upravitPost(@ModelAttribute(POST) @Valid Post post, BindingResult result) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/prispevky/upravit");
-            mv.addObject("post", post);
-            mv.addObject("topics", topicService.findAll());
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_PORADNA_URL + PRISPEVKY_URL + UPRAVIT_URL);
+            mv.addObject(POST, post);
+            mv.addObject(TOPICS, topicService.findAll());
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         post.setUser(userService.findByUsername(post.getUser().getUsername()));
         post.setTopic(topicService.findByName(post.getTopic().getName()).get());
         postService.saveOrUpdate(post);
-        mv.addObject("messageSuccess", "Příspěvek byl upraven.");
-        mv.setViewName("redirect:/admin/poradna/prispevky");
+        mv.addObject(MESSAGE_SUCCESS, "Příspěvek byl upraven.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + PRISPEVKY_URL);
         return mv;
     }
 
 
-    @GetMapping("/smazat/{id}")
+    @GetMapping(SMAZAT_URL + ID_PATH_VAR)
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Post> postOptional = postService.findById(id);
 
         if (!postOptional.isPresent()) {
-            mv.addObject("messageError", "Příspěvek s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/prispevky");
+            mv.addObject(MESSAGE_ERROR, "Příspěvek s id: " + id + " neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + PRISPEVKY_URL);
             return mv;
         }
 
         postService.delete(postOptional.get());
-        mv.addObject("messageSuccess", "Příspěvek byl smazán.");
-        mv.setViewName("redirect:/admin/poradna/prispevky");
+        mv.addObject(MESSAGE_SUCCESS, "Příspěvek byl smazán.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + PRISPEVKY_URL);
         return mv;
     }
 }

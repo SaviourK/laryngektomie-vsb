@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title th:text="${article.name}">Detail článku</title>
 
@@ -28,11 +28,10 @@
     </div>
 
 
-
     <div class="row">
         <div class="col-lg-3 text-lg-left text-center order-lg-0">
-            <h5><span th:text="*{user.firstName}" th:remove="tag"></span> <span
-                    th:text="*{user.lastName}" th:remove="tag"></span></h5>
+            <h5><span th:remove="tag" th:text="*{user.firstName}"></span> <span
+                    th:remove="tag" th:text="*{user.lastName}"></span></h5>
         </div>
         <div class="offset-lg-1 col-lg-4 offset-1 col-10 order-lg-1 order-last mb-2 mb-lg-0">
             <div class="hashtag text-center mt-3">
@@ -40,7 +39,7 @@
             </div>
         </div>
         <div class="offset-lg-1 col-lg-3 text-lg-right text-center order-lg-2">
-            <h5><span th:text="*{getCreateDateTimeString()}" th:remove="tag"></span></h5>
+            <h5><span th:remove="tag" th:text="*{getCreateDateTimeString()}"></span></h5>
         </div>
     </div>
     <div class="row">
@@ -53,35 +52,38 @@
             <div th:if="*{images!=null and !images.empty}">
                 <div th:if="${#lists.size(article.images) eq 1}">
 
-                    <div th:remove="tag" th:each="img,iter : *{images}">
+                    <div th:each="img,iter : *{images}" th:remove="tag">
 
-                        <img class="img-fluid mx-auto d-block" th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
+                        <img class="img-fluid mx-auto d-block"
+                             th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
 
                     </div>
                 </div>
 
 
-                <div th:unless="${#lists.size(article.images) eq 1}" id="article-carousel" class="carousel slide" data-ride="carousel"  data-interval="5000" data-pause="hover">
+                <div class="carousel slide" data-interval="5000" data-pause="hover"
+                     data-ride="carousel" id="article-carousel" th:unless="${#lists.size(article.images) eq 1}">
                     <!--indicators-->
                     <ul class="carousel-indicators">
-                        <div th:remove="tag" th:each="img,iter : *{images}">
-                            <li data-target="#article-carousel" th:data-slide-to="|${iter.index}-${img.id}|" th:classappend="${iter.first} ? 'active' : ''"></li>
+                        <div th:each="img,iter : *{images}" th:remove="tag">
+                            <li data-target="#article-carousel" th:classappend="${iter.first} ? 'active' : ''"
+                                th:data-slide-to="|${iter.index}-${img.id}|"></li>
                         </div>
                     </ul>
 
                     <!--slideshow-->
                     <div class="carousel-inner">
-                        <div th:remove="tag" th:each="img,iter : *{images}">
-                            <div th:classappend="${iter.first} ? 'active' : ''" class="carousel-item">
+                        <div th:each="img,iter : *{images}" th:remove="tag">
+                            <div class="carousel-item" th:classappend="${iter.first} ? 'active' : ''">
                                 <img class="carousel-image" th:src="|data:image/jpeg;base64,${img.getEncodeBase64()}|">
                             </div>
                         </div>
                     </div>
                     <!--left and right controls-->
-                    <a class="carousel-control-prev" href="#article-carousel" data-slide="prev">
+                    <a class="carousel-control-prev" data-slide="prev" href="#article-carousel">
                         <span class="carousel-control-prev-icon"></span>
                     </a>
-                    <a class="carousel-control-next" href="#article-carousel" data-slide="next">
+                    <a class="carousel-control-next" data-slide="next" href="#article-carousel">
                         <span class="carousel-control-next-icon"></span>
                     </a>
                 </div>

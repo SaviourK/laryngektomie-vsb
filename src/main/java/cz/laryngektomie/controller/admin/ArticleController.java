@@ -3,9 +3,9 @@ package cz.laryngektomie.controller.admin;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.article.Article;
 import cz.laryngektomie.model.article.Image;
-import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.article.ArticleService;
 import cz.laryngektomie.service.article.ArticleTypeService;
+import cz.laryngektomie.service.article.ImageService;
 import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -21,8 +21,12 @@ import java.security.Principal;
 import java.util.List;
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
 public class ArticleController {
+
 
     private final ArticleService articleService;
     private final ArticleTypeService articleTypeService;
@@ -36,61 +40,61 @@ public class ArticleController {
         this.imageService = imageService;
     }
 
-    @GetMapping({"/admin/clanky", "/clanky"})
-    public ModelAndView clanky(@RequestParam(value = "page", defaultValue = "1") int page, HttpServletRequest request, @RequestParam Optional<String> query) {
-        ModelAndView mv = new ModelAndView("clanky");
+    @GetMapping({ADMIN_URL + CLANKY_URL, CLANKY_URL})
+    public ModelAndView clanky(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, HttpServletRequest request, @RequestParam Optional<String> query) {
+        ModelAndView mv = new ModelAndView(CLANKY);
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = ForumHelper.resolvePageNumber(page);
 
-        if (request.getRequestURI().contains("/admin/clanky")) {
-            mv.setViewName("admin/clanky");
+        if (request.getRequestURI().contains(ADMIN_URL + CLANKY_URL)) {
+            mv.setViewName(ADMIN_URL + CLANKY_URL);
         }
 
-        String queryString = query.orElse("");
+        String queryString = query.orElse(EMPTY_STRING);
 
-        Page<Article> article = articleService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
+        Page<Article> article = articleService.findAllSearch(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false, queryString);
 
 
-        mv.addObject("action", "nase-cinnost");
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(article.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("article", article);
+        mv.addObject(ACTION, "nase-cinnost");
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(article.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(ARTICLE, article);
         return mv;
     }
 
-    @GetMapping("/clanky/{url}")
-    public ModelAndView detail(@PathVariable("url") String url) {
+    @GetMapping(CLANKY_URL + URL_PATH_VAR)
+    public ModelAndView detail(@PathVariable(URL) String url) {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findByUrl(url);
 
         if (!articleOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaný článek neexstuje.");
-            mv.setViewName("redirect:/admin/clanky");
+            mv.addObject(MESSAGE_ERROR, "Požadovaný článek neexstuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;
         }
 
-        mv.addObject("article", articleOptional.get());
-        mv.setViewName("admin/clanky/detail");
+        mv.addObject(ARTICLE, articleOptional.get());
+        mv.setViewName(ADMIN_URL + CLANKY_URL + DETAIL_URL);
         return mv;
     }
 
-    @RequestMapping("/admin/clanky/vytvorit")
+    @RequestMapping(ADMIN_URL + CLANKY_URL + VYTVORIT_URL)
     public ModelAndView vytvoritGet() {
-        ModelAndView mv = new ModelAndView("admin/clanky/vytvorit");
-        mv.addObject("article", new Article());
-        mv.addObject("articleTypes", articleTypeService.findAll());
+        ModelAndView mv = new ModelAndView(ADMIN_URL + CLANKY_URL + VYTVORIT_URL);
+        mv.addObject(ARTICLE, new Article());
+        mv.addObject(ARTICLE_TYPES, articleTypeService.findAll());
         return mv;
     }
 
-    @PostMapping("/admin/clanky/vytvorit")
-    public ModelAndView vytvoritPost(@Valid @ModelAttribute("article") Article article, @RequestParam("files") List<MultipartFile> files, BindingResult result, Principal principal) throws IOException {
+    @PostMapping(ADMIN_URL + CLANKY_URL + VYTVORIT_URL)
+    public ModelAndView vytvoritPost(@Valid @ModelAttribute(ARTICLE) Article article, @RequestParam(FILES) List<MultipartFile> files, BindingResult result, Principal principal) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors() || article.getArticleType() == null) {
-            mv.setViewName("admin/clanky/vytvorit");
-            mv.addObject("article", article);
-            mv.addObject("articleTypes", articleTypeService.findAll());
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_URL + CLANKY_URL + VYTVORIT_URL);
+            mv.addObject(ARTICLE, article);
+            mv.addObject(ARTICLE_TYPES, articleTypeService.findAll());
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
@@ -98,34 +102,34 @@ public class ArticleController {
         article.setImages(images);
         article.setUser(userService.findByUsername(principal.getName()));
         articleService.saveOrUpdate(article);
-        mv.addObject("messageSuccess", "Článek " + article.getName() + " byl úspěšně přidán.");
-        mv.setViewName("redirect:/admin/clanky");
+        mv.addObject(MESSAGE_SUCCESS, "Článek " + article.getName() + " byl úspěšně přidán.");
+        mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
         return mv;
     }
 
-    @GetMapping("/admin/clanky/upravit/{id}")
+    @GetMapping(ADMIN_URL + CLANKY_URL + UPRAVIT_URL + ID_PATH_VAR)
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/clanky/upravit");
+        ModelAndView mv = new ModelAndView(ADMIN_URL + CLANKY_URL + UPRAVIT_URL);
         Optional<Article> articleOptional = articleService.findById(id);
         if (!articleOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaný článek neexistuje.");
-            mv.setViewName("redirect:/admin/clanky");
+            mv.addObject(MESSAGE_ERROR, "Požadovaný článek neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;
         }
 
-        mv.addObject("articleTypes", articleTypeService.findAll());
-        mv.addObject("article", articleOptional.get());
+        mv.addObject(ARTICLE_TYPES, articleTypeService.findAll());
+        mv.addObject(ARTICLE, articleOptional.get());
         return mv;
     }
 
-    @PostMapping("/admin/clanky/upravit")
-    public ModelAndView upravitPost(@Valid @ModelAttribute("article") Article article, BindingResult result) {
+    @PostMapping(ADMIN_URL + CLANKY_URL + UPRAVIT_URL)
+    public ModelAndView upravitPost(@Valid @ModelAttribute(ARTICLE) Article article, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
-            mv.setViewName("admin/clanky/upravit");
-            mv.addObject("article", article);
-            mv.addObject("articleTypes", articleTypeService.findAll());
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_URL + CLANKY_URL + UPRAVIT_URL);
+            mv.addObject(ARTICLE, article);
+            mv.addObject(ARTICLE_TYPES, articleTypeService.findAll());
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
@@ -133,24 +137,24 @@ public class ArticleController {
 
         articleService.saveOrUpdate(article);
 
-        mv.addObject("messageSuccess", "Článek:" + article.getName() + " byl upraven.");
-        mv.setViewName("redirect:/admin/clanky");
+        mv.addObject(MESSAGE_SUCCESS, "Článek:" + article.getName() + " byl upraven.");
+        mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
         return mv;
     }
 
-    @GetMapping("/admin/clanky/smazat/{id}")
+    @GetMapping(ADMIN_URL + CLANKY_URL + SMAZAT_URL + ID_PATH_VAR)
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findById(id);
         if (!articleOptional.isPresent()) {
-            mv.addObject("messageError", "Článek s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/clanky");
+            mv.addObject(MESSAGE_ERROR, "Článek s id: " + id + " neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;
         }
 
         articleService.delete(articleOptional.get());
-        mv.addObject("messageSuccess", "Článek " + articleOptional.get().getName() + " byla smazána.");
-        mv.setViewName("redirect:/admin/clanky");
+        mv.addObject(MESSAGE_SUCCESS, "Článek " + articleOptional.get().getName() + " byla smazána.");
+        mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
         return mv;
     }
 }

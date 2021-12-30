@@ -200,6 +200,7 @@ button:focus {
   height: 180px;
   overflow: hidden;
 }
+
 .image-about-us {
   position: absolute;
   max-width: 100%;
@@ -207,12 +208,12 @@ button:focus {
   height: auto;
   top: 50%;
   left: 50%;
-  transform: translate( -50%, -50%);
+  transform: translate(-50%, -50%);
 }
 
 
 @media screen and (max-width: 435px) {
-  .square{
+  .square {
     float: none;
     display: block;
     margin-left: 0;
@@ -223,7 +224,7 @@ button:focus {
   }
 }
 
-.hashtag{
+.hashtag {
   padding: 15px;
   background-color: #98b880;
   border: solid 2px #3f6844;
@@ -232,16 +233,16 @@ button:focus {
 
 }
 
-.forum{
+.forum {
   background-color: #fff;
 }
 
-.d-flex.flex-wrap.justify-content-around img{
-  width:200px;
-  height:200px;
+.d-flex.flex-wrap.justify-content-around img {
+  width: 200px;
+  height: 200px;
 
   /*Scale down will take the necessary specified space that is 100px x 100px without stretching the image*/
-  object-fit:scale-down;
+  object-fit: scale-down;
 
 }
 

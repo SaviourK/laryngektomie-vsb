@@ -12,9 +12,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.KONTAKT_URL;
+import static cz.laryngektomie.helper.UrlConst.REDIRECT_URL;
+
 @Controller
-@RequestMapping("kontakt")
+@RequestMapping(KONTAKT_URL)
 public class FeedbackController {
+
+    public static final String KONTAKT_TEXT = "kontakt";
 
     //private EmailService emailService;
 
@@ -23,18 +29,18 @@ public class FeedbackController {
     }*/
 
     @GetMapping()
-    public ModelAndView kontakt(@ModelAttribute("feedback") Feedback feedback) {
-        ModelAndView mv = new ModelAndView("kontakt");
-        mv.addObject("action", "kontakt");
+    public ModelAndView kontakt(@ModelAttribute(FEEDBACK) Feedback feedback) {
+        ModelAndView mv = new ModelAndView(KONTAKT_TEXT);
+        mv.addObject(ACTION, KONTAKT_TEXT);
         return mv;
     }
 
     @PostMapping()
-    public ModelAndView sendFeedback(@Valid @ModelAttribute("feedback") Feedback feedback, BindingResult result) {
+    public ModelAndView sendFeedback(@Valid @ModelAttribute(FEEDBACK) Feedback feedback, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
-            mv.setViewName("kontakt");
-            mv.addObject("messageError", "Špatně vyplněné některé pole.");
+            mv.setViewName(KONTAKT_TEXT);
+            mv.addObject(MESSAGE_ERROR, "Špatně vyplněné některé pole.");
             return mv;
         }
 
@@ -46,8 +52,8 @@ public class FeedbackController {
         mailMessage.setText(String.format("Zpráva od %s,\r\n Emailova adresa: %s,\r\n Zpráva:\r\n %s", feedback.getName(), feedback.getEmail(), feedback.getFeedback()));
         // Send mail
         //emailService.sendEmail(mailMessage);
-        mv.setViewName("redirect:kontakt");
-        mv.addObject("messageSuccess", "Děkujeme za zprávu " + feedback.getName() + ".");
+        mv.setViewName(REDIRECT_URL + KONTAKT_URL);
+        mv.addObject(MESSAGE_SUCCESS, "Děkujeme za zprávu " + feedback.getName() + ".");
         return mv;
     }
 }

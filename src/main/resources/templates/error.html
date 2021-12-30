@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Index</title>
 
@@ -17,7 +17,7 @@
 
     <div class="row m-3 p-3 rounded">
         <div class="col-lg">
-            <h1 class="text-center">Status <span th:text="${status}" th:remove="tag"></span></h1>
+            <h1 class="text-center">Status <span th:remove="tag" th:text="${status}"></span></h1>
         </div>
 
 
@@ -26,13 +26,13 @@
 
     <div class="row  mt-3">
         <div class="col-md p-4">
-            <h2 class="text-center"><span th:text="${status} == 404 ? 'Stránka neexistuje' : ''"
-                                          th:remove="tag"></span>
-                <span th:text="${status} == 403 ? 'Přístup zamítnut' : ''" th:remove="tag"></span></h2>
-            <h4 class="text-left my-md-5 my-2">Cesta: <span th:text="${path}" th:remove="tag"></span></h4>
-            <h4 class="text-left my-md-5 my-2">Status: <span th:text="${status}" th:remove="tag"></span></h4>
-            <h4 class="text-left my-md-5 my-2">Chyba: <span th:text="${error}" th:remove="tag"></span></h4>
-            <h4 class="text-left my-md-5 my-2">Datum: <span th:text="${timestamp}" th:remove="tag"></span></h4>
+            <h2 class="text-center"><span th:remove="tag"
+                                          th:text="${status} == 404 ? 'Stránka neexistuje' : ''"></span>
+                <span th:remove="tag" th:text="${status} == 403 ? 'Přístup zamítnut' : ''"></span></h2>
+            <h4 class="text-left my-md-5 my-2">Cesta: <span th:remove="tag" th:text="${path}"></span></h4>
+            <h4 class="text-left my-md-5 my-2">Status: <span th:remove="tag" th:text="${status}"></span></h4>
+            <h4 class="text-left my-md-5 my-2">Chyba: <span th:remove="tag" th:text="${error}"></span></h4>
+            <h4 class="text-left my-md-5 my-2">Datum: <span th:remove="tag" th:text="${timestamp}"></span></h4>
 
         </div>
 

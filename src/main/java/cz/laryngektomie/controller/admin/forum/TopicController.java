@@ -16,8 +16,11 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
-@RequestMapping("/admin/poradna/temata")
+@RequestMapping(ADMIN_PORADNA_URL + TEMATA_URL)
 public class TopicController {
 
     private final TopicService topicService;
@@ -31,105 +34,105 @@ public class TopicController {
     }
 
     @GetMapping()
-    public ModelAndView temata(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query) {
-        ModelAndView mv = new ModelAndView("admin/poradna/temata");
+    public ModelAndView temata(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + TEMATA_URL);
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = ForumHelper.resolvePageNumber(page);
 
-        String queryString = query.orElse("");
+        String queryString = query.orElse(EMPTY_STRING);
 
-        Page<Topic> topics = topicService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
+        Page<Topic> topics = topicService.findAllSearch(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false, queryString);
 
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(topics.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("topics", topics);
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(topics.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(TOPICS, topics);
         return mv;
     }
 
 
-    @GetMapping("/vytvorit")
+    @GetMapping(VYTVORIT_URL)
     public String vytvoritGet(Model model) {
-        model.addAttribute("topic", new Topic());
-        model.addAttribute("categories", categoryService.findAll());
-        return "admin/poradna/temata/vytvorit";
+        model.addAttribute(TOPIC, new Topic());
+        model.addAttribute(CATEGORIES, categoryService.findAll());
+        return ADMIN_PORADNA_URL + TEMATA_URL + VYTVORIT_URL;
     }
 
-    @PostMapping("/vytvorit")
-    public ModelAndView vytvoritPost(@ModelAttribute("topic") @Valid Topic topic, BindingResult result, Principal principal) {
+    @PostMapping(VYTVORIT_URL)
+    public ModelAndView vytvoritPost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (topic.getCategory() == null) {
-            mv.setViewName("admin/poradna/temata/vytvorit");
-            mv.addObject("categories", categoryService.findAll());
-            mv.addObject("topic", topic);
-            mv.addObject("messageError", "Prosím vyberte kategorii pro téma");
+            mv.setViewName(ADMIN_PORADNA_URL + TEMATA_URL + VYTVORIT_URL);
+            mv.addObject(CATEGORIES, categoryService.findAll());
+            mv.addObject(TOPIC, topic);
+            mv.addObject(MESSAGE_ERROR, "Prosím vyberte kategorii pro téma");
             return mv;
         }
 
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/kategorie/vytvorit");
-            mv.addObject("topic", topic);
-            mv.addObject("categories", categoryService.findAll());
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_PORADNA_URL + TEMATA_URL + VYTVORIT_URL);
+            mv.addObject(TOPIC, topic);
+            mv.addObject(CATEGORIES, categoryService.findAll());
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         topic.setUser(userService.findByUsername(principal.getName()));
 
         topicService.saveOrUpdate(topic);
-        mv.addObject("messageSuccess", "Téma " + topic.getName() + " bylo úspěšně přidáno.");
-        mv.setViewName("redirect:/admin/poradna/temata");
+        mv.addObject(MESSAGE_SUCCESS, "Téma " + topic.getName() + " bylo úspěšně přidáno.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + TEMATA_URL);
         return mv;
     }
 
-    @GetMapping("/upravit/{id}")
+    @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/poradna/temata/upravit");
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + TEMATA_URL + UPRAVIT_URL);
         Optional<Topic> topicOptional = topicService.findById(id);
         if (!topicOptional.isPresent()) {
-            mv.addObject("messageError", "Požadované téma neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/temata");
+            mv.addObject(MESSAGE_ERROR, "Požadované téma neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + TEMATA_URL);
             return mv;
         }
 
-        mv.addObject("topic", topicOptional.get());
-        mv.addObject("categories", categoryService.findAll());
+        mv.addObject(TOPIC, topicOptional.get());
+        mv.addObject(CATEGORIES, categoryService.findAll());
         return mv;
     }
 
-    @PostMapping("/upravit")
-    public ModelAndView upravitPost(@ModelAttribute("topic") @Valid Topic topic, BindingResult result) {
+    @PostMapping(UPRAVIT_URL)
+    public ModelAndView upravitPost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/temata/upravit");
-            mv.addObject("topic", topic);
-            mv.addObject("categories", categoryService.findAll());
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_PORADNA_URL + TEMATA_URL + UPRAVIT_URL);
+            mv.addObject(TOPIC, topic);
+            mv.addObject(CATEGORIES, categoryService.findAll());
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         topic.setUser(userService.findByUsername(topic.getUser().getUsername()));
 
         topicService.saveOrUpdate(topic);
-        mv.addObject("messageSuccess", "Téma:" + topic.getName() + " bylo upraveno.");
-        mv.setViewName("redirect:/admin/poradna/temata");
+        mv.addObject(MESSAGE_SUCCESS, "Téma:" + topic.getName() + " bylo upraveno.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + TEMATA_URL);
         return mv;
     }
 
-    @GetMapping("/smazat/{id}")
+    @GetMapping(SMAZAT_URL + ID_PATH_VAR)
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Topic> topicOptional = topicService.findById(id);
 
         if (!topicOptional.isPresent()) {
-            mv.addObject("messageError", "Téma s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/temata");
+            mv.addObject(MESSAGE_ERROR, "Téma s id: " + id + " neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + TEMATA_URL);
             return mv;
         }
 
         topicService.delete(topicOptional.get());
-        mv.addObject("messageSuccess", "Téma " + topicOptional.get().getName() + " bylo smazáno.");
-        mv.setViewName("redirect:/admin/poradna/temata");
+        mv.addObject(MESSAGE_SUCCESS, "Téma " + topicOptional.get().getName() + " bylo smazáno.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + TEMATA_URL);
         return mv;
     }
 }

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Kdo jsme</title>
 
@@ -46,7 +46,8 @@
         <div class="row">
             <div class="col">
                 <h2>Členové</h2>
-                <p>Členy spolku jsou lidé po operacích hrtanu - po laryngektomii a jejich rodinní příslušníci, lékaři, logopedi a ostatní příznivci.</p>
+                <p>Členy spolku jsou lidé po operacích hrtanu - po laryngektomii a jejich rodinní příslušníci, lékaři,
+                    logopedi a ostatní příznivci.</p>
             </div>
         </div>
         <div class="row">
@@ -58,9 +59,9 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6" th:each="user : ${users}" >
+            <div class="col-md-6" th:each="user : ${users}">
                 <h3 th:text="${user.firstName}"></h3>
-                <div th:if="${user.image != null}" class="square">
+                <div class="square" th:if="${user.image != null}">
                     <img class="image-about-us"
                          th:src="|data:image/jpeg;base64,${user.image.getEncodeBase64()}|">
                 </div>
@@ -71,8 +72,8 @@
 
         <div class="row text-center">
             <div class="col-md-4 offset-md-4 rounded">
-                <a th:href="@{~/o-nas/clenstvi}" class="btn btn-primary"
-                   role="button" aria-pressed="true">Chci se stát členem</a>
+                <a aria-pressed="true" class="btn btn-primary"
+                   role="button" th:href="@{~/o-nas/clenstvi}">Chci se stát členem</a>
             </div>
         </div>
     </div>

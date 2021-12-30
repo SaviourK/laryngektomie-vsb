@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Příspěvek - vytvořit</title>
 </head>
@@ -24,18 +24,18 @@
 
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-md-6 rounded mt-3 p-5">
-            <form method="post" action="#" th:method="post" th:action="@{/admin/poradna/prispevky/vytvorit}"
+            <form action="#" method="post" th:action="@{/admin/poradna/prispevky/vytvorit}" th:method="post"
                   th:object="${post}">
 
 
                 <div class="form-group">
                     <label for="topic">Téma</label>
-                    <label th:if="${#fields.hasErrors('topic')}" th:errors="*{topic}"></label>
+                    <label th:errors="*{topic}" th:if="${#fields.hasErrors('topic')}"></label>
                     <select class="form-control" id="topic" th:field="*{topic}">
-                        <option value="" selected="selected">Vyberte prosím téma</option>
+                        <option selected="selected" value="">Vyberte prosím téma</option>
                         <option th:each="topic : ${topics}"
-                                th:value="${topic.id}"
-                                th:text="${topic.name}"></option>
+                                th:text="${topic.name}"
+                                th:value="${topic.id}"></option>
                     </select>
                 </div>
 
@@ -44,10 +44,11 @@
 
 
                     <label for="text">Text komentáře</label>
-                    <label class="label-error" th:if="${#fields.hasErrors('text')}" th:errors="*{text}"></label>
-                    <textarea type="text" th:field="*{text}" id="text" name="text"
-                              class="form-control mb-4"
-                              placeholder="Text příspěvku" rows="4" cols="50" required minlength="5" maxlength="1000"></textarea>
+                    <label class="label-error" th:errors="*{text}" th:if="${#fields.hasErrors('text')}"></label>
+                    <textarea class="form-control mb-4" cols="50" id="text" maxlength="1000"
+                              minlength="5"
+                              name="text" placeholder="Text příspěvku" required rows="4" th:field="*{text}"
+                              type="text"></textarea>
                     <label id="count">Zbývá 1000 znaků.</label>
 
                 </div>

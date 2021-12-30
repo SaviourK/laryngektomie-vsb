@@ -25,14 +25,13 @@ import java.util.Random;
 @Component
 public class InitialDataLoader implements ApplicationRunner {
 
-    boolean alreadySetup = false;
-
     private final UserRepository userRepository;
     private final CategoryService categoryService;
     private final ArticleService articleService;
     private final TopicService topicService;
     private final ArticleTypeRepository articleTypeRepository;
     private final PostService postService;
+    boolean alreadySetup = true;
 
     public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, ArticleService articleService, TopicService topicService, ArticleTypeRepository articleTypeRepository, PostService postService) {
         this.userRepository = userRepository;

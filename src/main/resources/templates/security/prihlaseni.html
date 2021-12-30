@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="cs">
+<html lang="cs" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="'./fragments/fragments.html' :: head(~{::title},~{})">
     <title>Přihlášení</title>
 </head>
@@ -23,41 +23,41 @@
     <div class="row justify-content-center align-items-center mt-3 text-center">
         <div class="col-xl-3 col-md-6 mb-3 mb-xl-0 rounded mx-3 p-5 border-custom">
             <h2 class="text-center">Ještě nemáte účet?</h2>
-            <form method="GET" action="#" th:method="GET" th:action="@{registrace}">
+            <form action="#" method="GET" th:action="@{registrace}" th:method="GET">
                 <button class="btn btn-primary" type="submit">Zaregistrujte se</button>
             </form>
         </div>
 
         <div class="col-xl-3 col-md-6 offset-lg-3 offset-md-1 rounded mx-3 p-5 border-custom">
-            <form method="POST" action="#" th:method="POST" th:action="@{prihlasit}">
+            <form action="#" method="POST" th:action="@{prihlasit}" th:method="POST">
 
 
-                <div th:if="${param.error}" class="alert alert-danger">
+                <div class="alert alert-danger" th:if="${param.error}">
                     Nesprávné přihlašovací jméno nebo heslo.
                 </div>
-                <div th:if="${param.logout}" class="alert alert-success">
+                <div class="alert alert-success" th:if="${param.logout}">
                     Byl jste odhlášen.
                 </div>
 
 
-                <div th:if="${registrationSuccess}"
-                     th:text="'Registrace proběhla úspěšně. Nyní se můžete přihlásit jako: ' + ${username}"
-                     class="alert alert-success">
+                <div class="alert alert-success"
+                     th:if="${registrationSuccess}"
+                     th:text="'Registrace proběhla úspěšně. Nyní se můžete přihlásit jako: ' + ${username}">
 
                 </div>
 
 
                 <div class="form-group">
                     <label for="username">Uživatelské jméno</label>
-                    <input type="text" class="form-control" id="username" name="username"
-                           placeholder="Přihlašovací jméno" required pattern=".{2,50}" title="Délka 2-50 znaků.">
+                    <input class="form-control" id="username" name="username" pattern=".{2,50}"
+                           placeholder="Přihlašovací jméno" required title="Délka 2-50 znaků." type="text">
 
                 </div>
 
                 <div class="form-group">
                     <label for="password">Heslo</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Heslo"
-                           required pattern=".{5,}" title="Minimální délka je 5 znaků.">
+                    <input class="form-control" id="password" name="password" pattern=".{5,}" placeholder="Heslo"
+                           required title="Minimální délka je 5 znaků." type="password">
                 </div>
 
 
@@ -71,14 +71,12 @@
 
         <div class="col-xl-3 col-md-6 my-3 my-xl-0 rounded mx-3 p-5 border-custom">
             <h2 class="text-center">Zapomněli jste heslo?</h2>
-            <form method="GET" action="#" th:method="GET" th:action="@{zapomenute-heslo}">
+            <form action="#" method="GET" th:action="@{zapomenute-heslo}" th:method="GET">
                 <button class="btn btn-primary" type="submit">Obnovit heslo</button>
             </form>
 
         </div>
     </div>
-
-
 
 
     <div th:replace="'./fragments/fragments.html' :: footer"></div>

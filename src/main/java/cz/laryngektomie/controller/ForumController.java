@@ -1,7 +1,7 @@
 package cz.laryngektomie.controller;
 
+import cz.laryngektomie.dto.forum.TopicOrPost;
 import cz.laryngektomie.helper.ForumHelper;
-import cz.laryngektomie.model.dto.TopicOrPost;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
@@ -28,8 +28,11 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
-@RequestMapping("/poradna")
+@RequestMapping(PORADNA_URL)
 public class ForumController {
 
     private final CategoryService categoryService;
@@ -53,21 +56,21 @@ public class ForumController {
         int pageNumber = page < 0 ? 1 : page;
 
         List<TopicOrPost> topicOrPostList = forumService.getTopicOrPostList();
-        //Page<Post> posts = postService.findAll(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false);
-        //List<Topic> topics = topicService.findLatest();
+        Page<Post> posts = postService.findAll(pageNumber, ForumHelper.ITEMS_ON_PAGE, "createDateTime", false);
+        List<Topic> topics = topicService.findLatest();
 
-        mv.addObject("categories", categoryService.findAll());
-        //mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("topicOrPostList", topicOrPostList);
-        mv.addObject("postCount", postService.findAll().size());
-        mv.addObject("topicCount", topicService.findAll().size());
-        //mv.addObject("posts", posts);
+        mv.addObject(CATEGORIES, categoryService.findAll());
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(TOPIC_OR_POST_LIST, topicOrPostList);
+        mv.addObject(POST_COUNT, postService.findAll().size());
+        mv.addObject(TOPIC_COUNT, topicService.findAll().size());
+        mv.addObject(POSTS, posts);
         return mv;
     }
 
-    @RequestMapping({"/{categoryUrl}"})
-    public ModelAndView temata(@PathVariable("categoryUrl") String categoryUrl, @RequestParam("page") Optional<Integer> page) {
+    @RequestMapping({CATEGORY_PATH_VAR})
+    public ModelAndView temata(@PathVariable(CATEGORY_URL) String categoryUrl, @RequestParam(PAGE) Optional<Integer> page) {
         int pageNumber = page.orElse(1);
 
         ModelAndView mv = new ModelAndView();
@@ -75,87 +78,87 @@ public class ForumController {
         Optional<Category> categoryOptional = categoryService.findByUrl(categoryUrl);
 
         if (!categoryOptional.isPresent()) {
-            mv.addObject("messageError", "Kategorie neexistuje");
-            mv.setViewName("redirect:/poradna");
+            mv.addObject(MESSAGE_ERROR, "Kategorie neexistuje");
+            mv.setViewName(REDIRECT_URL + PORADNA_URL);
         }
 
 
-        Pageable pagged = PageRequest.of(pageNumber - 1, ForumHelper.itemsOnPage, Sort.by("createDateTime").descending());
+        Pageable pagged = PageRequest.of(pageNumber - 1, ForumHelper.ITEMS_ON_PAGE, Sort.by(CREATE_DATE_TIME).descending());
         Page<Topic> topics = topicService.findByCategoryId(categoryOptional.get().getId(), pagged);
 
         int totalPages = topics.getTotalPages();
         if (totalPages > 0) {
             List<Integer> pageNumbers = IntStream.rangeClosed(1, totalPages).boxed().collect(Collectors.toList());
-            mv.addObject("pageNumbers", pageNumbers);
+            mv.addObject(PAGE_NUMBERS, pageNumbers);
         }
 
 
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("category", categoryOptional.get());
-        mv.addObject("categories", categoryService.findAll());
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(CATEGORY, categoryOptional.get());
+        mv.addObject(CATEGORIES, categoryService.findAll());
 
-        mv.addObject("topics", topics);
-        mv.setViewName("poradna/kategorie");
+        mv.addObject(TOPICS, topics);
+        mv.setViewName(PORADNA_URL + KATEGORIE_URL);
         return mv;
     }
 
-    @GetMapping("/tema/{id}")
+    @GetMapping(TEMA_URL + ID_PATH_VAR)
     @ResponseBody
-    public ModelAndView detailTema(@PathVariable("id") Long id, @RequestParam(value = "page", defaultValue = "1") int page) {
+    public ModelAndView detailTema(@PathVariable(ID) Long id, @RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
         ModelAndView mv = new ModelAndView();
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = ForumHelper.resolvePageNumber(page);
 
 
-        Pageable pagged = PageRequest.of(pageNumber - 1, 10, Sort.by("createDateTime").ascending());
+        Pageable pagged = PageRequest.of(pageNumber - 1, 10, Sort.by(CREATE_DATE_TIME).ascending());
         Optional<Topic> optionalTopic = topicService.findById(id);
 
         if (!optionalTopic.isPresent()) {
-            mv.addObject("messageError", "Požadované téma neexstuje.");
-            mv.setViewName("redirect:/poradna");
+            mv.addObject(MESSAGE_ERROR, "Požadované téma neexstuje.");
+            mv.setViewName(REDIRECT_URL + PORADNA_URL);
             return mv;
         }
         Page<Post> posts = postService.findByTopicId(optionalTopic.get().getId(), pagged);
 
 
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(posts.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
 
-        mv.addObject("topic", optionalTopic.get());
-        mv.addObject("posts", posts);
-        mv.addObject("post", new Post());
-        mv.setViewName("poradna/tema");
+        mv.addObject(TOPIC, optionalTopic.get());
+        mv.addObject(POSTS, posts);
+        mv.addObject(POST, new Post());
+        mv.setViewName(PORADNA_URL + TEMA_URL);
         return mv;
     }
 
-    @GetMapping("/tema-nove/{categoryId}")
-    public String vytvoritTemaGet(@PathVariable("categoryId") Long categoryId, Model model) {
+    @GetMapping(TEMA_NOVE_URL + CATEGORY_ID_PATH_VAR)
+    public String vytvoritTemaGet(@PathVariable(CATEGORY_ID) Long categoryId, Model model) {
         Topic topic = new Topic();
-        model.addAttribute("categoryId", categoryId);
-        model.addAttribute("topic", topic);
-        return "poradna/tema-nove";
+        model.addAttribute(CATEGORY_ID, categoryId);
+        model.addAttribute(TOPIC, topic);
+        return PORADNA_URL + TEMA_NOVE_URL;
     }
 
-    @PostMapping("/tema-nove/{categoryId}")
-    public ModelAndView vytvoritTemaPost(@Valid @ModelAttribute("topic") Topic topic, BindingResult result, @PathVariable("categoryId") Long categoryId, Principal principal) {
+    @PostMapping(TEMA_NOVE_URL + CATEGORY_ID_PATH_VAR)
+    public ModelAndView vytvoritTemaPost(@Valid @ModelAttribute(TOPIC) Topic topic, BindingResult result, @PathVariable(CATEGORY_ID) Long categoryId, Principal principal) {
         ModelAndView mv = new ModelAndView();
         Optional<Category> categoryOptional = categoryService.findById(categoryId);
         if (!categoryOptional.isPresent()) {
-            mv.setViewName("redirect:poradna");
+            mv.setViewName(REDIRECT_URL + PORADNA_URL);
             return mv;
         } else {
             topic.setCategory(categoryOptional.get());
         }
         if (result.hasErrors()) {
-            mv.setViewName("poradna/tema-nove/" + categoryId);
-            mv.addObject("topic", topic);
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(PORADNA_URL + TEMA_NOVE_URL + SLASH + categoryId);
+            mv.addObject(TOPIC, topic);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (principal == null) {
-            mv.addObject("messageError", "Pro vytváření témat se musíte přihlásit");
-            mv.setViewName("redirect:/poradna");
+            mv.addObject(MESSAGE_ERROR, "Pro vytváření témat se musíte přihlásit");
+            mv.setViewName(REDIRECT_URL + PORADNA_URL);
             return mv;
         } else {
             topic.setUser(userService.findByUsername(principal.getName()));
@@ -163,36 +166,36 @@ public class ForumController {
 
         topicService.saveOrUpdate(topic);
 
-        mv.addObject("messageSuccess", "Téma " + topic.getName() + " bylo úspěšně přidáno.");
-        mv.setViewName("redirect:/poradna/tema/" + topic.getId());
+        mv.addObject(MESSAGE_SUCCESS, "Téma " + topic.getName() + " bylo úspěšně přidáno.");
+        mv.setViewName(REDIRECT_URL + PORADNA_URL + TEMA_URL + SLASH + topic.getId());
         return mv;
     }
 
-    @GetMapping("/prispevek-novy/{topicId}")
-    public String vytvoritPrispevekGet(@PathVariable("topicId") Long topicId, Model model) {
+    @GetMapping(PRISPEVEK_NOVY_URL + TOPIC_ID_PATH_VAR)
+    public String vytvoritPrispevekGet(@PathVariable(TOPIC_ID) Long topicId, Model model) {
         Post post = new Post();
-        model.addAttribute("topicId", topicId);
-        model.addAttribute("post", post);
+        model.addAttribute(TOPIC_ID, topicId);
+        model.addAttribute(POST, post);
 
-        return "poradna/prispevek-novy";
+        return PORADNA_URL + PRISPEVEK_NOVY_URL;
     }
 
-    @PostMapping("/prispevek-novy/{topicId}")
-    public ModelAndView vytvoritPrispevekPost(@Valid @ModelAttribute("post") Post post, BindingResult result, @PathVariable("topicId") Long topicId, Principal principal) {
+    @PostMapping(PRISPEVEK_NOVY_URL + TOPIC_ID_PATH_VAR)
+    public ModelAndView vytvoritPrispevekPost(@Valid @ModelAttribute(POST) Post post, BindingResult result, @PathVariable(TOPIC_ID) Long topicId, Principal principal) {
         ModelAndView mv = new ModelAndView();
         Optional<Topic> topicOptional = topicService.findById(topicId);
 
         if (!topicOptional.isPresent()) {
-            mv.setViewName("redirect:/poradna");
-            mv.addObject("messageError", "Téma nenalezeno");
+            mv.setViewName(REDIRECT_URL + PORADNA_URL);
+            mv.addObject(MESSAGE_ERROR, "Téma nenalezeno");
             return mv;
         } else {
             post.setTopic(topicOptional.get());
         }
 
         if (result.hasErrors()) {
-            mv.addObject("messageError", "Špatně vyplněná pole.");
-            mv.setViewName("redirect:/poradna/tema/" + topicId);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
+            mv.setViewName(REDIRECT_URL + PORADNA_URL + TEMA_URL + SLASH + topicId);
             return mv;
         }
 
@@ -204,14 +207,14 @@ public class ForumController {
 
         postService.saveOrUpdate(post);
 
-        mv.addObject("messageSuccess", "Příspěvek přidán");
+        mv.addObject(MESSAGE_SUCCESS, "Příspěvek přidán");
 
-        mv.setViewName("redirect:/poradna/tema/" + topicId + "?page=" + postService.getLastPageOfTopic(topicOptional.get().getId()));
+        mv.setViewName(REDIRECT_URL + PORADNA_URL + TEMA_URL + SLASH + topicId + "?page=" + postService.getLastPageOfTopic(topicOptional.get().getId()));
         return mv;
     }
 
-    @GetMapping("/sledovat/{topicId}")
-    public String sledovatTema(@PathVariable("topicId") Long topicId, Principal principal) {
+    @GetMapping(SLEDOVAT_URL + TOPIC_ID_PATH_VAR)
+    public String sledovatTema(@PathVariable(TOPIC_ID) Long topicId, Principal principal) {
         Optional<Topic> optionalTopic = topicService.findById(topicId);
         if (optionalTopic.isPresent()) {
             Topic topic = optionalTopic.get();
@@ -219,6 +222,6 @@ public class ForumController {
             topic.addTopicWatchingUser(user);
             topicService.saveOrUpdate(topic);
         }
-        return "redirect:/poradna/tema/" + topicId;
+        return REDIRECT_URL + PORADNA_URL + TEMA_URL + SLASH + topicId;
     }
 }

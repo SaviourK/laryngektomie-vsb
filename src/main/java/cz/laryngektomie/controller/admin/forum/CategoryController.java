@@ -1,6 +1,5 @@
 package cz.laryngektomie.controller.admin.forum;
 
-
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.service.forum.CategoryService;
@@ -16,8 +15,12 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.ForumHelper.resolvePageNumber;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
-@RequestMapping("/admin/poradna/kategorie")
+@RequestMapping(ADMIN_PORADNA_URL + KATEGORIE_URL)
 public class CategoryController {
 
     private final CategoryService categoryService;
@@ -29,106 +32,103 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ModelAndView kategorie(@RequestParam(value = "page", defaultValue = "1") int page) {
-        ModelAndView mv = new ModelAndView("admin/poradna/kategorie");
+    public ModelAndView kategorie(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
+        ModelAndView mv = new ModelAndView(ADMIN + PORADNA_URL + KATEGORIE_URL);
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = resolvePageNumber(page);
 
-        Page<Category> categories = categoryService.findAll(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false);
+        Page<Category> categories = categoryService.findAll(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false);
 
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(categories.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("categories", categories);
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(categories.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(CATEGORIES, categories);
         return mv;
     }
 
-
-    @GetMapping("/vytvorit")
+    @GetMapping(VYTVORIT_URL)
     public String vytvoritGet(Model model) {
-        model.addAttribute("category", new Category());
-        return "admin/poradna/kategorie/vytvorit";
-
+        model.addAttribute(CATEGORY, new Category());
+        return ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL;
     }
 
-    @PostMapping("/vytvorit")
-    public ModelAndView vytvoritPost(@ModelAttribute("category") @Valid Category category, BindingResult result, Principal principal) {
+    @PostMapping(VYTVORIT_URL)
+    public ModelAndView vytvoritPost(@ModelAttribute(CATEGORY) @Valid Category category, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/kategorie/vytvorit");
-            mv.addObject("category", category);
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
+            mv.addObject(CATEGORY, category);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (categoryService.findByName(category.getName()).isPresent()) {
-            mv.setViewName("admin/poradna/kategorie/vytvorit");
-            mv.addObject("category", category);
-            mv.addObject("messageError", "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
+            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
+            mv.addObject(CATEGORY, category);
+            mv.addObject(MESSAGE_ERROR, "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
             return mv;
         }
-
 
         category.setUser(userService.findByUsername(principal.getName()));
 
         categoryService.saveOrUpdate(category);
-        mv.addObject("messageSuccess", "Kategorie " + category.getName() + " byla úspěšně přidána.");
-        mv.setViewName("redirect:/admin/poradna/kategorie");
+        mv.addObject(MESSAGE_SUCCESS, "Kategorie " + category.getName() + " byla úspěšně přidána.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
         return mv;
     }
 
-    @GetMapping("/upravit/{id}")
+    @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/poradna/kategorie/upravit");
+        ModelAndView mv = new ModelAndView(ADMIN + PORADNA_URL + KATEGORIE_URL + UPRAVIT_URL);
         Optional<Category> categoryOptional = categoryService.findById(id);
         if (!categoryOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaná kategorie neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/kategorie");
+            mv.addObject(MESSAGE_ERROR, "Požadovaná kategorie neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
             return mv;
         }
-        mv.addObject("category", categoryOptional.get());
+        mv.addObject(CATEGORY, categoryOptional.get());
         return mv;
     }
 
-    @PostMapping("/upravit")
-    public ModelAndView upravitPost(@ModelAttribute("category") @Valid Category category, BindingResult result) {
+    @PostMapping(UPRAVIT_URL)
+    public ModelAndView upravitPost(@ModelAttribute(CATEGORY) @Valid Category category, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/kategorie/upravit");
-            mv.addObject("category", category);
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + UPRAVIT_URL);
+            mv.addObject(CATEGORY, category);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (categoryService.findByName(category.getName()).isPresent()) {
-            mv.setViewName("admin/poradna/kategorie/upravit");
-            mv.addObject("category", category);
-            mv.addObject("messageError", "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
+            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + UPRAVIT_URL);
+            mv.addObject(CATEGORY, category);
+            mv.addObject(MESSAGE_ERROR, "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
             return mv;
         }
         category.setUser(userService.findByUsername(category.getUser().getUsername()));
 
         categoryService.saveOrUpdate(category);
 
-        mv.addObject("messageSuccess", "Kategorie:" + category.getName() + " byla upravena.");
-        mv.setViewName("redirect:/admin/poradna/kategorie");
+        mv.addObject(MESSAGE_SUCCESS, "Kategorie:" + category.getName() + " byla upravena.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
         return mv;
     }
 
-    @GetMapping("/smazat/{id}")
+    @GetMapping(SMAZAT_URL + ID_PATH_VAR)
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Category> categoryOptional = categoryService.findById(id);
 
         if (!categoryOptional.isPresent()) {
-            mv.addObject("messageError", "Kategorie s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/kategorie");
+            mv.addObject(MESSAGE_ERROR, "Kategorie s id: " + id + " neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
             return mv;
         }
 
         categoryService.delete(categoryOptional.get());
-        mv.addObject("messageSuccess", "Kategorie " + categoryOptional.get().getName() + " byla smazána.");
-        mv.setViewName("redirect:/admin/poradna/kategorie");
+        mv.addObject(MESSAGE_SUCCESS, "Kategorie " + categoryOptional.get().getName() + " byla smazána.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
         return mv;
     }
 }

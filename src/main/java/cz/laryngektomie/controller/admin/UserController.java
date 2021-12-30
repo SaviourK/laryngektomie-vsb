@@ -20,14 +20,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
 @Controller
-@RequestMapping("/admin/poradna/uzivatele")
+@RequestMapping(ADMIN_PORADNA_URL + UZIVATELE_URL)
 public class UserController {
 
+    private static final List<String> ROLES = Arrays.asList(Const.ROLE_ADMIN, Const.ROLE_USER, Const.ROLE_SPECIALISTS);
     private final UserService userService;
     private final ImageService imageService;
-
-    private static final List<String> ROLES = Arrays.asList(Const.ROLE_ADMIN, Const.ROLE_USER, Const.ROLE_SPECIALISTS);
 
     public UserController(UserService userService, ImageService imageService) {
         this.userService = userService;
@@ -35,80 +37,80 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView uzivatele(@RequestParam(value = "page", defaultValue = "1") int page, @RequestParam Optional<String> query) {
-        ModelAndView mv = new ModelAndView("admin/poradna/uzivatele");
+    public ModelAndView uzivatele(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL);
 
-        int pageNumber = page < 0 ? 1 : page;
+        int pageNumber = ForumHelper.resolvePageNumber(page);
 
-        String queryString = query.orElse("");
+        String queryString = query.orElse(EMPTY_STRING);
 
-        Page<User> users = userService.findAllSearch(pageNumber, ForumHelper.itemsOnPage, "createDateTime", false, queryString);
+        Page<User> users = userService.findAllSearch(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false, queryString);
 
-        mv.addObject("pageNumbers", ForumHelper.getListOfPageNumbers(users.getTotalPages(), pageNumber));
-        mv.addObject("currentPage", pageNumber);
-        mv.addObject("users", users);
+        mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(users.getTotalPages(), pageNumber));
+        mv.addObject(CURRENT_PAGE, pageNumber);
+        mv.addObject(USERS, users);
 
         return mv;
     }
 
 
-    @GetMapping("/{id}")
+    @GetMapping(ID_PATH_VAR)
     public ModelAndView detail(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/poradna/uzivatele/detail");
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL + DETAIL_URL);
         Optional<User> userOptional = userService.findById(id);
         if (!userOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaný uživatel neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/uzivatele");
+            mv.addObject(MESSAGE_ERROR, "Požadovaný uživatel neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
             return mv;
         }
 
-        mv.addObject("user", userOptional.get());
+        mv.addObject(USER, userOptional.get());
         //TOOD pridat dotazy
-        mv.addObject("adminCategory", "Laryngektomie, Pravidla");
-        mv.addObject("watchingTopics", 5);
+        mv.addObject(ADMIN_CATEGORY, "Laryngektomie, Pravidla");
+        mv.addObject(WATCHING_TOPICS, 5);
         return mv;
     }
 
-    @GetMapping("/vytvorit")
+    @GetMapping(VYTVORIT_URL)
     public String vytvoritGet(Model model) {
-        model.addAttribute("user", new User());
-        model.addAttribute("roles", ROLES);
-        return "admin/poradna/uzivatele/vytvorit";
+        model.addAttribute(USER, new User());
+        model.addAttribute(Const.ROLES, ROLES);
+        return ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL;
     }
 
-    @PostMapping("/vytvorit")
-    public ModelAndView vytvoritPost(@ModelAttribute("user") @Valid User user, @RequestParam("file") MultipartFile file, BindingResult result) throws IOException {
+    @PostMapping(VYTVORIT_URL)
+    public ModelAndView vytvoritPost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/uzivatele/vytvorit");
-            mv.addObject("user", user);
-            mv.addObject("roles", ROLES);
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL);
+            mv.addObject(USER, user);
+            mv.addObject(Const.ROLES, ROLES);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (userService.findByUsername(user.getUsername()) != null) {
-            mv.setViewName("/admin/poradna/uzivatele/vytvorit");
-            mv.addObject("user", user);
-            mv.addObject("roles", ROLES);
-            mv.addObject("messageError", "Uživatelské jméno obsazeno");
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL);
+            mv.addObject(USER, user);
+            mv.addObject(Const.ROLES, ROLES);
+            mv.addObject(MESSAGE_ERROR, "Uživatelské jméno obsazeno");
             return mv;
         }
 
         if (userService.findByEmail(user.getEmail()).isPresent()) {
-            mv.setViewName("/admin/poradna/uzivatele/vytvorit");
-            mv.addObject("user", user);
-            mv.addObject("roles", ROLES);
-            mv.addObject("messageError", "Email obsazen");
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL);
+            mv.addObject(USER, user);
+            mv.addObject(Const.ROLES, ROLES);
+            mv.addObject(MESSAGE_ERROR, "Email obsazen");
             return mv;
         }
 
         if (user.getRole() == null) {
-            mv.addObject("user", user);
-            mv.addObject("roles", ROLES);
-            mv.setViewName("admin/poradna/uzivatele/vytvorit");
-            mv.addObject("messageError", "Prosím vyberte roli pro uživatele");
+            mv.addObject(USER, user);
+            mv.addObject(Const.ROLES, ROLES);
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL);
+            mv.addObject(MESSAGE_ERROR, "Prosím vyberte roli pro uživatele");
             return mv;
         }
 
@@ -122,45 +124,45 @@ public class UserController {
 
         user.setPassword(userService.encode(user.getPassword()));
         userService.saveOrUpdate(user);
-        mv.addObject("messageSuccess", "Uživatel " + user.getUsername() + " byl úspěšně přidán.");
-        mv.setViewName("redirect:/admin/poradna/uzivatele");
+        mv.addObject(MESSAGE_SUCCESS, "Uživatel " + user.getUsername() + " byl úspěšně přidán.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
         return mv;
     }
 
-    @GetMapping("/upravit/{id}")
+    @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
     public ModelAndView upravitGet(@PathVariable long id) {
-        ModelAndView mv = new ModelAndView("admin/poradna/uzivatele/upravit");
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL + UPRAVIT_URL);
         Optional<User> userOptional = userService.findById(id);
         if (!userOptional.isPresent()) {
-            mv.addObject("messageError", "Požadovaný uživatel neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/uzivatele");
+            mv.addObject(MESSAGE_ERROR, "Požadovaný uživatel neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
             return mv;
         }
 
-        mv.addObject("user", userOptional.get());
-        mv.addObject("userRole", userOptional.get().getRole());
-        mv.addObject("roles", ROLES);
+        mv.addObject(USER, userOptional.get());
+        mv.addObject(USER_ROLE, userOptional.get().getRole());
+        mv.addObject(Const.ROLES, ROLES);
         return mv;
     }
 
-    @PostMapping("/upravit")
-    public ModelAndView upravitPost(@ModelAttribute("user") @Valid User user, @RequestParam("file") MultipartFile file, BindingResult result) throws IOException {
+    @PostMapping(UPRAVIT_URL)
+    public ModelAndView upravitPost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.setViewName("admin/poradna/uzivatele/upravit");
-            mv.addObject("user", user);
-            mv.addObject("userRole", user.getRole());
-            mv.addObject("roles", ROLES);
-            mv.addObject("messageError", "Špatně vyplněná pole.");
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + UPRAVIT_URL);
+            mv.addObject(USER, user);
+            mv.addObject(USER_ROLE, user.getRole());
+            mv.addObject(Const.ROLES, ROLES);
+            mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (user.getRole() == null) {
-            mv.setViewName("admin/poradna/uzivatele/upravit");
-            mv.addObject("user", user);
-            mv.addObject("roles", ROLES);
-            mv.addObject("messageError", "Vyberte roli");
+            mv.setViewName(ADMIN_PORADNA_URL + UZIVATELE_URL + UPRAVIT_URL);
+            mv.addObject(USER, user);
+            mv.addObject(Const.ROLES, ROLES);
+            mv.addObject(MESSAGE_ERROR, "Vyberte roli");
             return mv;
         }
 
@@ -180,7 +182,7 @@ public class UserController {
             mv.addObject("user", user);
             mv.addObject("userRoleId", user.getFirtRoleId());
             mv.addObject("roles", roleRepository.findAll());
-            mv.addObject("messageError", "Uživatelské jméno obsazeno");
+            mv.addObject(MESSAGE_ERROR, "Uživatelské jméno obsazeno");
             return mv;
 
         }
@@ -190,7 +192,7 @@ public class UserController {
             mv.addObject("user", user);
             mv.addObject("userRoleId", user.getFirtRoleId());
             mv.addObject("roles", roleRepository.findAll());
-            mv.addObject("messageError", "Email obsazen");
+            mv.addObject(MESSAGE_ERROR, "Email obsazen");
             return mv;
 
         }*/
@@ -199,25 +201,25 @@ public class UserController {
         if (oldImage != null) {
             imageService.delete(oldImage);
         }
-        mv.addObject("messageSuccess", "Uživatel:" + user.getUsername() + " byl upraven.");
-        mv.setViewName("redirect:/admin/poradna/uzivatele");
+        mv.addObject(MESSAGE_SUCCESS, "Uživatel:" + user.getUsername() + " byl upraven.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
         return mv;
     }
 
-    @GetMapping("/smazat/{id}")
+    @GetMapping(SMAZAT_URL + ID_PATH_VAR)
     public ModelAndView smazat(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<User> userOptional = userService.findById(id);
 
         if (!userOptional.isPresent()) {
-            mv.addObject("messageError", "Uživatel s id: " + id + " neexistuje.");
-            mv.setViewName("redirect:/admin/poradna/uzivatele");
+            mv.addObject(MESSAGE_ERROR, "Uživatel s id: " + id + " neexistuje.");
+            mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
             return mv;
         }
 
         userService.delete(userOptional.get());
-        mv.addObject("messageSuccess", "Uživatel " + userOptional.get().getUsername() + " byl vymazán.");
-        mv.setViewName("redirect:/admin/poradna/uzivatele");
+        mv.addObject(MESSAGE_SUCCESS, "Uživatel " + userOptional.get().getUsername() + " byl vymazán.");
+        mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + UZIVATELE_URL);
         return mv;
     }
 }

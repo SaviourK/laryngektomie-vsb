@@ -1,9 +1,9 @@
 package cz.laryngektomie.model.security;
 
 import cz.laryngektomie.model.EntityBase;
+import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.model.article.Image;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -68,11 +68,11 @@ public class User extends EntityBase {
     private Image image;
 
     @OneToMany
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Collection<Topic> topics;
 
     @OneToMany
-    @JoinColumn(name = "users_id")
+    @JoinColumn(name = "user_id")
     private Collection<Post> posts;
 
     private int topicCount;

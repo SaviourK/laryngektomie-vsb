@@ -8,9 +8,18 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
+import static cz.laryngektomie.helper.Const.*;
+import static cz.laryngektomie.helper.UrlConst.*;
+
+
 @Controller
-@RequestMapping("nase-cinnost")
+@RequestMapping(NASE_CINNOST_URL)
 public class NaseCinnostController {
+
+    private static final String ZPRAVODAJ_URL = "/zpravodaj";
+    private static final String NASE_CINNOST_TEXT = "nase-cinnost";
+    private static final String POMUCKY_URL = "/pomucky";
+    private static final String NASE_CINNOST_POST_FIX = "| Naše činnost";
 
     private final ArticleService articleService;
 
@@ -18,33 +27,33 @@ public class NaseCinnostController {
         this.articleService = articleService;
     }
 
-    @RequestMapping("/clanky")
+    @RequestMapping(CLANKY_URL)
     public ModelAndView aktuality() {
-        return new ModelAndView("redirect:/clanky");
+        return new ModelAndView(REDIRECT_URL + CLANKY_URL);
     }
 
-    @RequestMapping("/zpravodaj")
+    @RequestMapping(ZPRAVODAJ_URL)
     public ModelAndView zpravodaj() {
-        ModelAndView mv = new ModelAndView("nase-cinnost/zpravodaj");
+        ModelAndView mv = new ModelAndView(NASE_CINNOST_URL + ZPRAVODAJ_URL);
         Optional<Article> articleOptional = articleService.findLastNewsletter();
 
         if (!articleOptional.isPresent()) {
-            mv.addObject("messageError", "Zatím žádný zpravodaj");
-            mv.setViewName("redirect:/index");
+            mv.addObject(MESSAGE_ERROR, "Zatím žádný zpravodaj");
+            mv.setViewName(REDIRECT_URL + INDEX_URL);
             return mv;
         }
 
-        mv.addObject("action", "nase-cinnost");
-        mv.addObject("title", "Zpravodaj | Naše činnost");
-        mv.addObject("article", articleOptional.get());
+        mv.addObject(ACTION, NASE_CINNOST_TEXT);
+        mv.addObject(TITLE, "Zpravodaj " + NASE_CINNOST_POST_FIX);
+        mv.addObject(ARTICLE, articleOptional.get());
         return mv;
     }
 
-    @RequestMapping("/pomucky")
+    @RequestMapping(POMUCKY_URL)
     public ModelAndView rehabilitacniPobyt() {
-        ModelAndView mv = new ModelAndView("nase-cinnost/pomucky");
-        mv.addObject("action", "nase-cinnost");
-        mv.addObject("title", "Pomůcky | Naše činnost");
+        ModelAndView mv = new ModelAndView(NASE_CINNOST_URL + POMUCKY_URL);
+        mv.addObject(ACTION, NASE_CINNOST_TEXT);
+        mv.addObject(TITLE, "Pomůcky " + NASE_CINNOST_POST_FIX);
         return mv;
     }
 }

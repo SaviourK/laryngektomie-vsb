@@ -1,4 +1,4 @@
-package cz.laryngektomie.model.dto;
+package cz.laryngektomie.dto.forum;
 
 import cz.laryngektomie.helper.ForumHelper;
 import org.apache.commons.lang3.time.DurationFormatUtils;

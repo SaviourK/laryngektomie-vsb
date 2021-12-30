@@ -25,9 +25,9 @@
         <div class="col-md-10">
             <h3 th:text="*{username}">Přezdívka</h3>
             <h3 th:text="*{email}">Email</h3>
-            <p>Role:  <span th:remove="tag" th:text="*{role}">Role</span></p>
+            <p>Role: <span th:remove="tag" th:text="*{role}">Role</span></p>
             <p>Datum registrace: <span th:remove="tag" th:text="*{createDateTimeString}">Datum registrace:</span></p>
-            <p>Počet témat:  <span th:remove="tag" th:text="*{topics.size()}"> Počet témat</span></p>
+            <p>Počet témat: <span th:remove="tag" th:text="*{topics.size()}"> Počet témat</span></p>
             <p>Počet přispěvků: <span th:remove="tag" th:text="*{posts.size()}"> Počet přispěvků</span></p>
             <p>Počet článků: <span th:remove="tag" th:text="*{posts.size()}"> Počet článků</span></p>
             <p>Počet sledovaných témat <span th:remove="tag" th:text="${watchingTopics}"></span></p>
@@ -35,17 +35,16 @@
             <p th:text="${user.aboutMe}"></p>
 
         </div>
-        <div th:if="${user.image != null}" class="square col-md-2 m-md-0 m-3">
+        <div class="square col-md-2 m-md-0 m-3" th:if="${user.image != null}">
             <img class="image-about-us"
                  th:src="|data:image/jpeg;base64,${user.image.getEncodeBase64()}|">
         </div>
     </div>
 
-    </div>
+</div>
 
 
-
-    <div th:replace="'./fragments/fragments.html' :: footer"></div>
+<div th:replace="'./fragments/fragments.html' :: footer"></div>
 </div>
 </body>
 </html>

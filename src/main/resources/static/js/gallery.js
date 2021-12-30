@@ -16,7 +16,7 @@ function styleList() {
         listImageArea.style.justifyContent = 'flex-start'
     }
 
-};
+}
 
 function goToRight() {
     var current = listImageArea.querySelector('.current-image-list');
@@ -29,7 +29,7 @@ function goToRight() {
     setTimeout(function () {
         currentImage.classList.remove('slideInFromRight');
     }, 500);
-};
+}
 
 function goToLeft() {
     var current = listImageArea.querySelector('.current-image-list');
@@ -42,7 +42,7 @@ function goToLeft() {
     setTimeout(function () {
         currentImage.classList.remove('slideInFromLeft');
     }, 500);
-};
+}
 
 function changeCurrentImage(newImage) {
     currentImage.classList.add('fadeIn');
