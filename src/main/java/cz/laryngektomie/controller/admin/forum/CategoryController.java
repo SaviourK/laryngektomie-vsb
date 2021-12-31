@@ -32,8 +32,8 @@ public class CategoryController {
     }
 
     @GetMapping()
-    public ModelAndView kategorie(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
-        ModelAndView mv = new ModelAndView(ADMIN + PORADNA_URL + KATEGORIE_URL);
+    public ModelAndView category(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
+        ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + KATEGORIE_URL);
 
         int pageNumber = resolvePageNumber(page);
 
@@ -46,24 +46,24 @@ public class CategoryController {
     }
 
     @GetMapping(VYTVORIT_URL)
-    public String vytvoritGet(Model model) {
+    public String createGet(Model model) {
         model.addAttribute(CATEGORY, new Category());
-        return ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL;
+        return ADMIN_PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL;
     }
 
     @PostMapping(VYTVORIT_URL)
-    public ModelAndView vytvoritPost(@ModelAttribute(CATEGORY) @Valid Category category, BindingResult result, Principal principal) {
+    public ModelAndView createPost(@ModelAttribute(CATEGORY) Category category, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
-            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
+            mv.setViewName(ADMIN_PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
             mv.addObject(CATEGORY, category);
             mv.addObject(MESSAGE_ERROR, SPATNE_VYPLNENA_POLE_ERROR_MSG);
             return mv;
         }
 
         if (categoryService.findByName(category.getName()).isPresent()) {
-            mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
+            mv.setViewName(ADMIN_PORADNA_URL + KATEGORIE_URL + VYTVORIT_URL);
             mv.addObject(CATEGORY, category);
             mv.addObject(MESSAGE_ERROR, "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
             return mv;
@@ -78,10 +78,10 @@ public class CategoryController {
     }
 
     @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
-    public ModelAndView upravitGet(@PathVariable long id) {
+    public ModelAndView updateGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN + PORADNA_URL + KATEGORIE_URL + UPRAVIT_URL);
         Optional<Category> categoryOptional = categoryService.findById(id);
-        if (!categoryOptional.isPresent()) {
+        if (categoryOptional.isEmpty()) {
             mv.addObject(MESSAGE_ERROR, "Požadovaná kategorie neexistuje.");
             mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
             return mv;
@@ -91,7 +91,7 @@ public class CategoryController {
     }
 
     @PostMapping(UPRAVIT_URL)
-    public ModelAndView upravitPost(@ModelAttribute(CATEGORY) @Valid Category category, BindingResult result) {
+    public ModelAndView updatePost(@ModelAttribute(CATEGORY) @Valid Category category, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
             mv.setViewName(ADMIN + PORADNA_URL + KATEGORIE_URL + UPRAVIT_URL);
@@ -116,11 +116,11 @@ public class CategoryController {
     }
 
     @GetMapping(SMAZAT_URL + ID_PATH_VAR)
-    public ModelAndView smazat(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Category> categoryOptional = categoryService.findById(id);
 
-        if (!categoryOptional.isPresent()) {
+        if (categoryOptional.isEmpty()) {
             mv.addObject(MESSAGE_ERROR, "Kategorie s id: " + id + " neexistuje.");
             mv.setViewName(REDIRECT_URL + ADMIN_PORADNA_URL + KATEGORIE_URL);
             return mv;
