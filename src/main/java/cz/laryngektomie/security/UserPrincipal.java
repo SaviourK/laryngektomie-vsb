@@ -11,7 +11,7 @@ import java.util.List;
 
 public class UserPrincipal implements UserDetails {
 
-    public static String ROLE_PREFIX = "ROLE_";
+    public static final String ROLE_PREFIX = "ROLE_";
 
     private final User user;
 

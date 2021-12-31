@@ -1,10 +1,10 @@
 package cz.laryngektomie.controller.admin.forum;
 
+import cz.laryngektomie.converter.UserConverter;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,16 +25,16 @@ public class TopicController {
 
     private final TopicService topicService;
     private final CategoryService categoryService;
-    private final UserService userService;
+    private final UserConverter userConverter;
 
-    public TopicController(TopicService topicService, CategoryService categoryService, UserService userService) {
+    public TopicController(TopicService topicService, CategoryService categoryService, UserConverter userConverter) {
         this.topicService = topicService;
         this.categoryService = categoryService;
-        this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @GetMapping()
-    public ModelAndView temata(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+    public ModelAndView topics(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + TEMATA_URL);
 
         int pageNumber = ForumHelper.resolvePageNumber(page);
@@ -51,14 +51,14 @@ public class TopicController {
 
 
     @GetMapping(VYTVORIT_URL)
-    public String vytvoritGet(Model model) {
+    public String createGet(Model model) {
         model.addAttribute(TOPIC, new Topic());
         model.addAttribute(CATEGORIES, categoryService.findAll());
         return ADMIN_PORADNA_URL + TEMATA_URL + VYTVORIT_URL;
     }
 
     @PostMapping(VYTVORIT_URL)
-    public ModelAndView vytvoritPost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result, Principal principal) {
+    public ModelAndView createPost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (topic.getCategory() == null) {
@@ -77,7 +77,7 @@ public class TopicController {
             return mv;
         }
 
-        topic.setUser(userService.findByUsername(principal.getName()));
+        topic.setUser(userConverter.convert(principal.getName()));
 
         topicService.saveOrUpdate(topic);
         mv.addObject(MESSAGE_SUCCESS, "Téma " + topic.getName() + " bylo úspěšně přidáno.");
@@ -86,7 +86,7 @@ public class TopicController {
     }
 
     @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
-    public ModelAndView upravitGet(@PathVariable long id) {
+    public ModelAndView updateGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + TEMATA_URL + UPRAVIT_URL);
         Optional<Topic> topicOptional = topicService.findById(id);
         if (!topicOptional.isPresent()) {
@@ -101,7 +101,7 @@ public class TopicController {
     }
 
     @PostMapping(UPRAVIT_URL)
-    public ModelAndView upravitPost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result) {
+    public ModelAndView updatePost(@ModelAttribute(TOPIC) @Valid Topic topic, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
             mv.setViewName(ADMIN_PORADNA_URL + TEMATA_URL + UPRAVIT_URL);
@@ -111,7 +111,7 @@ public class TopicController {
             return mv;
         }
 
-        topic.setUser(userService.findByUsername(topic.getUser().getUsername()));
+        topic.setUser(userConverter.convert(topic.getUser().getUsername()));
 
         topicService.saveOrUpdate(topic);
         mv.addObject(MESSAGE_SUCCESS, "Téma:" + topic.getName() + " bylo upraveno.");
@@ -120,7 +120,7 @@ public class TopicController {
     }
 
     @GetMapping(SMAZAT_URL + ID_PATH_VAR)
-    public ModelAndView smazat(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Topic> topicOptional = topicService.findById(id);
 

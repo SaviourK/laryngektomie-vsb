@@ -1,9 +1,9 @@
 package cz.laryngektomie.controller.admin.forum;
 
+import cz.laryngektomie.converter.UserConverter;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Category;
 import cz.laryngektomie.service.forum.CategoryService;
-import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,15 +24,15 @@ import static cz.laryngektomie.helper.UrlConst.*;
 public class CategoryController {
 
     private final CategoryService categoryService;
-    private final UserService userService;
+    private final UserConverter userConverter;
 
-    public CategoryController(CategoryService categoryService, UserService userService) {
+    public CategoryController(CategoryService categoryService, UserConverter userConverter) {
         this.categoryService = categoryService;
-        this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @GetMapping()
-    public ModelAndView category(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
+    public ModelAndView categories(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + KATEGORIE_URL);
 
         int pageNumber = resolvePageNumber(page);
@@ -69,7 +69,7 @@ public class CategoryController {
             return mv;
         }
 
-        category.setUser(userService.findByUsername(principal.getName()));
+        category.setUser(userConverter.convert(principal.getName()));
 
         categoryService.saveOrUpdate(category);
         mv.addObject(MESSAGE_SUCCESS, "Kategorie " + category.getName() + " byla úspěšně přidána.");
@@ -106,7 +106,8 @@ public class CategoryController {
             mv.addObject(MESSAGE_ERROR, "Název kategorie " + category.getName() + " je již obsazen. Zvolte jiný název.");
             return mv;
         }
-        category.setUser(userService.findByUsername(category.getUser().getUsername()));
+
+        category.setUser(userConverter.convert(category.getUser().getUsername()));
 
         categoryService.saveOrUpdate(category);
 

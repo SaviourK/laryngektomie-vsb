@@ -1,6 +1,8 @@
 package cz.laryngektomie.controller.rest;
 
+import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.security.User;
+import cz.laryngektomie.service.forum.TopicService;
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.*;
 
@@ -11,6 +13,17 @@ import java.util.List;
 @Api
 @RestController("/api")
 public class UserRestController {
+
+    private final TopicService topicService;
+
+    public UserRestController(TopicService topicService) {
+        this.topicService = topicService;
+    }
+
+    @GetMapping("topic/{id}")
+    public Topic getTopic(@PathVariable long id) {
+        return topicService.findById(id).get();
+    }
 
     @GetMapping("user/{id}")
     public User getUser(@PathVariable long id) {

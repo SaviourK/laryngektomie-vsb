@@ -1,6 +1,5 @@
 package cz.laryngektomie.configuration;
 
-import com.google.common.collect.Sets;
 import io.swagger.annotations.Api;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -44,6 +43,6 @@ public class SwaggerConfiguration {
     }
 
     public Set<String> supportedMediaTypes() {
-        return Sets.newHashSet(MediaType.APPLICATION_JSON_VALUE);
+        return Collections.singleton(MediaType.APPLICATION_JSON_VALUE);
     }
 }

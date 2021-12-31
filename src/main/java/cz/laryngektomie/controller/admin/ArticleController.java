@@ -1,12 +1,12 @@
 package cz.laryngektomie.controller.admin;
 
+import cz.laryngektomie.converter.UserConverter;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.article.Article;
 import cz.laryngektomie.model.article.Image;
 import cz.laryngektomie.service.article.ArticleService;
 import cz.laryngektomie.service.article.ArticleTypeService;
 import cz.laryngektomie.service.article.ImageService;
-import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -27,21 +27,20 @@ import static cz.laryngektomie.helper.UrlConst.*;
 @Controller
 public class ArticleController {
 
-
     private final ArticleService articleService;
     private final ArticleTypeService articleTypeService;
-    private final UserService userService;
     private final ImageService imageService;
+    private final UserConverter userConverter;
 
-    public ArticleController(ArticleService articleService, ArticleTypeService articleTypeService, UserService userService, ImageService imageService) {
+    public ArticleController(ArticleService articleService, ArticleTypeService articleTypeService, ImageService imageService, UserConverter userConverter) {
         this.articleService = articleService;
         this.articleTypeService = articleTypeService;
-        this.userService = userService;
         this.imageService = imageService;
+        this.userConverter = userConverter;
     }
 
     @GetMapping({ADMIN_URL + CLANKY_URL, CLANKY_URL})
-    public ModelAndView clanky(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, HttpServletRequest request, @RequestParam Optional<String> query) {
+    public ModelAndView articles(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, HttpServletRequest request, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView(CLANKY);
 
         int pageNumber = ForumHelper.resolvePageNumber(page);
@@ -63,7 +62,7 @@ public class ArticleController {
     }
 
     @GetMapping(CLANKY_URL + URL_PATH_VAR)
-    public ModelAndView detail(@PathVariable(URL) String url) {
+    public ModelAndView article(@PathVariable(URL) String url) {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findByUrl(url);
 
@@ -79,7 +78,7 @@ public class ArticleController {
     }
 
     @RequestMapping(ADMIN_URL + CLANKY_URL + VYTVORIT_URL)
-    public ModelAndView vytvoritGet() {
+    public ModelAndView createGet() {
         ModelAndView mv = new ModelAndView(ADMIN_URL + CLANKY_URL + VYTVORIT_URL);
         mv.addObject(ARTICLE, new Article());
         mv.addObject(ARTICLE_TYPES, articleTypeService.findAll());
@@ -87,7 +86,7 @@ public class ArticleController {
     }
 
     @PostMapping(ADMIN_URL + CLANKY_URL + VYTVORIT_URL)
-    public ModelAndView vytvoritPost(@Valid @ModelAttribute(ARTICLE) Article article, @RequestParam(FILES) List<MultipartFile> files, BindingResult result, Principal principal) throws IOException {
+    public ModelAndView createPost(@Valid @ModelAttribute(ARTICLE) Article article, @RequestParam(FILES) List<MultipartFile> files, BindingResult result, Principal principal) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors() || article.getArticleType() == null) {
@@ -100,7 +99,7 @@ public class ArticleController {
 
         List<Image> images = imageService.saveImages(files);
         article.setImages(images);
-        article.setUser(userService.findByUsername(principal.getName()));
+        article.setUser(userConverter.convert(principal.getName()));
         articleService.saveOrUpdate(article);
         mv.addObject(MESSAGE_SUCCESS, "Článek " + article.getName() + " byl úspěšně přidán.");
         mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
@@ -108,10 +107,10 @@ public class ArticleController {
     }
 
     @GetMapping(ADMIN_URL + CLANKY_URL + UPRAVIT_URL + ID_PATH_VAR)
-    public ModelAndView upravitGet(@PathVariable long id) {
+    public ModelAndView updateGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN_URL + CLANKY_URL + UPRAVIT_URL);
         Optional<Article> articleOptional = articleService.findById(id);
-        if (!articleOptional.isPresent()) {
+        if (articleOptional.isEmpty()) {
             mv.addObject(MESSAGE_ERROR, "Požadovaný článek neexistuje.");
             mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;
@@ -123,7 +122,7 @@ public class ArticleController {
     }
 
     @PostMapping(ADMIN_URL + CLANKY_URL + UPRAVIT_URL)
-    public ModelAndView upravitPost(@Valid @ModelAttribute(ARTICLE) Article article, BindingResult result) {
+    public ModelAndView updatePost(@Valid @ModelAttribute(ARTICLE) Article article, BindingResult result) {
         ModelAndView mv = new ModelAndView();
         if (result.hasErrors()) {
             mv.setViewName(ADMIN_URL + CLANKY_URL + UPRAVIT_URL);
@@ -133,7 +132,7 @@ public class ArticleController {
             return mv;
         }
 
-        article.setUser(userService.findByUsername(article.getUser().getUsername()));
+        article.setUser(userConverter.convert(article.getUser().getUsername()));
 
         articleService.saveOrUpdate(article);
 
@@ -143,7 +142,7 @@ public class ArticleController {
     }
 
     @GetMapping(ADMIN_URL + CLANKY_URL + SMAZAT_URL + ID_PATH_VAR)
-    public ModelAndView smazat(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findById(id);
         if (!articleOptional.isPresent()) {

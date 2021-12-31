@@ -37,7 +37,7 @@ public class UserController {
     }
 
     @GetMapping()
-    public ModelAndView uzivatele(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+    public ModelAndView users(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL);
 
         int pageNumber = ForumHelper.resolvePageNumber(page);
@@ -55,7 +55,7 @@ public class UserController {
 
 
     @GetMapping(ID_PATH_VAR)
-    public ModelAndView detail(@PathVariable long id) {
+    public ModelAndView user(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL + DETAIL_URL);
         Optional<User> userOptional = userService.findById(id);
         if (!userOptional.isPresent()) {
@@ -72,14 +72,14 @@ public class UserController {
     }
 
     @GetMapping(VYTVORIT_URL)
-    public String vytvoritGet(Model model) {
+    public String createGet(Model model) {
         model.addAttribute(USER, new User());
         model.addAttribute(Const.ROLES, ROLES);
         return ADMIN_PORADNA_URL + UZIVATELE_URL + VYTVORIT_URL;
     }
 
     @PostMapping(VYTVORIT_URL)
-    public ModelAndView vytvoritPost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
+    public ModelAndView createPost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
@@ -130,7 +130,7 @@ public class UserController {
     }
 
     @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
-    public ModelAndView upravitGet(@PathVariable long id) {
+    public ModelAndView updateGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + UZIVATELE_URL + UPRAVIT_URL);
         Optional<User> userOptional = userService.findById(id);
         if (!userOptional.isPresent()) {
@@ -146,7 +146,7 @@ public class UserController {
     }
 
     @PostMapping(UPRAVIT_URL)
-    public ModelAndView upravitPost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
+    public ModelAndView updatePost(@ModelAttribute(USER) @Valid User user, @RequestParam(FILE) MultipartFile file, BindingResult result) throws IOException {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
@@ -207,7 +207,7 @@ public class UserController {
     }
 
     @GetMapping(SMAZAT_URL + ID_PATH_VAR)
-    public ModelAndView smazat(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<User> userOptional = userService.findById(id);
 

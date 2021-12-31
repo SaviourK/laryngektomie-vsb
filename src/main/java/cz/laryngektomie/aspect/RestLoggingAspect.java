@@ -22,11 +22,11 @@ public class RestLoggingAspect {
 
     @Before("loggingPointCut()")
     public void before(JoinPoint joinPoint) {
-        logger.info("Rest call on endpoint {} ", joinPoint);
+        logger.info("REST call on endpoint {} ", joinPoint);
     }
 
     @AfterReturning("loggingPointCut()")
     public void after(JoinPoint joinPoint) {
-        logger.info("After method invoked {}", joinPoint.getSignature());
+        logger.info("REST call finished invoked {}", joinPoint.getSignature());
     }
 }

@@ -1,10 +1,10 @@
 package cz.laryngektomie.controller.admin.forum;
 
+import cz.laryngektomie.converter.UserConverter;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,16 +25,16 @@ public class PostController {
 
     private final PostService postService;
     private final TopicService topicService;
-    private final UserService userService;
+    private final UserConverter userConverter;
 
-    public PostController(PostService postService, TopicService topicService, UserService userService) {
+    public PostController(PostService postService, TopicService topicService, UserConverter userConverter) {
         this.postService = postService;
         this.topicService = topicService;
-        this.userService = userService;
+        this.userConverter = userConverter;
     }
 
     @GetMapping()
-    public ModelAndView prispevky(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
+    public ModelAndView posts(@RequestParam(value = PAGE, defaultValue = DEFAULT_VALUE_1) int page, @RequestParam Optional<String> query) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + PRISPEVKY_URL);
 
         int pageNumber = ForumHelper.resolvePageNumber(page);
@@ -50,7 +50,7 @@ public class PostController {
     }
 
     @GetMapping(VYTVORIT_URL)
-    public String vytvoritGet(Model model) {
+    public String createGet(Model model) {
         model.addAttribute(POST, new Post());
         model.addAttribute(TOPICS, topicService.findAll());
         return ADMIN_PORADNA_URL + PRISPEVKY_URL + VYTVORIT_URL;
@@ -58,7 +58,7 @@ public class PostController {
     }
 
     @PostMapping(VYTVORIT_URL)
-    public ModelAndView vytvoritPost(@ModelAttribute(POST) @Valid Post post, BindingResult result, Principal principal) {
+    public ModelAndView createPost(@ModelAttribute(POST) @Valid Post post, BindingResult result, Principal principal) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
@@ -76,7 +76,7 @@ public class PostController {
             return mv;
         }
 
-        post.setUser(userService.findByUsername(principal.getName()));
+        post.setUser(userConverter.convert(principal.getName()));
 
         postService.saveOrUpdate(post);
         mv.addObject(MESSAGE_SUCCESS, "Příspěvek byl přidán");
@@ -85,7 +85,7 @@ public class PostController {
     }
 
     @GetMapping(UPRAVIT_URL + ID_PATH_VAR)
-    public ModelAndView upravitGet(@PathVariable long id) {
+    public ModelAndView updateGet(@PathVariable long id) {
         ModelAndView mv = new ModelAndView(ADMIN_PORADNA_URL + PRISPEVKY_URL + UPRAVIT_URL);
         Optional<Post> postOptional = postService.findById(id);
 
@@ -101,7 +101,7 @@ public class PostController {
     }
 
     @PostMapping(UPRAVIT_URL)
-    public ModelAndView upravitPost(@ModelAttribute(POST) @Valid Post post, BindingResult result) {
+    public ModelAndView updatePost(@ModelAttribute(POST) @Valid Post post, BindingResult result) {
         ModelAndView mv = new ModelAndView();
 
         if (result.hasErrors()) {
@@ -112,7 +112,7 @@ public class PostController {
             return mv;
         }
 
-        post.setUser(userService.findByUsername(post.getUser().getUsername()));
+        post.setUser(userConverter.convert(post.getUser().getUsername()));
         post.setTopic(topicService.findByName(post.getTopic().getName()).get());
         postService.saveOrUpdate(post);
         mv.addObject(MESSAGE_SUCCESS, "Příspěvek byl upraven.");
@@ -122,7 +122,7 @@ public class PostController {
 
 
     @GetMapping(SMAZAT_URL + ID_PATH_VAR)
-    public ModelAndView smazat(@PathVariable long id) {
+    public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Post> postOptional = postService.findById(id);
 

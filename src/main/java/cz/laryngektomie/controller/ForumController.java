@@ -1,5 +1,6 @@
 package cz.laryngektomie.controller;
 
+import cz.laryngektomie.converter.UserConverter;
 import cz.laryngektomie.dto.forum.TopicOrPost;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Category;
@@ -10,7 +11,6 @@ import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.ForumService;
 import cz.laryngektomie.service.forum.PostService;
 import cz.laryngektomie.service.forum.TopicService;
-import cz.laryngektomie.service.security.UserService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -38,15 +38,15 @@ public class ForumController {
     private final CategoryService categoryService;
     private final PostService postService;
     private final TopicService topicService;
-    private final UserService userService;
     private final ForumService forumService;
+    private final UserConverter userConverter;
 
-    public ForumController(CategoryService categoryService, PostService postService, TopicService topicService, UserService userService, ForumService forumService) {
+    public ForumController(CategoryService categoryService, PostService postService, TopicService topicService, ForumService forumService, UserConverter userConverter) {
         this.categoryService = categoryService;
         this.postService = postService;
         this.topicService = topicService;
-        this.userService = userService;
         this.forumService = forumService;
+        this.userConverter = userConverter;
     }
 
     @RequestMapping()
@@ -161,7 +161,7 @@ public class ForumController {
             mv.setViewName(REDIRECT_URL + PORADNA_URL);
             return mv;
         } else {
-            topic.setUser(userService.findByUsername(principal.getName()));
+            topic.setUser(userConverter.convert(principal.getName()));
         }
 
         topicService.saveOrUpdate(topic);
@@ -200,9 +200,9 @@ public class ForumController {
         }
 
         if (principal == null) {
-            post.setUser(userService.findByUsername("anonym"));
+            post.setUser(userConverter.convert("anonym"));
         } else {
-            post.setUser(userService.findByUsername(principal.getName()));
+            post.setUser(userConverter.convert(principal.getName()));
         }
 
         postService.saveOrUpdate(post);
@@ -218,7 +218,7 @@ public class ForumController {
         Optional<Topic> optionalTopic = topicService.findById(topicId);
         if (optionalTopic.isPresent()) {
             Topic topic = optionalTopic.get();
-            User user = userService.findByUsername(principal.getName());
+            User user = userConverter.convert(principal.getName());
             topic.addTopicWatchingUser(user);
             topicService.saveOrUpdate(topic);
         }
