@@ -26,10 +26,6 @@ public class TopicService extends ServiceBase<Topic> {
         return topicRepository.findByName(name);
     }
 
-    public List<Topic> findByCategoryId(Long categoryId) {
-        return topicRepository.findByCategoryId(categoryId);
-    }
-
     public List<Topic> findLatest() {
         return topicRepository.findFirst5ByOrderByIdDesc();
     }

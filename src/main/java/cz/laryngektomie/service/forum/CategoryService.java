@@ -27,8 +27,8 @@ public class CategoryService extends ServiceBase<Category> {
     }
 
     @Override
-    public void saveOrUpdate(Category category) {
+    public Category saveOrUpdate(Category category) {
         category.setUrl(ForumHelper.makeFriendlyUrl(category.getName()));
-        categoryRepository.save(category);
+        return categoryRepository.save(category);
     }
 }

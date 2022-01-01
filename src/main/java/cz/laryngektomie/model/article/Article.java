@@ -1,6 +1,5 @@
 package cz.laryngektomie.model.article;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.EntityBase;
 import cz.laryngektomie.model.security.User;
@@ -37,7 +36,6 @@ public class Article extends EntityBase {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private User user;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -47,7 +45,6 @@ public class Article extends EntityBase {
     @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "article_type_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JsonIgnore
     private ArticleType articleType;
 
     public Article() {

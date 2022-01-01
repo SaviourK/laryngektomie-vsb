@@ -39,13 +39,18 @@ public class ServiceBase<T> implements IServiceBase<T> {
     }
 
     @Override
-    public void saveOrUpdate(T t) {
-        repository.save(t);
+    public T saveOrUpdate(T t) {
+        return repository.save(t);
     }
 
 
     @Override
     public void delete(T t) {
         repository.delete(t);
+    }
+
+    @Override
+    public void deleteById(long id) {
+        repository.deleteById(id);
     }
 }

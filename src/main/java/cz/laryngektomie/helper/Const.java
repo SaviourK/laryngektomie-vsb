@@ -3,6 +3,7 @@ package cz.laryngektomie.helper;
 public class Const {
 
     public static final String EMPTY_STRING = "";
+    public static final String DOT = ".";
 
     public static final String INDEX = "index";
 
@@ -23,6 +24,7 @@ public class Const {
     public static final String FILE = "file";
     public static final String DEFAULT_VALUE_1 = "1";
     public static final String CREATE_DATE_TIME = "createDateTime";
+    public static final String UPDATE_DATE_TIME = "updateDateTime";
     public static final String PAGE_NUMBERS = "pageNumbers";
     public static final String CATEGORIES = "categories";
     public static final String CURRENT_PAGE = "currentPage";
@@ -58,6 +60,15 @@ public class Const {
     public static final String TOKEN = "token";
     public static final String URL = "url";
     public static final String FILES = "files";
+    public static final String SPRING = "spring";
+    public static final String MAPPER_DATE_TIME_FORMAT = "dd.MM.yyyy HH:mm:ss";
+
+    public static final String DTO_DOT = "dto" + DOT;
+    public static final String ENTITY_DOT = "entity" + DOT;
+    public static final String ARTICLE_TYPE = "articleType";
+    public static final String NAME = "name";
+    public static final String ARTICLE_TYPE_ID = "articleTypeId";
+    public static final String USER_ID = "userId";
 
     private Const() {
     }

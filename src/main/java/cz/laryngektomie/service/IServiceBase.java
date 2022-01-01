@@ -13,7 +13,9 @@ public interface IServiceBase<T> {
 
     Page<T> findAll(int page, int itemsOnPage, String sortBy, boolean asc);
 
-    void saveOrUpdate(T t);
+    T saveOrUpdate(T t);
 
     void delete(T t);
+
+    void deleteById(long id);
 }

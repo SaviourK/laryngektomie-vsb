@@ -13,7 +13,7 @@ public interface PostRepository extends IRepositoryBase<Post> {
 
     Page<Post> findAllByTopicId(long id, Pageable pageable);
 
-    List<Post> findByTopicId(long id);
+    //List<Post> findByTopicId(long id);
 
     Page<Post> findByTopicId(long id, Pageable pageable);
 

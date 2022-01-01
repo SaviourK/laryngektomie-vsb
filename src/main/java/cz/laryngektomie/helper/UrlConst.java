@@ -4,6 +4,7 @@ public class UrlConst {
 
     public static final String SLASH = "/";
     public static final String REDIRECT_URL = "redirect:";
+    public static final String API_URL = "/api";
 
     public static final String ID_PATH_VAR = "/{id}";
     public static final String URL_PATH_VAR = "/{url}";
@@ -43,6 +44,8 @@ public class UrlConst {
     public static final String ZAPOMENUTE_HESLO_URL = "/zapomenute-heslo";
     public static final String PRISPEVEK_NOVY_URL = "/prispevek-novy";
     public static final String TEMA_NOVE_URL = "/tema-nove";
+
+    public static final String ARTICLES_URL = "/articles";
 
     private UrlConst() {
     }

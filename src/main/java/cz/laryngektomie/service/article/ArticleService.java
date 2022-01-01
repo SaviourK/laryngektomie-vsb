@@ -25,9 +25,9 @@ public class ArticleService extends ServiceBase<Article> {
     }
 
     @Override
-    public void saveOrUpdate(Article article) {
+    public Article saveOrUpdate(Article article) {
         article.setUrl(ForumHelper.makeFriendlyUrl(article.getName()));
-        articleRepository.save(article);
+        return articleRepository.save(article);
     }
 
     public List<Article> findFirst3ByOrderByCreateDateTimeDesc() {

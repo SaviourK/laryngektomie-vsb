@@ -16,8 +16,6 @@ public interface TopicRepository extends IRepositoryBase<Topic> {
 
     List<Topic> findAllByOrderByCreateDateTimeDesc();
 
-    List<Topic> findByCategoryId(Long id);
-
     Page<Topic> findByCategoryId(Long id, Pageable pageable);
 
     Page<Topic> findAllBy(Pageable pageable);
