@@ -1,8 +1,8 @@
-package cz.laryngektomie.repository.forum;
+package cz.laryngektomie.repository.jpa.forum;
 
 
 import cz.laryngektomie.model.forum.Category;
-import cz.laryngektomie.repository.IRepositoryBase;
+import cz.laryngektomie.repository.jpa.IRepositoryBase;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;

@@ -3,7 +3,7 @@ package cz.laryngektomie.service.article;
 import cz.laryngektomie.helper.Const;
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.article.Article;
-import cz.laryngektomie.repository.article.ArticleRepository;
+import cz.laryngektomie.repository.jpa.article.ArticleRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

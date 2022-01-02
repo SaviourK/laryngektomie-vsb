@@ -12,7 +12,6 @@ import static cz.laryngektomie.helper.Const.*;
 @Mapper(componentModel = SPRING)
 public interface ArticleMapper {
 
-
     @Mapping(source = ENTITY_DOT + CREATE_DATE_TIME, target = CREATE_DATE_TIME,
             dateFormat = MAPPER_DATE_TIME_FORMAT)
     @Mapping(source = ENTITY_DOT + UPDATE_DATE_TIME, target = UPDATE_DATE_TIME,

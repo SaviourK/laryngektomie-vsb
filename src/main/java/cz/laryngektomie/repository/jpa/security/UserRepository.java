@@ -1,7 +1,7 @@
-package cz.laryngektomie.repository.security;
+package cz.laryngektomie.repository.jpa.security;
 
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.repository.IRepositoryBase;
+import cz.laryngektomie.repository.jpa.IRepositoryBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

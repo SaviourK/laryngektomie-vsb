@@ -1,7 +1,7 @@
 package cz.laryngektomie.security;
 
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.repository.security.UserRepository;
+import cz.laryngektomie.repository.jpa.security.UserRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

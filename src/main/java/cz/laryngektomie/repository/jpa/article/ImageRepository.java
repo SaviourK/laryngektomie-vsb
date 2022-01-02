@@ -1,7 +1,7 @@
-package cz.laryngektomie.repository.article;
+package cz.laryngektomie.repository.jpa.article;
 
 import cz.laryngektomie.model.article.Image;
-import cz.laryngektomie.repository.IRepositoryBase;
+import cz.laryngektomie.repository.jpa.IRepositoryBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 

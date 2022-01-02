@@ -1,7 +1,7 @@
-package cz.laryngektomie.repository.forum;
+package cz.laryngektomie.repository.jpa.forum;
 
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.repository.IRepositoryBase;
+import cz.laryngektomie.repository.jpa.IRepositoryBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;

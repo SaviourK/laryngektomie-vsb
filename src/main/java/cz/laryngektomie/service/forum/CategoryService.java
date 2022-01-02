@@ -2,7 +2,7 @@ package cz.laryngektomie.service.forum;
 
 import cz.laryngektomie.helper.ForumHelper;
 import cz.laryngektomie.model.forum.Category;
-import cz.laryngektomie.repository.forum.CategoryRepository;
+import cz.laryngektomie.repository.jpa.forum.CategoryRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.stereotype.Service;
 

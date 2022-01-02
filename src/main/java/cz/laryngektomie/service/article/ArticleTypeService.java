@@ -1,7 +1,7 @@
 package cz.laryngektomie.service.article;
 
 import cz.laryngektomie.model.article.ArticleType;
-import cz.laryngektomie.repository.article.ArticleTypeRepository;
+import cz.laryngektomie.repository.jpa.article.ArticleTypeRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.stereotype.Service;
 

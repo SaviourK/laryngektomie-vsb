@@ -53,7 +53,6 @@ public class ArticleController {
 
         Page<Article> article = articleService.findAllSearch(pageNumber, ForumHelper.ITEMS_ON_PAGE, CREATE_DATE_TIME, false, queryString);
 
-
         mv.addObject(ACTION, "nase-cinnost");
         mv.addObject(PAGE_NUMBERS, ForumHelper.getListOfPageNumbers(article.getTotalPages(), pageNumber));
         mv.addObject(CURRENT_PAGE, pageNumber);
@@ -66,7 +65,7 @@ public class ArticleController {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findByUrl(url);
 
-        if (!articleOptional.isPresent()) {
+        if (articleOptional.isEmpty()) {
             mv.addObject(MESSAGE_ERROR, "Požadovaný článek neexstuje.");
             mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;
@@ -145,7 +144,7 @@ public class ArticleController {
     public ModelAndView delete(@PathVariable long id) {
         ModelAndView mv = new ModelAndView();
         Optional<Article> articleOptional = articleService.findById(id);
-        if (!articleOptional.isPresent()) {
+        if (articleOptional.isEmpty()) {
             mv.addObject(MESSAGE_ERROR, "Článek s id: " + id + " neexistuje.");
             mv.setViewName(REDIRECT_URL + ADMIN_URL + CLANKY_URL);
             return mv;

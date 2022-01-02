@@ -1,7 +1,7 @@
 package cz.laryngektomie.service.forum;
 
 import cz.laryngektomie.model.forum.Topic;
-import cz.laryngektomie.repository.forum.TopicRepository;
+import cz.laryngektomie.repository.jpa.forum.TopicRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;

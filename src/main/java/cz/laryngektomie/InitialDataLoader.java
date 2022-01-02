@@ -8,8 +8,8 @@ import cz.laryngektomie.model.forum.Post;
 import cz.laryngektomie.model.forum.Topic;
 import cz.laryngektomie.model.security.User;
 import cz.laryngektomie.model.security.UserRole;
-import cz.laryngektomie.repository.article.ArticleTypeRepository;
-import cz.laryngektomie.repository.security.UserRepository;
+import cz.laryngektomie.repository.jpa.article.ArticleTypeRepository;
+import cz.laryngektomie.repository.jpa.security.UserRepository;
 import cz.laryngektomie.service.article.ArticleService;
 import cz.laryngektomie.service.forum.CategoryService;
 import cz.laryngektomie.service.forum.PostService;
@@ -31,7 +31,7 @@ public class InitialDataLoader implements ApplicationRunner {
     private final TopicService topicService;
     private final ArticleTypeRepository articleTypeRepository;
     private final PostService postService;
-    boolean alreadySetup = true;
+    boolean alreadySetup = false;
 
     public InitialDataLoader(UserRepository userRepository, CategoryService categoryService, ArticleService articleService, TopicService topicService, ArticleTypeRepository articleTypeRepository, PostService postService) {
         this.userRepository = userRepository;

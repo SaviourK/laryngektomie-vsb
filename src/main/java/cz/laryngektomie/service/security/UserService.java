@@ -1,7 +1,7 @@
 package cz.laryngektomie.service.security;
 
 import cz.laryngektomie.model.security.User;
-import cz.laryngektomie.repository.security.UserRepository;
+import cz.laryngektomie.repository.jpa.security.UserRepository;
 import cz.laryngektomie.service.ServiceBase;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
